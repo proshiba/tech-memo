@@ -1,5 +1,7 @@
 # Azureでログ解析(pt1:LogAnalytics編)
 
+[test](#anchor1)
+
 私のブログサイトはAzure上でWordPressを動かしている。  
 で、Azureにはログを解析するためのSIEMとしてSentinelがあり、監視機能としてAzure Insights(Azure Monitor)がある。  
 なので、これを使って見たい！  
@@ -52,3 +54,5 @@ Azureでは、LogAnalyticsというモジュールがある。
 
 これで、ログの取り込みは行えた。
 さて、次はSentinelでログの調査を行おう。ありがとうございました！  
+
+<a id="anchor1"></a>
