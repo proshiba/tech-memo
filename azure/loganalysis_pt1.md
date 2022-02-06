@@ -23,7 +23,7 @@ Azureでは、LogAnalyticsというモジュールがある。
 
 まずは、簡単にデータソースの仮想マシンに接続する。  
 データソースのVirtual Machinesで該当ホストをクリックし、接続する、をクリックすると接続できる。  
-![LogAnalyticsの設定](images/loganalysis01.png)
+![LogAnalyticsの設定](https://raw.githubusercontent.com/proshiba/tech-memo/main/azure/images/loganalysis01.png)
 
 個人的には、これでaccessログの取り込みができる！はっぴー！となったりするのか！？と期待したがそうはならなかった。  
 
@@ -31,24 +31,24 @@ Azureでは、LogAnalyticsというモジュールがある。
 方法は、いくつかありそうであるが、カスタムログの取り込みでいってみよう！  
 
 まずは、LogAnalyticsで検索し、LogAnalyticsワークスペースに移動。そこで以下のようにカスタムログの設定を開き、カスタムログの追加をクリックする。  
-![設定を開く](images/loganalytics01_01.png)
+![設定を開く](https://raw.githubusercontent.com/proshiba/tech-memo/main/azure/images/loganalytics01_01.png)
 
 カスタムログの追加をする上で、まずはサンプルログのアップロードを求められる。  
 私は、access_logを取り込みたいのでこれをアップロード。  
-![サンプルの取り込み](images/loganalytics01_02.png)
+![サンプルの取り込み](https://raw.githubusercontent.com/proshiba/tech-memo/main/azure/images/loganalytics01_02.png)
 
 つぎに、レコードの区切りは改行を選択し、先に進む。  
 つぎに、ログのコレクションパスを指定する。ここではaccess_logの保管場所なので、/var/log/httpd/access_log(デフォルト)を指定。  
-![サンプルの取り込み](images/loganalytics01_03.png)
+![サンプルの取り込み](https://raw.githubusercontent.com/proshiba/tech-memo/main/azure/images/loganalytics01_03.png)
 
 最後にカスタムログ名を指定して、作成・保存で完了となる。  
-![サンプルの取り込み](images/loganalytics01_04.png)
+![カスタムログ名の指定](https://raw.githubusercontent.com/proshiba/tech-memo/main/azure/images/loganalytics01_04.png)
 
 作成後、作成したカスタムログの取り込み設定が一覧に表示されている。  
-![サンプルの取り込み](images/loganalytics01_05.png)
+![カスタムログの一覧表示](https://raw.githubusercontent.com/proshiba/tech-memo/main/azure/images/loganalytics01_05.png)
 
 実際に取り込まれ、ログを見ることができるまでは少々時間がかかる。少し待った上で以下のようにログを見ることができる。  
-![ログ内容](images/loganalytics01_06.png)
+![ログ内容](https://raw.githubusercontent.com/proshiba/tech-memo/main/azure/images/loganalytics01_06.png)
 
 これで、ログの取り込みは行えた。
 さて、次はSentinelでログの調査を行おう。ありがとうございました！  
