@@ -10,7 +10,7 @@
 10万請求されることになった。。。  
 
 悲しいコスト画面を以下に上げておく。
-![コスト予測画面](images/billings.png)  
+![コスト予測画面](https://raw.githubusercontent.com/proshiba/tech-memo/main/azure/images/billings.png )  
 
 102.5K。つまり**10万**である。。  
 これを初めて見つけた時、まだ８万ちょいだったが、Azureのコスト表示（というかIaaSのコスト表示はほぼ全て）リアルタイムではない。  
@@ -68,21 +68,21 @@ Note: これは、私がセキュリティエンジニアだから。という�
 [AzurePortalを開く](https://portal.azure.com)  
 
 検索で、「subscription」を検索すると鍵のアイコンのSubscriptionというものが表示されるので、これをクリックする。  
-![AzureSubscription](images/subscription.png)
+![AzureSubscription](https://raw.githubusercontent.com/proshiba/tech-memo/main/azure/images/subscription.png)
 
 左側のナビゲーションメニューから、コスト管理の予算を開く。  
-![AzureCostmanagement1](images/costman1.png)  
+![AzureCostmanagement1](https://raw.githubusercontent.com/proshiba/tech-memo/main/azure/images/costman1.png)  
 
 ここで、追加をクリックすれば予算を設定できる。私は課金月単位の予算で、1万とした。  
-![AzureCostmanagement2](images/costman2.png)  
+![AzureCostmanagement2](https://raw.githubusercontent.com/proshiba/tech-memo/main/azure/images/costman2.png)  
 
 設定をしたら、次へをクリックする。そうするとアラート設定が行える。  
 アラート設定をする上で、まずはアクショングループの作成となる。そこで通知の設定として、以下にあるようにメールとSMSへ通知するように設定した。  
-![AzureCostmanagement3](images/costman3.png)  
+![AzureCostmanagement3](https://raw.githubusercontent.com/proshiba/tech-memo/main/azure/images/costman3.png)  
 Note: アクショングループは、警告条件設定で作成画面に飛べる  
 
 その後、警告条件としてコストとどのような割合になったら飛ぶかを設定できる。私は、50%、100%、200%と設定した。  
-![AzureCostmanagement4](images/costman4.png)  
+![AzureCostmanagement4](https://raw.githubusercontent.com/proshiba/tech-memo/main/azure/images/costman4.png)  
 
 これで、作成をクリックすると完了となる。今後は、使いすぎをリマインドしてくれるというわけだ。  
 まぁ、自分のようなうっかりさんにはとても便利と言えるだろう。  

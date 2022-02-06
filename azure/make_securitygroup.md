@@ -22,8 +22,7 @@ Note: 2022/02/05時点。
 AzurePortalに移動し、virtual machinesを開く。  
 ネットワークを開くと、受信ポートの規則と送信ポートの規則がある。これが、受送信のルール設定となる。  
 以降は、受送信のルールを設定していく。どちらもやることは同じだが、念のため分けて記載する。  
-![VMConfig4SecurityGroup](images/securitygroup01.png)
-
+![VMConfig4SecurityGroup](https://raw.githubusercontent.com/proshiba/tech-memo/main/azure/images/securitygroup01.png)
 
 ##### 受信設定   
 
@@ -37,7 +36,7 @@ AzurePortalに移動し、virtual machinesを開く。
 - 優先度: 他よりも低い値を指定(私は100を指定)  
   Note: 低い方が優先  
 - アクション: 拒否    
-![SecurityGroupInbound](images/securitygroup02.png)
+![SecurityGroupInbound](https://raw.githubusercontent.com/proshiba/tech-memo/main/azure/images/securitygroup02.png)
 
 ##### 送信設定   
 
