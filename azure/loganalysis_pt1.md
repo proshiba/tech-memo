@@ -55,4 +55,4 @@ Azureでは、LogAnalyticsというモジュールがある。
 これで、ログの取り込みは行えた。
 さて、次はSentinelでログの調査を行おう。ありがとうございました！  
 
-<a id="anchor1"></a>
+<div id="anchor1" />
