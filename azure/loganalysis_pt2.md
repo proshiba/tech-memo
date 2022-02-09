@@ -42,6 +42,8 @@ Note: まぁ、これもあってタイトルはpt1とした。
 KQLでは各ログソース(及びログ種別)をテーブルとして定義している。  
 なので、これ以降にテーブルをまたがって検索できる、などと書いた時は「ああ、複数のログデータを横断して検索できるんだな」みたいに理解してほしい。  
 
+## KQLの各コマンドに関する説明
+
 ### 検索する  
 
 全ての基本といっていい、ログの検索コマンド。  
@@ -160,7 +162,9 @@ Table_A
 これらがまず調査をする上で、初心者として個人的に押さえておくべきと思ったコマンドとなる。  
 今度はこれらを実際に使って見たいと思う。  
 
-とはいえ、今の所私ができるログけんさくはほとんどないが。。とりあえずブログのログを検索してみよう。  
+## 実践
+
+とはいえ、今の所私ができるログ検索はほとんどないが。。とりあえずブログのログを検索してみよう。  
 
 で、まずは[前回の記事](https://blog.tech-oshiba.com/2022/02/09/azure%e3%81%a7%e3%83%ad%e3%82%b0%e5%88%86%e6%9e%90%e3%82%92%e3%81%97%e3%82%88%e3%81%86%ef%bc%81/)で作ったログを見て見る。  
 前回の記事では、apacheのログファイルをカスタムログとして定義した。そのログのテーブルが以下である。  
@@ -168,19 +172,25 @@ Table_A
 
 まぁしつこいかもしれないが、ログを見る時はLogAnalyticsで見る。ここで、全般のログを見るとクエリを投げてログを調査できる。  
 最初に、このテーブルを単純に見てみる。そうすると、以下のようになっている。  
-![ログの単純表示](https://raw.githubusercontent.com/proshiba/tech-memo/main/azure/images/kql-onlyshowtable.png)  
+
+|![ログの単純表示](https://raw.githubusercontent.com/proshiba/tech-memo/main/azure/images/kql-onlyshowtable.png)|
+|:-:|
 
 さて、そうするとログの内容は以下のようにRawDataというフィールドに固めて入ってしまっている。そのため、まずはparseをする必要がある。  
 ちなみに取り込み時点でextractする方法もあるようだが、わかっていない（すいません。わかったら別途書きます）。  
 なので、クエリの中でparseするやり方で進めていく。
-![フィールドの確認](https://raw.githubusercontent.com/proshiba/tech-memo/main/azure/images/kql-onlyshowtable02.png)  
+
+|![フィールドの確認](https://raw.githubusercontent.com/proshiba/tech-memo/main/azure/images/kql-onlyshowtable02.png)|
+|:-:|
 
 まずは、テーブル表記に変えて見る。  
 ```kql
 access_log_CL
 | project TimeGenerated, RawData
 ```
-![テーブル表記](https://raw.githubusercontent.com/proshiba/tech-memo/main/azure/images/kql-onlyshowtable03.png)
+
+|![テーブル表記](https://raw.githubusercontent.com/proshiba/tech-memo/main/azure/images/kql-onlyshowtable03.png)|
+|:-:|
 
 さて、ここから今度はソースIPをparseして見る。  
 その上で、ログの構成は以下のようになっている。  
@@ -201,7 +211,8 @@ access_log_CL
 
 そうすると、以下のようにソースIPのフィールドが追加されている。  
 
-![ソースIPが追加された結果](https://raw.githubusercontent.com/proshiba/tech-memo/main/azure/images/kql-parse01.png)  
+|![ソースIPが追加された結果](https://raw.githubusercontent.com/proshiba/tech-memo/main/azure/images/kql-parse01.png)|
+|:-:|
 
 さて、parseのところを説明する。  
 `parse パースするフィールド with 変数名 ログの切れ目 {同じことを繰り返す}`  
@@ -225,7 +236,8 @@ access_log_CL
 
 これでparseは完成。実行すると以下のようにログデータを見ることができる。  
 
-![ソースIPが追加された結果](https://raw.githubusercontent.com/proshiba/tech-memo/main/azure/images/kql-parse02.png)  
+|![ソースIPが追加された結果](https://raw.githubusercontent.com/proshiba/tech-memo/main/azure/images/kql-parse02.png)|
+|:-:|
 
 よかった。正しくparseされている。まぁ、これでやっと準備ができたというレベルなのだが。。  
 さて、まずは403のリクエストを見てみよう。  
@@ -237,7 +249,9 @@ access_log_CL
 
 そうすると以下のようにステータスコードが403のもののみが表示されている。  
 この場合はログは１つだけなので、あとはこのログを調べて見る、というところだろう。(まぁ403が１つ出てるだけなら基本大した問題ではないと思うが)  
-![ログの分析01](https://raw.githubusercontent.com/proshiba/tech-memo/main/azure/images/kql-analysis-base01.png)  
+
+|![ログの分析01](https://raw.githubusercontent.com/proshiba/tech-memo/main/azure/images/kql-analysis-base01.png)|
+|:-:|
 
 さて、次にHTTPリクエストについて、200番台(アクセス成功)以外のものがどれだけ出ているか見てみよう。  
 今度は、ステータスコードでカウントしてみる。  
@@ -248,12 +262,14 @@ access_log_CL
 
 そうすると、以下のようにCode毎での件数が表示される。
 
-![StatusCodeでの件数カウント結果](https://raw.githubusercontent.com/proshiba/tech-memo/main/azure/images/kql-analysis-base02.png)  
+|![StatusCodeでの件数カウント結果](https://raw.githubusercontent.com/proshiba/tech-memo/main/azure/images/kql-analysis-base02.png)|
+|:-:|
 
 これで、とりあえずログの検索方法は完了となる。最後にたとえば以下のようにrenderコマンドをつければ円グラフにしたりできる。  
 `| render piechart`
 
-![StatusCodeでの件数カウント結果](https://raw.githubusercontent.com/proshiba/tech-memo/main/azure/images/kql-analysis-base03.png)  
+|![StatusCodeでの件数カウント結果](https://raw.githubusercontent.com/proshiba/tech-memo/main/azure/images/kql-analysis-base03.png)|  
+|:-:|
 
 今回は、ここで終了とする。ログの調べ方についての基礎と言えるが、ここからさらにどのようにログを調べていくかを説明していきたいと思う。
 
