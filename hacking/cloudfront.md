@@ -48,27 +48,28 @@
 さて、まずはAWSのEC2でMarket PlaceでKali Linuxを選択し、起動します。  
 Note: KaliLinux以外でもEmpireは動作しますので、他を選んでも問題ありません  
 
-![Kaliの選択](aaa)
+| ![Kaliの選択](https://raw.githubusercontent.com/proshiba/tech-memo/main/hacking/images/cloudfronting/cloudfronting-ec2-01.png) |
+| -------------------------------------------------------------- |
 
 また、新しいホストを立てる際にはサイズの選択が必要となります。私は大体t2-mediumを選択しています。  
 少なくとも、これを選べば動作に格段の不便はないはずです。  
 
-![Kaliの選択](./images/cloudfronting/cloudfronting-ec2-01.png)
+|![Kaliの選択](https://raw.githubusercontent.com/proshiba/tech-memo/main/hacking/images/cloudfronting/cloudfronting-ec2-02.png)|
+|------|
+
 
 その他について、まず自動割り当てパブリックIPは有効にします。
 Note: これを入れないとNATホストのなどが必要となります
 
-|![Kaliの選択](./images/cloudfronting/cloudfronting-ec2-02.png)|
-|------|
-
-|![Kaliの選択](./images/cloudfronting/cloudfronting-ec2-03.png)|
+|![Kaliの選択](https://raw.githubusercontent.com/proshiba/tech-memo/main/hacking/images/cloudfronting/cloudfronting-ec2-03.png)|
 |------|
 
 さらに、セキュリティグループでは、MyIPから以下のポートを開けましょう。  
 - TCP:22(SSH), TCP:443(HTTPS)
 Note: HTTPSは必須ではないですが、動作状況の確認のために開けておくのを推奨します。  
 
-![Kaliの選択](./images/cloudfronting/cloudfronting-ec2-04.png)
+| ![Kaliの選択](https://raw.githubusercontent.com/proshiba/tech-memo/main/hacking/images/cloudfronting/cloudfronting-ec2-04.png) |
+| -------------------------------------------------------------- |
 
 その他は、適宜決めて作成してください。  
 作成が完了したら、該当ホストにSSHでアクセスしてください。  
@@ -111,7 +112,7 @@ cd empire/setup
 これだと使いづらいため、一般にはEIP(ElasticIP)を取得して利用しますが、これは有償であり、必須のものではないため、ここでは説明しません。  
 次に、このIPアドレスに対するAレコードをRoute53のマイドメインにおけるホストゾーンで設定します。  
 
-![Route53の設定](./images/cloudfronting/cloudfronting-dns-01.png)
+![Route53の設定](https://raw.githubusercontent.com/proshiba/tech-memo/main/hacking/images/cloudfronting/cloudfronting-dns-01.png)
 
 まぁ、これは正直必要ないのですが、この後のALBの時は必須なのでついでに作成しましょう。  
 設定後、反映されるのには若干の時間が必要です。  
@@ -138,7 +139,7 @@ Note: ホスト名はfugafuga.tech-oshiba.comの例
 
 このホスト名はこれから変わりますが、とりあえずこれでC2の起動は完了です。この状態でアクセスして見ると、HTTPSでアクセス可能です。また、その際はIISのホームのようになっています。  
 
-| ![empireのホーム](./images/cloudfronting/empire-default01.png) |
+| ![empireのホーム](https://raw.githubusercontent.com/proshiba/tech-memo/main/hacking/images/cloudfronting/empire-default01.png) |
 | -------------------------------------------------------------- |
 
 これで、Empireの準備はほぼ完了ですので、この後はELBとCDNのアクセスを試していきましょう。  
@@ -171,18 +172,18 @@ Note: ホスト名はfugafuga.tech-oshiba.comの例
 その後、本ALB経由でアクセスする際に利用するサブドメインを決定し、証明書設定を行ってください。  
 私は基本的にはACMを使い、DNSで認証をしています。この際にはCNAMEの設定が追加で必要なことに注意してください。
 
-| ![DNS認証のレコード](./images/cloudfronting/cloudfronting-dns-02.png) |
+| ![DNS認証のレコード](https://raw.githubusercontent.com/proshiba/tech-memo/main/hacking/images/cloudfronting/cloudfronting-dns-02.png) |
 | ----------------------------------------------------------------------- |
 
 ここまで設定後、ホストのセキュリティグループで、HTTPSの通信許可を１つ追加します。その際に、fromをセキュリティグループで指定できますので、
 ALBのセキュリティグループからの通信を許可します。  
 
-| ![SecurityGroupの設定](./images/cloudfronting/cloudfronting-sg-01.png) |
+| ![SecurityGroupの設定](https://raw.githubusercontent.com/proshiba/tech-memo/main/hacking/images/cloudfronting/cloudfronting-sg-01.png) |
 | ----------------------------------------------------------------------- |
 
 さて、これでALB経由のHTTPS通信が可能となります。ここでは証明書も問題なく動作しています。(また、Lets EncryptではなくAmazon発行の証明書になってますね)  
 
-| ![証明書画面](./images/cloudfronting/cert01.png) |
+| ![証明書画面](https://raw.githubusercontent.com/proshiba/tech-memo/main/hacking/images/cloudfronting/cert01.png) |
 | ------------------ |
 
 ### この時点で、ALBはIPアドレスが動的であり、IPベースでのレピュテーションやブロックはほぼ意味を無くします。  
@@ -214,25 +215,25 @@ CDN設定をする上で重要なことは以下の3つです。
   - クエリ文字列: すべて
   - cookie: すべて
 
-|![設定画面1](./images/cloudfronting/cloudfronting-cdn-01.png)|
+|![設定画面1](https://raw.githubusercontent.com/proshiba/tech-memo/main/hacking/images/cloudfronting/cloudfronting-cdn-01.png)|
 |:-:|
 
-|![設定画面2](./images/cloudfronting/cloudfronting-cdn-02.png)|
+|![設定画面2](https://raw.githubusercontent.com/proshiba/tech-memo/main/hacking/images/cloudfronting/cloudfronting-cdn-02.png)|
 |:-:|
 
-|![設定画面3](./images/cloudfronting/cloudfronting-cdn-03.png)|
+|![設定画面3](https://raw.githubusercontent.com/proshiba/tech-memo/main/hacking/images/cloudfronting/cloudfronting-cdn-03.png)|
 |:-:|
 
 ここまでやると、設定は完了です！
 では、cloudfront経由でのアクセスをしてみましょう。  
 ドメイン名はディストリビューションの画面に表示されています。
 
-| ![CDNのドメイン名](./images/cloudfronting/cloudfronting-cdn-04.png) |
+| ![CDNのドメイン名](https://raw.githubusercontent.com/proshiba/tech-memo/main/hacking/images/cloudfronting/cloudfronting-cdn-04.png) |
 |:-:|
 
 実際にアクセスすると、さっきと同じようにIISのホームのような画面になっていますね。  
 
-| ![CDNのドメイン名](./images/cloudfronting/cloudfronting-empire-01.png) |
+| ![CDNのドメイン名](https://raw.githubusercontent.com/proshiba/tech-memo/main/hacking/images/cloudfronting/cloudfronting-empire-01.png) |
 |:-:|
 
 このテスト環境では、dn2kjz1y9hbu5.cloudfront.netがドメイン名ですね。  
@@ -257,12 +258,12 @@ shell calc
 
 shellで以下のように表示されていたら、接続完了です。  
 
-| ![CDNのドメイン名](./images/cloudfronting/cloudfronting-empire-02.png) |
+| ![CDNのドメイン名](https://raw.githubusercontent.com/proshiba/tech-memo/main/hacking/images/cloudfronting/cloudfronting-empire-02.png) |
 |:-:|
 
 実際の通信を見てみましょう。まぁ想定通りにCDNを経由してます。  
 
-| ![CDNのドメイン名](./images/cloudfronting/cloudfronting-empire-03.png) |
+| ![CDNのドメイン名](https://raw.githubusercontent.com/proshiba/tech-memo/main/hacking/images/cloudfronting/cloudfronting-empire-03.png) |
 |:-:|
 
 さて、これでCDNを介してEmpireから感染端末を操作するということが実現できました。  
