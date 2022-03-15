@@ -384,6 +384,7 @@ $k=[system.text.encoding]::ascii.getbytes('u-pmif60(@gkke#8{d3z&+bds^5a![c2');
 ![stagerの解説](https://raw.githubusercontent.com/proshiba/tech-memo/main/hacking/images/empiredemo/stager07.png)
 
 このソースコードは結局はこれを実行するためのダウンローダであった、ということになります。  
+
 スクリプトマルウェアの解析に関するいい教材になると思いましたので、ご説明をさせて頂きました。  
 どうでしたでしょうか？簡単な内容ではあったと思いますが、入門するためのお役に立っていれば幸いです！  
 
