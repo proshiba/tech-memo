@@ -169,7 +169,7 @@ graph LR
 これらを利用する上で、まずはアカウントの作成とAWS CLIでの初期設定が必要です。
 AWS IAMで、AWS CLI用のユーザを作成します。  
 
-![IAMのユーザ画面](./images/AWS全般/iam01.png)
+![IAMのユーザ画面](https://raw.githubusercontent.com/proshiba/tech-memo/main/aws/images/AWS%E5%85%A8%E8%88%AC/iam01.png)
 
 作成が完了すると、アクセスキーとシークレットキーを確認でき、またその内容はCSVでダウンロードも可能です。これを使って設定しましょう。  
 
@@ -193,7 +193,7 @@ CloudFormationはテンプレートファイルに沿って、自動的にイン
 2. テンプレートファイルを読み込んだり、過去の実行を見るなら**スタック**を開く
 3. 画面上で設計するなら**デザイナー**を使う
 
-![CloudFormationダッシュボード](./images/AWS全般/cloudformation01.png)
+![CloudFormationダッシュボード](https://raw.githubusercontent.com/proshiba/tech-memo/main/aws/images/AWS%E5%85%A8%E8%88%AC/cloudformation01.png)
 
 存在は知ってましたし、勉強で一回だけやりましたが、運用では使ってはいないです。ただ、AWSの様な大規模な構成を管理する上では必須だとは思います。  
 
