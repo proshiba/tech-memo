@@ -9,7 +9,7 @@ AWSで、パブリックネットワークとプライベートネットワー�
 プライベートネットワークに置いたサーバはパブリックに置いたファイアウォール（またはNAT用ホスト）を利用して外部通信。  
 また、メンテナンス用の踏み台ホストを1台準備する。  
 
-![構成図](./images/AWS全般/AWS基礎_基本構成01.drawio.svg)
+![構成図](https://raw.githubusercontent.com/proshiba/tech-memo/main/aws/images/AWS%E5%85%A8%E8%88%AC/AWS%E5%9F%BA%E7%A4%8E_%E5%9F%BA%E6%9C%AC%E6%A7%8B%E6%88%9001.drawio.svg)
 
 すごくざっくりした内容ですが、こんな感じです。  
 ネットワークアクセスについては、パブリックに処理するインスタンスがいればELB（ALB）を利用することもできます。  
@@ -44,31 +44,31 @@ IGWへの通信ルートが定義されているなら、これは外部通信�
 まずは、基礎となるVPCとサブネット及びIGWを作成していきましょう。  
 とはいっても、これらはVPCを作成するときに一気に作れます。  
 
-![VPCを開く](images/AWS全般/network01.png)
+![VPCを開く](https://raw.githubusercontent.com/proshiba/tech-memo/main/aws/images/AWS%E5%85%A8%E8%88%AC/network01.png)
 
 VPCの作成をクリックし、「VPC、サブネットなど」で作成します。
 
-![VPCを作成](images/AWS全般/network02.png)
+![VPCを作成](https://raw.githubusercontent.com/proshiba/tech-memo/main/aws/images/AWS%E5%85%A8%E8%88%AC/network02.png)
 
 &dArr;
 
-![VPCを作成](images/AWS全般/network03.png)
+![VPCを作成](https://raw.githubusercontent.com/proshiba/tech-memo/main/aws/images/AWS%E5%85%A8%E8%88%AC/network03.png)
 
 AZやサブネットの数（パブリック、プライベートでそれぞれ）を選択します。  
 この時点でNATゲートウェイも併せて作成できます。その場合は、AZごとに1などを選びます。今回はAZは１つですので、まぁどっちでもいいですが。  
 
-![VPCを作成](images/AWS全般/network04.png)
+![VPCを作成](https://raw.githubusercontent.com/proshiba/tech-memo/main/aws/images/AWS%E5%85%A8%E8%88%AC/network04.png)
 
 最後にVPCを作成をクリックすると作成が開始され、全て緑チェックになれば作成は完了です。  
 
-![VPCを作成](images/AWS全般/network05.png)
+![VPCを作成](https://raw.githubusercontent.com/proshiba/tech-memo/main/aws/images/AWS%E5%85%A8%E8%88%AC/network05.png)
 
 さて、これで作成は完了しました。この後はこのVPCにインスタンスを配置していくことになります。
 ただ、その前にプライベートサブネットとパブリックサブネットのルートだけ見ておきましょう。  
 
 * プライベートサブネット
 
-![VPCを作成](images/AWS全般/network06.png)
+![VPCを作成](https://raw.githubusercontent.com/proshiba/tech-memo/main/aws/images/AWS%E5%85%A8%E8%88%AC/network06.png)
 
 アウトバウンドのデフォルトルートとして、NATゲートウェイに向いてますね。  
 Note: vpce-～というのはs3向けのものですので割愛  
@@ -76,7 +76,7 @@ Note: vpce-～というのはs3向けのものですので割愛
 しかし、IGWとの間のルートはありません。そのため、単純にIPを割り当てただけではプライベートサブネットは外部通信ができません。  
 それに関連したのがNATゲートウェイですが、これは次項で説明しましょう。  
 
-![VPCを作成](images/AWS全般/network07.png)
+![VPCを作成](https://raw.githubusercontent.com/proshiba/tech-memo/main/aws/images/AWS%E5%85%A8%E8%88%AC/network07.png)
 
 アウトバウンドのデフォルトルートとして、IGWに向いてますね。  
 これはサブネットをパブリックで作成すると入るデフォルトルートです。これがついているということは、グローバルIPだけ割り当てれば、外部通信可能です。  
@@ -88,7 +88,7 @@ Note: vpce-～というのはs3向けのものですので割愛
 前のVPC作成時に既に作っておりますので、どんなものかを見ていきましょう。  
 サクッと画面を見てみたいと思います。  
 
-![VPCを作成](images/AWS全般/natgw01.png)
+![VPCを作成](https://raw.githubusercontent.com/proshiba/tech-memo/main/aws/images/AWS%E5%85%A8%E8%88%AC/natgw01.png)
 
 まず、タブとして`詳細`、`モニタリング`、`タグ`だけです。細かい設定ができません。  
 ということは、言ってみれば作れば終わり系のものです。これはいったい何なのかといいますと、通常のネットワークでいう動的NATというものを提供しています。  
@@ -105,28 +105,28 @@ Note: vpce-～というのはs3向けのものですので割愛
 AWSで仮想ホスト(EC2)をデプロイするのはとても簡単です。  
 EC2の画面を開き、インスタンスの起動から作成していきます。  
 
-![ec2で仮想ホストを作成](images/AWS全般/ec2_01.png)
+![ec2で仮想ホストを作成](https://raw.githubusercontent.com/proshiba/tech-memo/main/aws/images/AWS%E5%85%A8%E8%88%AC/ec2_01.png)
 
 基本的に以下を選ぶ形です。  
 * インスタンスイメージ(OSなど)  
-![ec2で仮想ホストを作成](images/AWS全般/ec2_02.png)
+![ec2で仮想ホストを作成](https://raw.githubusercontent.com/proshiba/tech-memo/main/aws/images/AWS%E5%85%A8%E8%88%AC/ec2_02.png)
 
 * インスタンスタイプ(性能)
-![ec2で仮想ホストを作成](images/AWS全般/ec2_03.png)
+![ec2で仮想ホストを作成](https://raw.githubusercontent.com/proshiba/tech-memo/main/aws/images/AWS%E5%85%A8%E8%88%AC/ec2_03.png)
 
 * デフォルトユーザでのログイン用SSHキー
-![ec2で仮想ホストを作成](images/AWS全般/ec2_04.png)
+![ec2で仮想ホストを作成](https://raw.githubusercontent.com/proshiba/tech-memo/main/aws/images/AWS%E5%85%A8%E8%88%AC/ec2_04.png)
 
 * ネットワーク構成の設定  
-![ec2で仮想ホストを作成](images/AWS全般/ec2_05.png)  
+![ec2で仮想ホストを作成](https://raw.githubusercontent.com/proshiba/tech-memo/main/aws/images/AWS%E5%85%A8%E8%88%AC/ec2_05.png)  
 Note: VPCやサブネットの選択
 
 * セキュリティグループでの許可する通信の指定
-![ec2で仮想ホストを作成](images/AWS全般/ec2_06.png)  
+![ec2で仮想ホストを作成](https://raw.githubusercontent.com/proshiba/tech-memo/main/aws/images/AWS%E5%85%A8%E8%88%AC/ec2_06.png)  
 Note: セキュリティグループでの制限であり、ここで許可してもサブネットのACLなどの制限がかかります。今回の場合、受信用のNAT設定をしてないため、実際には同VPC内のホストしか通信できません。  
 
 * ストレージ設定
-![ec2で仮想ホストを作成](images/AWS全般/ec2_07.png)  
+![ec2で仮想ホストを作成](https://raw.githubusercontent.com/proshiba/tech-memo/main/aws/images/AWS%E5%85%A8%E8%88%AC/ec2_07.png)  
 
 本番環境であれば、これ以外に終了時の削除保護やCloudWatchなどの監視設定もありますが、基本はこれぐらいです。  
 
@@ -156,22 +156,22 @@ Note: セキュリティグループでの制限であり、ここで許可し�
 これで構成が完了したら、踏み台サーバにSSHを実施してそこから内部ホストにSSHをします。  
 
 踏み台サーバのグローバルIPはEC2の画面で確認できます。  
-![踏み台サーバの情報](./images/AWS全般/natgw_test_01.png)
+![踏み台サーバの情報](https://raw.githubusercontent.com/proshiba/tech-memo/main/aws/images/AWS%E5%85%A8%E8%88%AC/natgw_test_01.png)
 
 確認したら、作成時にダウンロードしたpemファイルでec2-userを利用してSSHしましょう。  
 その後、内部ホストあてに再度SSHする形です。  
-![踏み台サーバの情報](./images/AWS全般/natgw_test_02.png)
+![踏み台サーバの情報](https://raw.githubusercontent.com/proshiba/tech-memo/main/aws/images/AWS%E5%85%A8%E8%88%AC/natgw_test_02.png)
 
 内部ホストから試しに`httpbin.org`あてにcurlをしてみますが、問題なくアクセスできています。  
-![踏み台サーバの情報](./images/AWS全般/natgw_test_03.png)
+![踏み台サーバの情報](https://raw.githubusercontent.com/proshiba/tech-memo/main/aws/images/AWS%E5%85%A8%E8%88%AC/natgw_test_03.png)
 
 これで、内部ホストは少なくとも外部通信できることが確認できました。ちなみにこの時のIPを確認しておきます。[確認くん](https://www.ugtop.com/spill.shtml)というサービスでチェックしてみましょうか。  
 
-![踏み台サーバの情報](./images/AWS全般/natgw_test_04.png)
+![踏み台サーバの情報](https://raw.githubusercontent.com/proshiba/tech-memo/main/aws/images/AWS%E5%85%A8%E8%88%AC/natgw_test_04.png)
 
 そうすると、`52.197.26.104`というIPになっています。このIPが何なのか設定を検索してみると、Elastic IPで定義したものであり、NATゲートウェイに割り当てられています。  
 
-![踏み台サーバの情報](./images/AWS全般/natgw_test_05.png)
+![踏み台サーバの情報](https://raw.githubusercontent.com/proshiba/tech-memo/main/aws/images/AWS%E5%85%A8%E8%88%AC/natgw_test_05.png)
 
 これで外部通信にはNATゲートウェイを利用していること、そしてNATゲートウェイではその他のNAT設定ができないため、受信用には利用できないことがわかりました。  
 最後に、この環境は削除しておきます。  
@@ -180,7 +180,7 @@ Note: セキュリティグループでの制限であり、ここで許可し�
 
 さて、ここからはちゃんと想定した構成が動作するためのものです。最初に挙げた以下図においてNATのところにNAT機能を持つインスタンスを利用します。  
 
-![構成図](./images/AWS全般/AWS基礎_基本構成01.drawio.svg)
+![構成図](https://raw.githubusercontent.com/proshiba/tech-memo/main/aws/images/AWS%E5%85%A8%E8%88%AC/AWS基礎_基本構成01.drawio.svg)
 
 何をやるのかといいますと、AmazonLinuxを1つ立てて、そのうえでiptablesを利用してNAT構成をします。  
 
@@ -210,11 +210,11 @@ EC2を立てることについては前回の説明とほぼ違いないです�
 
 これについては、ネットワークインタフェースの作成をする形になります。EC2の作成時にも行えます。  
 
-![NATホストの構成](./images/AWS全般/nat-host-01.png)
+![NATホストの構成](https://raw.githubusercontent.com/proshiba/tech-memo/main/aws/images/AWS%E5%85%A8%E8%88%AC/nat-host-01.png)
 
 または、作成後にインタフェースを追加するか、ですね。この辺りの細かいことは割愛します。  
 
-![NATホストの構成](./images/AWS全般/nat-host-02.png)
+![NATホストの構成](https://raw.githubusercontent.com/proshiba/tech-memo/main/aws/images/AWS%E5%85%A8%E8%88%AC/nat-host-02.png)
 
 作成が完了したら、パブリックサブネットに所属させているインターフェースのみEIP（グローバル）を関連付けます。  
 
@@ -245,7 +245,7 @@ graph LR
 
 改変後、以下のようにHTTPアクセスを確認したところ、問題なくアクセスできています。  
 
-![NATホストの構成](./images/AWS全般/nat-host-03.png)
+![NATホストの構成](https://raw.githubusercontent.com/proshiba/tech-memo/main/aws/images/AWS%E5%85%A8%E8%88%AC/nat-host-03.png)
 
 さて、これでNATサーバは完成です。ついでのメモ書きですが、iptablesでのテーブル確認やエントリ削除は以下の通りです。  
 
@@ -268,18 +268,18 @@ AWSでもとても使い勝手のいいサービスだと思います。
 構成イメージは以下のような形ですね。  
 1つ注意が必要なのは、ALBを使う場合は2つ以上のAZ・サブネットで構成する必要があります。  
 
-![構成図](./images/AWS全般/AWS基礎_基本構成02.drawio.svg)
+![構成図](https://raw.githubusercontent.com/proshiba/tech-memo/main/aws/images/AWS%E5%85%A8%E8%88%AC/AWS基礎_基本構成02.drawio.svg)
 
 作成する際には、EC2（コンピューティング）のメニューを開き、ロードバランサで設定できます。  
 
-![構成図](./images/AWS全般/elb-01.png)
+![ELB設定](https://raw.githubusercontent.com/proshiba/tech-memo/main/aws/images/AWS%E5%85%A8%E8%88%AC/elb-01.png)
 
-![構成図](./images/AWS全般/elb-02.png)
+![ELB設定](https://raw.githubusercontent.com/proshiba/tech-memo/main/aws/images/AWS%E5%85%A8%E8%88%AC/elb-02.png)
 
 作成すると以下のようにウィザードが開きます。  
 
-![構成図](./images/AWS全般/elb-03.png)
-![構成図](./images/AWS全般/elb-04.png)
+![ELB設定](https://raw.githubusercontent.com/proshiba/tech-memo/main/aws/images/AWS%E5%85%A8%E8%88%AC/elb-03.png)
+![ELB設定](https://raw.githubusercontent.com/proshiba/tech-memo/main/aws/images/AWS%E5%85%A8%E8%88%AC/elb-04.png)
 
 今回はテストですので、基本的には以下のように設定すると動作します。  
 
