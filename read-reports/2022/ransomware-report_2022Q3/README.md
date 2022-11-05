@@ -25,7 +25,7 @@ Note: 脅威インテリジェンスサービスを提供している会社さ�
 これはどちらかというと2022/03から06にかけて減少し続けていたことの影響ではないかと思得ますね。  
 この期間に起きた大きな事象といえばContiがクローズしたことがありますので、それの影響があったのかな？と思えます。
 
-![ransom-victim](./images/ransom01.png)  
+![ransom-victim](https://raw.githubusercontent.com/proshiba/tech-memo/main/read-reports/2022/ransomware-report_2022Q3/images/ransom01.png)  
 引用：https://ke-la.com/wp-content/uploads/2022/10/KELA-RESEARCH_Ransomware-Victims-and-Network-Access-Sales-in-Q3-2022.pdf
 
 ### 特に活発だったランサムウェアアクター
@@ -53,7 +53,7 @@ Entrustとのいざこざですね。結局LockbitのリークサイトをDDoS�
 しかし気になるのは7月まで上り調子だったのが、8月で急減していることです。  
 この点については言及されてません。何があったのでしょうね？
 
-![iab-stats](./images/IAB01.png)
+![iab-stats](https://raw.githubusercontent.com/proshiba/tech-memo/main/read-reports/2022/ransomware-report_2022Q3/images/IAB01.png)
 引用：https://ke-la.com/wp-content/uploads/2022/10/KELA-RESEARCH_Ransomware-Victims-and-Network-Access-Sales-in-Q3-2022.pdf
 
 金額としては、Q2が66万ドルだったことからQ3は400万ドルと大幅に増加しています。  
