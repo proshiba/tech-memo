@@ -1,0 +1,153 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: thehive
+  namespace: thehive
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: thehive
+  template:
+    metadata:
+      labels:
+        app: thehive
+    spec:
+      hostname: thehive
+      initContainers:
+        - name: initalize
+          image: alpine:latest
+          command: ['sh', '-c', 'chmod 777 /thehive-volume']
+          volumeMounts:
+            - name: thehive-data
+              mountPath: "/thehive-volume"
+      containers:
+        - name: thehive
+          image: strangebee/thehive:5.3.3-1
+          imagePullPolicy: Always
+          args:
+          - --secret
+          - "mySecretForTheHive"
+          - "--cql-hostnames"
+          - "cassandradb"
+          - "--index-backend"
+          - "elasticsearch"
+          - "--es-hostnames"
+          - "opensearch"
+          ports:
+          - containerPort: 9000
+          resources:
+            limits:
+              cpu: 1
+              memory: 1Gi
+          volumeMounts:
+          - name: thehive-data
+            mountPath: "/opt/thp/thehive/files"
+      volumes:
+      - name: thehive-data
+        persistentVolumeClaim:
+          claimName: thehive-volume
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: opensearch
+  namespace: thehive
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: opensearch
+  template:
+    metadata:
+      labels:
+        app: opensearch
+    spec:
+      hostname: opensearch
+      initContainers:
+        - name: initalize
+          image: alpine:latest
+          command: ['sh', '-c', 'chmod 777 /opensarch-volume']
+          volumeMounts:
+            - name: opensearch-data
+              mountPath: "/opensarch-volume"
+      containers:
+        - name: opensearch
+          image: opensearchproject/opensearch:2.15.0
+          imagePullPolicy: Always
+          ports:
+          - containerPort: 9200
+          resources:
+            limits:
+              cpu: 1
+              memory: 1.5Gi
+          env:
+          - name: discovery.type
+            value: single-node
+          - name: plugins.security.disabled
+            value: "true"
+          - name: compatibility.override_main_response_version
+            value: "true"
+          - name: OPENSEARCH_INITIAL_ADMIN_PASSWORD
+            value: "ItIsASamp13P@ssw0rd"
+          volumeMounts:
+          - name: opensearch-data
+            mountPath: "/usr/share/opensearch/data"
+      volumes:
+      - name: opensearch-data
+        persistentVolumeClaim:
+          claimName: opensearch-volume
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cassandradb
+  namespace: thehive
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cassandradb
+  template:
+    metadata:
+      labels:
+        app: cassandradb
+    spec:
+      hostname: cassandradb
+      initContainers:
+        - name: initalize
+          image: alpine:latest
+          command: ['sh', '-c', 'chmod 777 /cassndra-volume']
+          volumeMounts:
+            - name: cassndra-data
+              mountPath: "/cassndra-volume"
+      containers:
+        - name: cassandradb
+          image: cassandra:4
+          imagePullPolicy: Always
+          ports:
+          - containerPort: 9042
+          env:
+          - name: MAX_HEAP_SIZE
+            value: 1024M
+          - name: HEAP_NEWSIZE
+            value: 1024M
+          - name: CASSANDRA_CLUSTER_NAME
+            value: thehive
+          resources:
+            limits:
+              cpu: 1
+              memory: 1.5Gi
+          volumeMounts:
+          - name: cassndra-data
+            mountPath: "/var/lib/cassandra"
+      volumes:
+      - name: cassndra-data
+        persistentVolumeClaim:
+          claimName: cassandra-volume
+

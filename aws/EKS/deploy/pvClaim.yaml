@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: thehive-volume
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: thehive-volume
+  resources:
+    requests:
+      storage: 10G
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: opensearch-volume
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: thehive-volume
+  resources:
+    requests:
+      storage: 50G
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: cassandra-volume
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: thehive-volume
+  resources:
+    requests:
+      storage: 50G

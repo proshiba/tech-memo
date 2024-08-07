@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: thehive
+spec:
+  selector:
+    app: thehive
+  ports:
+  - port: 9000
+    targetPort: 9000
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: opensearch
+spec:
+  selector:
+    app: opensearch
+  ports:
+  - port: 9200
+    targetPort: 9200
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: cassandradb
+spec:
+  selector:
+    app: cassandradb
+  ports:
+  - port: 9042
+    targetPort: 9042
