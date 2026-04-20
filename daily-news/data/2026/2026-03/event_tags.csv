@@ -1,0 +1,20 @@
+event_key,dimension,raw_value,normalized_value,confidence,note
+2026-03_citrix_netscaler_cve_2026_3055,initial_access,公開Citrix ADC/GatewayのSAML IdPエンドポイント悪用,exploit_public_facing_app,high,修正版公開数日後に悪用が観測された
+2026-03_citrix_netscaler_cve_2026_3055,product_class,Citrix NetScaler ADC/Gateway（リモートアクセス・ゼロトラスト基盤）,remote_access,high,
+2026-03_ctrl_russian_net_rat,actor_attribution,ロシア語話者（国家支援か犯罪グループかは不明）,unknown,low,ロシア語エラー文字列とロシアドメインが根拠だが国家支援は断定できない
+2026-03_ctrl_russian_net_rat,initial_access,悪性LNKファイルを使ったフィッシング,phishing,medium,
+2026-03_deepload_clickfix_malware,initial_access,ClickFixソーシャルエンジニアリング（偽CAPTCHAやポップアップでコマンド実行を誘導）,phishing,high,
+2026-03_european_commission_teampcp_breach,actor_attribution,TeamPCPおよびShinyHunters（金銭目的の恐喝グループ）,cybercrime,high,TeamPCPが侵入しShinyHuntersがデータを公開
+2026-03_european_commission_teampcp_breach,initial_access,TrivyサプライチェーンからGitHub Action経由で盗んだAWS APIキーを悪用,supply_chain,high,
+2026-03_f5_bigip_cve_2025_53521,initial_access,公開F5 BIG-IP APMへの認証不要RCE,exploit_public_facing_app,high,
+2026-03_f5_bigip_cve_2025_53521,product_class,F5 BIG-IP APM（リモートアクセス・アクセス管理基盤）,remote_access,high,
+2026-03_fortinet_ems_cve_2026_21643,initial_access,FortiClient EMS GUI SQLインジェクション（Siteヘッダー悪用）,exploit_public_facing_app,high,
+2026-03_fortinet_ems_cve_2026_21643,product_class,Fortinet FortiClient EMS（エンドポイント管理ツール）,security_tool,high,
+2026-03_handala_fbi_patel_gmail,actor_attribution,Handala（イラン情報省MOISとの関連が指摘されるハクティビスト集団）,hacktivist,high,
+2026-03_handala_fbi_patel_gmail,initial_access,侵入手法未公開（GmailアカウントへのアクセスはFBIも確認済みだが手法不明）,unknown,low,
+2026-03_infinity_stealer_macos_clickfix,initial_access,ClickFix偽CAPTCHAでTerminalへの悪性curlコマンド貼り付けを誘導,phishing,high,
+2026-03_infinity_stealer_macos_clickfix,product_class,macOS（ClickFix経由の攻撃対象OS）,os,high,
+2026-03_smart_slider_3_cve_2026_3098,product_class,Smart Slider 3（WordPressプラグイン）,wordpress_plugin,high,
+2026-03_teampcp_litellm_supply_chain,actor_attribution,TeamPCP（帰属情報なし・国籍不明）,unknown,low,帰属証拠が不十分
+2026-03_teampcp_litellm_supply_chain,initial_access,PyPI公式パッケージ（litellm）の改ざんによるサプライチェーン攻撃,supply_chain,high,
+2026-03_teampcp_litellm_supply_chain,product_class,PyPIパッケージエコシステム,package_ecosystem,high,
