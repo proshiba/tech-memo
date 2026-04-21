@@ -3,23 +3,52 @@ event_key,dimension,raw_value,normalized_value,confidence,note
 2026-03_alp001_iab_leak_site,actor_attribution,ALP-001/Alpha Group/DGJT Group（データ恐喝へ移行中のIAB）,cybercrime,high,
 2026-03_alp001_iab_leak_site,initial_access,Fortinet/FortiGate VPN・Cisco・Citrix・GlobalProtect等の境界機器悪用,exploit_public_facing_app,high,
 2026-03_alp001_iab_leak_site,product_class,Fortinet VPN・Cisco・Citrixなど（リモートアクセス製品）,remote_access,high,
+2026-03_apple_ios_coruna_patch,initial_access,SafariドライブバイおよびCoruna IOSエクスプロイトキットの悪用,exploit_public_facing_app,high,
+2026-03_apple_ios_coruna_patch,product_class,iOS/iPadOS（旧型iPhone/iPad・15.8.7/16.7.15系）,os,high,
 2026-03_appsflyer_sdk_supply_chain,initial_access,AppsFlyerのWeb SDK配信ドメインへのレジストラインシデントによるサプライチェーン侵害,supply_chain,high,
 2026-03_appsflyer_sdk_supply_chain,product_class,AppsFlyerのWeb SDK配信基盤（JavaScriptSDK）,package_ecosystem,medium,SDK配信基盤はpackage_ecosystemに近いが正確ではない
+2026-03_apt28_covenant_customized,actor_attribution,APT28（Fancy Bear / Forest Blizzard）ロシア軍GRU関連,nation_state,high,ESETがGRU第26165部隊との関連を評価
+2026-03_apt28_covenant_customized,initial_access,悪性DOCファイル（CVE-2026-21509悪用）でのスピアフィッシング,phishing,high,
+2026-03_apt28_covenant_customized,product_class,ウクライナ政府・軍のWindows端末,os,high,
+2026-03_apt36_vibeware_ai_malware,actor_attribution,APT36（Transparent Tribe）パキスタン拠点の国家支援APT,nation_state,high,Bitdefenderがパキスタン拠点と評価
+2026-03_apt36_vibeware_ai_malware,initial_access,悪性メールに添付されたZIP/ISO内のLNKやPDFおとり,phishing,high,
+2026-03_apt36_vibeware_ai_malware,product_class,Windows OS（インド政府・外交機関の標的環境）,os,high,
+2026-03_arpa_ipv6_phishing_evasion,initial_access,.arpa/IPv6逆引きURLを使ったフィッシングメール,phishing,high,
 2026-03_azure_monitor_callback_phishing,initial_access,正規Azure Monitor基盤から送信されるフィッシングメール,phishing,high,
 2026-03_azure_monitor_callback_phishing,product_class,Microsoft Azure Monitor（クラウド監視・通知基盤）,collaboration_platform,medium,コラボ基盤のカテゴリが最も近いが正確ではない
+2026-03_beatbanker_android_malware,initial_access,偽Google Play StoreサイトへのソーシャルエンジニアリングでAPKをサイドロードさせる,phishing,high,
+2026-03_beatbanker_android_malware,product_class,Android OS（偽Starlinkアプリの感染対象）,os,high,
 2026-03_bitpaymer_botnet_admin_sentenced,actor_attribution,TA551/Shathak（ロシア系フィッシングボットネット運営グループ）,cybercrime,high,
 2026-03_bitpaymer_botnet_admin_sentenced,initial_access,1日70万通規模のマルスパムでボットネットを拡大,malspam,high,
 2026-03_bitrefill_bluenoroff_breach,actor_attribution,BlueNoroff（APT38/Lazarus傘下）北朝鮮国家支援,nation_state,high,手口・マルウェア・オンチェーン追跡・IP再利用の類似性から特定
 2026-03_bitrefill_bluenoroff_breach,initial_access,侵害された従業員ノートPCからの古い認証情報窃取・悪用,stolen_credentials,high,
+2026-03_blackcat_negotiator_indicted,actor_attribution,BlackCat/ALPHV RaaS（金銭目的のランサムウェアグループ）,cybercrime,high,
+2026-03_blacksanta_edr_killer,actor_attribution,ロシア語話者の脅威アクター（機密窃取目的・国籍断定は困難）,cybercrime,low,ロシア語話者との記載はあるが国家支援か犯罪か不明
+2026-03_blacksanta_edr_killer,initial_access,履歴書偽装ISOのクラウドストレージ経由スピアフィッシング,phishing,high,
+2026-03_blacksanta_edr_killer,product_class,AV/EDR/SIEM/フォレンジック系ツール（BYODドライバーで停止対象）,security_tool,high,
 2026-03_bubble_ai_phishing_microsoft,initial_access,Bubble上のフィッシングWebアプリへの誘導,phishing,high,
 2026-03_bubble_ai_phishing_microsoft,product_class,Microsoft 365/Microsoftアカウント（フィッシング標的）,collaboration_platform,high,
 2026-03_canisterworm_wiper_teampcp,actor_attribution,TeamPCP（金銭目的のサイバー犯罪集団）,cybercrime,high,
 2026-03_canisterworm_wiper_teampcp,initial_access,露出したDocker API・Kubernetes・Redis悪用でクラウド環境に侵入,exploit_public_facing_app,high,
+2026-03_china_apt_qatar_espionage,actor_attribution,中国系APT（Camaro Dragon / Earth Preta系）,nation_state,high,Check PointがCamaro Dragonと評価
+2026-03_china_apt_qatar_espionage,initial_access,悪性アーカイブ内LNKファイルによるフィッシング,phishing,high,
+2026-03_china_apt_qatar_espionage,product_class,Windows OS（カタール組織の標的環境）,os,high,
+2026-03_chrome_zerodday_cve_2026_3909_3910,initial_access,Chromeブラウザへの実悪用（ドライブバイまたはターゲット型）,exploit_public_facing_app,high,
+2026-03_chrome_zerodday_cve_2026_3909_3910,product_class,Chrome ブラウザ（Skia・V8エンジン）,browser,high,
 2026-03_cisco_fmc_cve_2026_20131_interlock,actor_attribution,Interlockランサムウェアグループ（国籍不明・金銭目的）,cybercrime,high,
 2026-03_cisco_fmc_cve_2026_20131_interlock,initial_access,公開Cisco Secure FMCへの認証不要RCE（CVE-2026-20131）,exploit_public_facing_app,high,
 2026-03_cisco_fmc_cve_2026_20131_interlock,product_class,Cisco Secure Firewall Management Center（セキュリティ管理基盤）,security_tool,high,
 2026-03_citrix_netscaler_cve_2026_3055,initial_access,公開Citrix ADC/GatewayのSAML IdPエンドポイント悪用,exploit_public_facing_app,high,修正版公開数日後に悪用が観測された
 2026-03_citrix_netscaler_cve_2026_3055,product_class,Citrix NetScaler ADC/Gateway（リモートアクセス・ゼロトラスト基盤）,remote_access,high,
+2026-03_cl_sta_1087_sea_military_espionage,actor_attribution,中国系国家支援型APT（CL-STA-1087・中程度の確度）,nation_state,medium,Unit 42が中程度の確度で中国系と評価
+2026-03_cl_sta_1087_sea_military_espionage,initial_access,初期侵入手法は明示なし（未管理端末経由と推定）,unknown,low,
+2026-03_cl_unk_1068_espionage,actor_attribution,中国系脅威アクター（Unit 42が高い確信で評価）,nation_state,high,ツール・言語・標的傾向から中国系と高確信で評価
+2026-03_cl_unk_1068_espionage,initial_access,公開VMware vCenter Serverへのウェブシェル設置,exploit_public_facing_app,high,
+2026-03_cl_unk_1068_espionage,product_class,VMware vCenter Server（インフラ管理基盤）,security_tool,high,
+2026-03_clickfix_new_variant_workflowy,initial_access,偽CAPTCHAページでWin+R実行を誘導するClickFix亜種,phishing,high,
+2026-03_clickfix_new_variant_workflowy,product_class,Windows OS（Win+R・WebDAVマウント経由）,os,high,
+2026-03_clipxdaemon_linux_clipboard_hijacker,initial_access,配布経路不明（Bincrypter系ローダー経由と推定）,unknown,low,
+2026-03_clipxdaemon_linux_clipboard_hijacker,product_class,Linux/X11 OS（クリップボードハイジャック対象）,os,high,
 2026-03_connectwise_screenconnect_cve_2026_3564,initial_access,ASP.NET machine key悪用によるScreenConnectセッション認証偽造,exploit_public_facing_app,medium,CVE-2026-3564自体の悪用は未確認。既知machine keyの悪用試みは観測済み
 2026-03_connectwise_screenconnect_cve_2026_3564,product_class,ConnectWise ScreenConnect（リモートアクセスツール）,remote_access,high,
 2026-03_coruna_ios_exploit_framework,initial_access,Safariを起点にしたドライブバイ攻撃（水飲み場型含む）,exploit_public_facing_app,medium,Safariスタガーを使う攻撃
@@ -37,6 +66,14 @@ event_key,dimension,raw_value,normalized_value,confidence,note
 2026-03_dprk_it_worker_sanctions,initial_access,偽装就業による内部者の不正アクセス・特権乱用,insider_abuse,high,正当に採用された内部者がアクセスを悪用
 2026-03_dutch_finance_ministry_breach,initial_access,侵入手法未公表,unknown,low,記事時点で犯行主体・手法ともに未公表
 2026-03_dutch_police_phishing_breach,initial_access,フィッシング攻撃の成功による侵害,phishing,high,
+2026-03_dutch_signal_whatsapp_hijacking,actor_attribution,ロシア政府支援ハッカー（MIVD/AIVDが帰属）,nation_state,high,
+2026-03_dutch_signal_whatsapp_hijacking,initial_access,偽Signal Security Support Chatbot・悪性QRコードでのフィッシング,phishing,high,
+2026-03_dutch_signal_whatsapp_hijacking,product_class,Signal/WhatsApp（暗号化メッセージングアプリ）,collaboration_platform,high,
+2026-03_elementor_ally_sqli_cve_2026_2313,initial_access,URL引数処理への未認証SQLインジェクション（CVE-2026-2313）,exploit_public_facing_app,high,
+2026-03_elementor_ally_sqli_cve_2026_2313,product_class,Elementor Ally WordPressプラグイン,wordpress_plugin,high,
+2026-03_england_hockey_ailock_ransomware,actor_attribution,AiLockランサムウェア運営者（金銭目的・国籍不明）,cybercrime,high,
+2026-03_england_hockey_ailock_ransomware,initial_access,侵入手法未公表,unknown,low,
+2026-03_ericsson_us_data_breach,initial_access,サービスプロバイダーへの侵害経由（手法不明）,unknown,low,
 2026-03_european_commission_teampcp_breach,actor_attribution,TeamPCPおよびShinyHunters（金銭目的の恐喝グループ）,cybercrime,high,TeamPCPが侵入しShinyHuntersがデータを公開
 2026-03_european_commission_teampcp_breach,initial_access,TrivyサプライチェーンからGitHub Action経由で盗んだAWS APIキーを悪用,supply_chain,high,
 2026-03_f5_bigip_cve_2025_53521,initial_access,公開F5 BIG-IP APMへの認証不要RCE,exploit_public_facing_app,high,
@@ -45,6 +82,10 @@ event_key,dimension,raw_value,normalized_value,confidence,note
 2026-03_fancybear_roundcube_opsec,actor_attribution,FancyBear（APT28/Forest Blizzard）ロシアGRU関連,nation_state,high,英国NCSCがGRU第26165部隊との関連を評価
 2026-03_fancybear_roundcube_opsec,initial_access,公開Roundcube/SquirrelMailへのXSSを使ったメールアカウント侵害,exploit_public_facing_app,high,
 2026-03_fancybear_roundcube_opsec,product_class,Roundcube/SquirrelMail（WebメールクライアントCMS系）,collaboration_platform,high,Webメール基盤として攻撃対象
+2026-03_fbi_municipal_official_phishing,actor_attribution,市・郡当局者なりすまし電子送金詐欺グループ（金銭目的）,cybercrime,high,
+2026-03_fbi_municipal_official_phishing,initial_access,当局者なりすましメールによるフィッシング,phishing,high,
+2026-03_fbi_steam_malware_games,actor_attribution,Steamマルウェアゲーム配布者（EncryptHub関与疑い・金銭目的）,cybercrime,medium,EncryptHubの名が挙がるが断定は困難
+2026-03_fbi_steam_malware_games,initial_access,Steamゲームプラットフォームを経由したマルウェア配布,phishing,high,ソーシャルエンジニアリングで正規ゲームに見せかける
 2026-03_fortinet_ems_cve_2026_21643,initial_access,FortiClient EMS GUI SQLインジェクション（Siteヘッダー悪用）,exploit_public_facing_app,high,
 2026-03_fortinet_ems_cve_2026_21643,product_class,Fortinet FortiClient EMS（エンドポイント管理ツール）,security_tool,high,
 2026-03_glassworm_supply_chain,actor_attribution,ロシア語話者の可能性が示唆される攻撃者（国家支援は未確認・金銭目的）,cybercrime,low,ロシア語ロケール回避あり。国家支援は断定困難で金銭目的と判断
@@ -53,13 +94,26 @@ event_key,dimension,raw_value,normalized_value,confidence,note
 2026-03_hackerone_navia_breach,initial_access,NaviaプラットフォームのBOLA（Broken Object Level Authorization）脆弱性悪用,exploit_public_facing_app,high,
 2026-03_handala_fbi_patel_gmail,actor_attribution,Handala（イラン情報省MOISとの関連が指摘されるハクティビスト集団）,hacktivist,high,
 2026-03_handala_fbi_patel_gmail,initial_access,侵入手法未公開（GmailアカウントへのアクセスはFBIも確認済みだが手法不明）,unknown,low,
+2026-03_handala_modus_operandi_research,actor_attribution,Void Manticore / Handala（イランMOIS関連ハクティビスト）,hacktivist,high,Check PointがVoid ManticoreのペルソナとしてHandalaを特定
+2026-03_handala_modus_operandi_research,initial_access,侵害済みVPN認証情報を主な初期アクセス手段として使用,stolen_credentials,high,
+2026-03_handala_modus_operandi_research,product_class,VPN製品（侵害済みVPN認証情報が主な入口）,remote_access,high,
 2026-03_handala_telegram_malware,actor_attribution,Handala/Homeland Justice（イランMOIS関連ハクティビスト）,hacktivist,high,FBIがイランMOIS関連と特定
 2026-03_handala_telegram_malware,initial_access,Telegramベースのソーシャルエンジニアリングでマルウェア感染を誘導,phishing,high,
 2026-03_handala_telegram_malware,product_class,Windows（Windowsマルウェアを使用）,os,high,
+2026-03_hpe_aos_cx_cve_2026_23813,initial_access,公開AOS-CXスイッチのWebベース管理インターフェースへの未認証アクセス,exploit_public_facing_app,high,
+2026-03_hpe_aos_cx_cve_2026_23813,product_class,HPE Aruba AOS-CX（ネットワークスイッチ管理基盤）,security_tool,high,
 2026-03_infinite_campus_shinyhunters,actor_attribution,ShinyHunters（恐喝・データ販売を行うサイバー犯罪グループ）,cybercrime,high,
 2026-03_infinite_campus_shinyhunters,initial_access,従業員1名のSalesforceアカウント侵害（窃取認証情報）,stolen_credentials,high,
 2026-03_infinity_stealer_macos_clickfix,initial_access,ClickFix偽CAPTCHAでTerminalへの悪性curlコマンド貼り付けを誘導,phishing,high,
 2026-03_infinity_stealer_macos_clickfix,product_class,macOS（ClickFix経由の攻撃対象OS）,os,high,
+2026-03_interlock_slopoly_ai_malware,actor_attribution,Hive0163（Interlockランサムウェア運営・金銭目的）,cybercrime,high,IBM X-ForceがHive0163として追跡
+2026-03_interlock_slopoly_ai_malware,initial_access,ClickFix偽操作指示によるPowerShell実行誘導,phishing,high,
+2026-03_interlock_slopoly_ai_malware,product_class,Windows OS（Interlock感染標的）,os,high,
+2026-03_ivanti_epm_cve_2026_1603_exploitation,initial_access,公開Ivanti EPMへのXSS経由認証回避（CVE-2026-1603）,exploit_public_facing_app,high,
+2026-03_ivanti_epm_cve_2026_1603_exploitation,product_class,Ivanti Endpoint Manager（エンドポイント管理ツール）,security_tool,high,
+2026-03_kadnap_botnet_asus_routers,actor_attribution,KadNapボットネット運営者（金銭目的・国籍不明）,cybercrime,high,
+2026-03_kadnap_botnet_asus_routers,initial_access,ASUSルーター等のエッジ機器への悪性スクリプト経由の感染,exploit_public_facing_app,high,
+2026-03_kadnap_botnet_asus_routers,product_class,ASUS/エッジ機器のOS（組み込みLinux）,os,high,
 2026-03_kics_github_action_teampcp,actor_attribution,TeamPCP（金銭目的のクラウドネイティブ脅威アクター）,cybercrime,high,
 2026-03_kics_github_action_teampcp,initial_access,KICS GitHub Actionのタグ改ざんによるサプライチェーン攻撃,supply_chain,high,
 2026-03_kics_github_action_teampcp,product_class,KICS（CheckmarxのIaCセキュリティスキャナー）のGitHub Action,security_tool,high,
@@ -72,17 +126,27 @@ event_key,dimension,raw_value,normalized_value,confidence,note
 2026-03_leaknet_ransomware_clickfix,actor_attribution,LeakNetランサムウェア運営集団（国籍不明・金銭目的）,cybercrime,medium,2024年末から活動する比較的新しいグループ。国籍は不明
 2026-03_leaknet_ransomware_clickfix,initial_access,ClickFix偽操作指示によるPowerShell/スクリプト実行誘導,phishing,high,ClickFix=ソーシャルエンジニアリングによる誘導
 2026-03_leaknet_ransomware_clickfix,product_class,Windows OS（LeakNet感染標的）,os,high,
+2026-03_loblaw_customer_data_breach,initial_access,ITネットワークへの侵入手法未公表,unknown,low,
 2026-03_marquis_sonicwall_breach,actor_attribution,Marquisランサムウェアグループ（国籍不明・金銭目的）,cybercrime,medium,攻撃者の詳細帰属は不明
 2026-03_marquis_sonicwall_breach,initial_access,SonicWallファイアウォール脆弱性悪用による初期侵入,exploit_public_facing_app,high,SonicWall事案を起点とした侵害と企業が説明
 2026-03_marquis_sonicwall_breach,product_class,SonicWallファイアウォール（セキュリティ機器）,security_tool,high,
+2026-03_microsoft_patch_tuesday_mar2026,initial_access,該当なし（パッチ情報のため直接の初期侵入手法は評価外）,not_applicable,high,
+2026-03_microsoft_patch_tuesday_mar2026,product_class,Windows OS全般,os,high,
 2026-03_multivector_malware_vbs_xworm,product_class,Windows OS（XWorm/RemcosRATの感染先）,os,high,
+2026-03_n8n_rce_cve_2025_68613,initial_access,公開n8nインスタンスへの認証済みRCE（CVE-2025-68613）,exploit_public_facing_app,high,認証が必要だが4万超の公開インスタンスが存在
 2026-03_navia_breach_2_7m,initial_access,BOLA（Broken Object Level Authorization）脆弱性悪用による不正アクセス,exploit_public_facing_app,medium,BOLAが侵害経路とみられるが詳細は非公表
+2026-03_ncbj_poland_nuclear_cyberattack,actor_attribution,帰属未確定（イランCIの示唆あり・偽旗可能性も）,unknown,low,Reutersはイラン関与示唆を報じたが捜査当局は慎重
+2026-03_ncbj_poland_nuclear_cyberattack,initial_access,攻撃手法未公表・早期検知で阻止,unknown,low,
 2026-03_npm_ghost_rat_campaign,initial_access,npm悪性パッケージ（偽インストールログでRATを配布）,supply_chain,high,
 2026-03_npm_ghost_rat_campaign,product_class,npmパッケージエコシステム,package_ecosystem,high,
+2026-03_operation_synergia_iii,actor_attribution,フィッシング・詐欺・セクストーション等のサイバー犯罪者集団,cybercrime,high,
 2026-03_oracle_idm_cve_2026_21992,initial_access,公開Oracle Identity ManagerへのHTTP経由認証不要RCE,exploit_public_facing_app,high,
 2026-03_oracle_idm_cve_2026_21992,product_class,Oracle Identity Manager（IAM/アイデンティティ管理基盤）,security_tool,high,
 2026-03_perseus_android_malware,initial_access,非公式ストアでのIPTVアプリ偽装によるサイドロード誘導,phishing,high,ソーシャルエンジニアリングにより不正APKをインストールさせる
 2026-03_perseus_android_malware,product_class,Android OS（Perseus感染対象・Android 13以降）,os,high,
+2026-03_phantomraven_npm_attack,actor_attribution,PhantomRaven（金銭目的・国籍不明）,cybercrime,medium,
+2026-03_phantomraven_npm_attack,initial_access,悪性npmパッケージ（slopsquatting・Remote Dynamic Dependencies）,supply_chain,high,
+2026-03_phantomraven_npm_attack,product_class,npmパッケージエコシステム,package_ecosystem,high,
 2026-03_polyshell_magento_advisory,initial_access,公開MagentoのREST APIへのポリグロットファイルアップロード悪用,exploit_public_facing_app,high,
 2026-03_polyshell_magento_advisory,product_class,Magento Open Source/Adobe Commerce（ECコマースCMS）,cms,high,
 2026-03_polyshell_magento_attacks,initial_access,MagentoのREST APIへのポリグロットファイルアップロード悪用,exploit_public_facing_app,high,
@@ -92,19 +156,43 @@ event_key,dimension,raw_value,normalized_value,confidence,note
 2026-03_russia_signal_phishing_campaign,product_class,Signal/WhatsApp（暗号化メッセージングアプリ）,collaboration_platform,medium,攻撃対象のアプリ基盤として
 2026-03_seo_poisoning_asyncrat_campaign,initial_access,SEOポイズニングで25超の偽ソフトウェアダウンロードページへ誘導,phishing,high,SEOポイズニング＋偽ダウンロードはphishingに分類
 2026-03_seo_poisoning_asyncrat_campaign,product_class,Windows OS（DLLサイドローディング標的）,os,high,
+2026-03_shinyhunters_salesforce_aura,actor_attribution,ShinyHunters（データ窃取・恐喝型サイバー犯罪グループ）,cybercrime,high,
+2026-03_shinyhunters_salesforce_aura,initial_access,Salesforce Experience CloudのAura API設定不備（ゲストユーザー過剰権限）,exploit_public_facing_app,high,
+2026-03_shinyhunters_salesforce_aura,product_class,Salesforce Experience Cloud（コラボ・CRM基盤）,collaboration_platform,high,
+2026-03_shotbird_chrome_extension_supply_chain,actor_attribution,ロシア語話者と示唆される攻撃者（QuickLens事例と同一ファミリー）,cybercrime,low,ロシア語コメントが証拠だが確証なし
+2026-03_shotbird_chrome_extension_supply_chain,initial_access,Chrome拡張機能の所有権移転による悪性化（サプライチェーン）,supply_chain,high,
+2026-03_shotbird_chrome_extension_supply_chain,product_class,Chromeブラウザ（拡張機能経由の攻撃対象）,browser,high,
 2026-03_silver_fox_tax_campaign,actor_attribution,Silver Fox（中国拠点・APT寄りツールを使用）,nation_state,medium,国家支援の可能性があるが断定困難
 2026-03_silver_fox_tax_campaign,initial_access,税務通知偽装メール添付PDFおよび偽税務サイトからのフィッシング,phishing,high,
 2026-03_silver_fox_tax_campaign,product_class,Windows/macOS（ValleyRAT・RMMツール・Python stealerの標的OS）,os,high,
 2026-03_smart_slider_3_cve_2026_3098,product_class,Smart Slider 3（WordPressプラグイン）,wordpress_plugin,high,
+2026-03_socksescort_avrecon_disruption,actor_attribution,SocksEscortボットネット運営者（金銭目的プロキシ販売業者）,cybercrime,high,
+2026-03_socksescort_avrecon_disruption,initial_access,SOHOルーターへのLinuxマルウェアAVRecon感染,exploit_public_facing_app,high,
+2026-03_socksescort_avrecon_disruption,product_class,Linux OS（SOHOルーター組み込みLinux）,os,high,
+2026-03_starbucks_employee_breach,actor_attribution,偽Partner Centralを使った認証情報窃取グループ（金銭目的・国籍不明）,cybercrime,medium,
+2026-03_starbucks_employee_breach,initial_access,偽Partner CentralフィッシングサイトへのメールまたはSMS誘導,phishing,high,
+2026-03_starbucks_employee_breach,product_class,Starbucks Partner Central（従業員ポータル）,collaboration_platform,medium,
+2026-03_storm2561_fake_vpn_seo_poisoning,actor_attribution,Storm-2561（金銭目的のサイバー犯罪グループ）,cybercrime,high,Microsoftがトラッキング
+2026-03_storm2561_fake_vpn_seo_poisoning,initial_access,SEOポイズニングで偽VPNサイトへ誘導・偽クライアント実行させる,phishing,high,
+2026-03_storm2561_fake_vpn_seo_poisoning,product_class,VPNクライアント（Pulse Secure等リモートアクセス製品の偽装）,remote_access,high,
 2026-03_stryker_handala_wiper,actor_attribution,Handala（Handala Hack Team）イランMOIS関連ハクティビスト集団,hacktivist,high,FBIがイランMOISとの関連を記録
 2026-03_stryker_handala_wiper,initial_access,管理者アカウント侵害による不正なGlobal Administrator作成,stolen_credentials,high,
 2026-03_stryker_handala_wiper,product_class,Microsoft Intune（エンドポイント管理ツール・ワイプ機能を悪用）,security_tool,high,
 2026-03_teampcp_litellm_supply_chain,actor_attribution,TeamPCP（帰属情報なし・国籍不明）,unknown,low,帰属証拠が不十分
 2026-03_teampcp_litellm_supply_chain,initial_access,PyPI公式パッケージ（litellm）の改ざんによるサプライチェーン攻撃,supply_chain,high,
 2026-03_teampcp_litellm_supply_chain,product_class,PyPIパッケージエコシステム,package_ecosystem,high,
+2026-03_teams_phishing_a0backdoor,actor_attribution,Black Basta系の発展形と評価される犯罪グループ（金銭目的）,cybercrime,medium,BlueVoyantが中〜高確度でBlack Basta系TTPと評価
+2026-03_teams_phishing_a0backdoor,initial_access,Microsoft TeamsでのITサポート偽装・Quick Assist経由のフィッシング,phishing,high,
+2026-03_teams_phishing_a0backdoor,product_class,Microsoft Teams（コラボレーション基盤）,collaboration_platform,high,
 2026-03_telnyx_pypi_teampcp,actor_attribution,TeamPCP（金銭目的のクラウドネイティブ脅威アクター）,cybercrime,high,
 2026-03_telnyx_pypi_teampcp,initial_access,Telnyx PyPIパッケージの改ざんによるサプライチェーン攻撃,supply_chain,high,
 2026-03_telnyx_pypi_teampcp,product_class,PyPIパッケージエコシステム,package_ecosystem,high,
+2026-03_telus_digital_shinyhunters_breach,actor_attribution,ShinyHunters（データ窃取・恐喝型サイバー犯罪グループ）,cybercrime,high,
+2026-03_telus_digital_shinyhunters_breach,initial_access,Salesloft Drift侵害で取得したGCP認証情報の悪用,stolen_credentials,high,
+2026-03_telus_digital_shinyhunters_breach,product_class,Google Cloud Platform/BigQuery（クラウドデータ基盤）,collaboration_platform,medium,GCP/Salesforceなど複数のクラウドサービスが対象
+2026-03_termite_clickfix_castlerat,actor_attribution,Velvet Tempest（DEV-0504）金銭目的ランサムウェアアフィリエイト,cybercrime,high,
+2026-03_termite_clickfix_castlerat,initial_access,悪性広告経由のClickFix偽CAPTCHAで「ファイル名を指定して実行」に貼り付け実行,phishing,high,
+2026-03_termite_clickfix_castlerat,product_class,Windows OS（AD偵察・認証情報窃取の対象環境）,os,high,
 2026-03_tiktok_business_aitm_phishing,initial_access,Cloudflare Turnstile＋AiTMリバースプロキシ型偽ログインページへの誘導,phishing,high,
 2026-03_tiktok_business_aitm_phishing,product_class,TikTok for Business（ビジネス向け広告プラットフォーム）,collaboration_platform,medium,
 2026-03_torg_grabber_infostealer,actor_attribution,C2を毎週新規登録する金銭目的の攻撃者グループ,cybercrime,medium,
@@ -116,8 +204,13 @@ event_key,dimension,raw_value,normalized_value,confidence,note
 2026-03_tycoon2fa_phishing_revival,actor_attribution,Tycoon2FA PhaaS運営者（金銭目的）,cybercrime,high,
 2026-03_tycoon2fa_phishing_revival,initial_access,Microsoft 365・GmailへのAiTMフィッシングキャンペーン,phishing,high,
 2026-03_tycoon2fa_phishing_revival,product_class,Microsoft 365/Gmail（AiTMフィッシングの標的）,collaboration_platform,high,
+2026-03_veeam_backup_rce_flaws,initial_access,該当なし（脆弱性情報のため直接の初期侵入手法は評価外）,not_applicable,high,低権限ドメインユーザーからのRCEであり初期侵入後の行動
+2026-03_veeam_backup_rce_flaws,product_class,Veeam Backup & Replication（バックアップ基盤）,security_tool,high,
 2026-03_vibe_coded_malware_campaign,initial_access,偽ソフトウェアダウンロードサイト・SEOポイズニングで悪性ZIPへ誘導,phishing,high,Discord・SourceForge・GitHubを配布に悪用
 2026-03_vibe_coded_malware_campaign,product_class,Windows OS（マイナー・スティーラー・RAT感染対象）,os,high,
+2026-03_vip_keylogger_maas_campaign,actor_attribution,MaaS型VIP_Keylogger提供者（金銭目的・国籍不明）,cybercrime,medium,
+2026-03_vip_keylogger_maas_campaign,initial_access,スピアフィッシングRAR添付による実行ファイル配布,malspam,high,購買依頼系メールを偽装したスピアフィッシング
+2026-03_vip_keylogger_maas_campaign,product_class,Windows OS（ブラウザ・メールクライアント認証情報窃取対象）,os,high,
 2026-03_voidstealer_chrome_abe_bypass,actor_attribution,MaaSとして販売される金銭目的の犯罪者,cybercrime,medium,MaaSとして販売されていることから
 2026-03_voidstealer_chrome_abe_bypass,product_class,Chrome/Edge ブラウザ（ABE保護が標的）,browser,high,
 2026-03_wing_ftp_cve_2025_47813,initial_access,公開Wing FTP ServerへのCVE-2025-47813悪用（RCEへの連鎖あり）,exploit_public_facing_app,high,
@@ -127,3 +220,4 @@ event_key,dimension,raw_value,normalized_value,confidence,note
 2026-03_zimbra_cve_2025_66376_apt28,actor_attribution,APT28（Fancy Bear / Strontium）ロシア軍GRU関連,nation_state,high,英国NCSCがGRU第26165部隊との関連を評価
 2026-03_zimbra_cve_2025_66376_apt28,initial_access,公開ZimbraへのHTMLメール内CSS @importを使った認証不要格納型XSS,exploit_public_facing_app,high,
 2026-03_zimbra_cve_2025_66376_apt28,product_class,Zimbra Collaboration Suite（メール・コラボレーション基盤）,collaboration_platform,high,
+2026-03_zombie_zip_cve_2026_0866,initial_access,該当なし（ZIPアーカイブ検査回避技法のため直接の初期侵入手法は評価外）,not_applicable,high,マルウェア配信の検知回避手法であり初期侵入手法ではない
