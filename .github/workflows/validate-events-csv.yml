@@ -1,0 +1,32 @@
+name: Validate Events CSV Schema
+
+on:
+  push:
+    paths:
+      - "daily-news/data/**/*.csv"
+      - "daily-news/tests/test_csv_schema.py"
+      - ".github/workflows/validate-events-csv.yml"
+  pull_request:
+    paths:
+      - "daily-news/data/**/*.csv"
+      - "daily-news/tests/test_csv_schema.py"
+      - ".github/workflows/validate-events-csv.yml"
+  workflow_dispatch:
+
+jobs:
+  validate-csv:
+    name: Validate events.csv / event_tags.csv schema
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run CSV schema tests
+        run: |
+          python -m unittest daily-news/tests/test_csv_schema.py -v
