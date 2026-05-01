@@ -1,31 +1,115 @@
-dimension,normalized_value,label_ja
-event_type,active_exploitation,悪用確認済み
-event_type,incident,インシデント
-event_type,supply_chain,サプライチェーン
-event_type,malware_campaign,マルウェアキャンペーン
-event_type,vulnerability_advisory,脆弱性注意喚起
-event_type,cybercrime_trend,犯罪手口トレンド
-event_type,security_research,調査レポート
-initial_access,exploit_public_facing_app,公開アプリ悪用
-initial_access,phishing,フィッシング
-initial_access,malspam,マルスパム
-initial_access,supply_chain,サプライチェーン
-initial_access,malicious_update,悪性更新
-initial_access,stolen_credentials,窃取認証情報
-initial_access,insider_abuse,内部者悪用
-initial_access,unknown,不明
-initial_access,not_applicable,該当なし
-actor_attribution,cybercrime,サイバー犯罪
-actor_attribution,nation_state,国家支援系
-actor_attribution,hacktivist,ハクティビスト
-actor_attribution,insider,内部者
-actor_attribution,unknown,不明
-product_class,os,OS
-product_class,cms,CMS
-product_class,wordpress_plugin,WordPressプラグイン
-product_class,collaboration_platform,コラボ基盤
-product_class,package_ecosystem,パッケージ基盤
-product_class,remote_access,リモートアクセス
-product_class,browser,ブラウザ
-product_class,security_tool,セキュリティツール
-product_class,unknown,不明
+dimension,normalized_value,label_ja,label_en,description,parent_value,active,sort_order
+event_type,active_exploitation,悪用確認済み,Active Exploitation,実環境での悪用が報告されている事象,,true,10
+event_type,incident,インシデント,Incident,侵害・漏えい・恐喝・不正アクセスなどの事象,,true,20
+event_type,supply_chain,サプライチェーン,Supply Chain,依存関係・更新経路・委託先・所有者変更など信頼関係を悪用した事象,,true,30
+event_type,malware_campaign,マルウェアキャンペーン,Malware Campaign,マルウェア配布・感染・C2などを中心とする事象,,true,40
+event_type,vulnerability_advisory,脆弱性注意喚起,Vulnerability Advisory,脆弱性公開・パッチ・悪用注意喚起,,true,50
+event_type,cybercrime_trend,犯罪手口トレンド,Cybercrime Trend,詐欺・恐喝・PhaaS・RaaSなど犯罪手口の傾向,,true,60
+event_type,security_research,調査レポート,Security Research,攻撃面・設計問題・インフラ分析などの調査報告,,true,70
+event_type,takedown,摘発・停止措置,Takedown,犯罪インフラ・ボットネット・マーケットなどの摘発や停止措置,,true,80
+event_type,tool_release,ツール・機能,Tool Release,防御ツール・検出機能・セキュリティ機能などの公開,,true,90
+
+initial_access,exploit_public_facing_app,公開アプリ悪用,Exploit Public-Facing Application,インターネット公開アプリやサービスの脆弱性悪用,,true,10
+initial_access,phishing,フィッシング,Phishing,リンク・添付・偽サイトなどで利用者を誘導する入口,,true,20
+initial_access,malspam,マルスパム,Malspam,悪性メール配布を入口とする攻撃,,true,30
+initial_access,supply_chain,サプライチェーン,Supply Chain,依存関係・パッケージ・更新経路・委託先などの信頼関係悪用,,true,40
+initial_access,malicious_update,悪性更新,Malicious Update,正規または正規風の更新経路を悪用した配布や侵入,,true,50
+initial_access,stolen_credentials,窃取認証情報,Stolen Credentials,盗まれたID・パスワード・認証情報による侵入,,true,60
+initial_access,stolen_token,窃取トークン,Stolen Token,盗まれたOAuthトークン・APIキー・セッショントークンによる侵入,,true,70
+initial_access,insider_abuse,内部者悪用,Insider Abuse,従業員・委託先・内部権限の悪用,,true,80
+initial_access,exposed_remote_service,公開リモートサービス,Exposed Remote Service,公開されたRDP・VPN・管理インターフェースなどの悪用,,true,90
+initial_access,drive_by_download,ドライブバイダウンロード,Drive-by Download,閲覧や誘導により利用者端末へ悪性コードを配布する入口,,true,100
+initial_access,unknown,不明,Unknown,source から初期アクセスが判断できない場合,,true,900
+initial_access,not_applicable,該当なし,Not Applicable,初期アクセスとして評価しない事象,,true,999
+
+actor,unknown,不明,Unknown,固有アクター名が不明,,true,900
+actor,not_applicable,該当なし,Not Applicable,アクター名で整理しない事象,,true,999
+
+actor_attribution,cybercrime,サイバー犯罪,Cybercrime,金銭目的の犯罪エコシステムまたは犯罪グループ,,true,10
+actor_attribution,nation_state,国家支援系,Nation State,国家支援または国家目的とされる活動,,true,20
+actor_attribution,hacktivist,ハクティビスト,Hacktivist,政治的・社会的主張を目的とする活動,,true,30
+actor_attribution,insider,内部者,Insider,内部者または内部権限の悪用,,true,40
+actor_attribution,hack_for_hire,ハックフォーハイア,Hack-for-Hire,請負型の侵害活動や商業スパイウェア的な活動,,true,50
+actor_attribution,security_researcher,セキュリティ研究者,Security Researcher,研究・検証・PoC公開などを目的とする主体,,true,60
+actor_attribution,unknown,不明,Unknown,source から帰属大分類が判断できない場合,,true,900
+actor_attribution,not_applicable,該当なし,Not Applicable,アクター帰属として評価しない事象,,true,999
+
+malware,unknown,不明,Unknown,マルウェア名が不明,,true,900
+malware,not_applicable,該当なし,Not Applicable,マルウェアで整理しない事象,,true,999
+
+product,unknown,不明,Unknown,製品名が不明,,true,900
+product,not_applicable,該当なし,Not Applicable,製品名で整理しない事象,,true,999
+
+product_class,os,OS,Operating System,Windows・Linux・macOS・AndroidなどOS本体,,true,10
+product_class,cms,CMS,CMS,コンテンツ管理システム,,true,20
+product_class,wordpress_plugin,WordPressプラグイン,WordPress Plugin,WordPressの拡張プラグイン,,true,30
+product_class,collaboration_platform,コラボ基盤,Collaboration Platform,Teams・SharePoint・Webexなどの情報共有や会議基盤,,true,40
+product_class,package_ecosystem,パッケージ基盤,Package Ecosystem,npm・PyPI・Go・Rust・PHPなどのパッケージエコシステム,,true,50
+product_class,ci_cd_platform,CI/CD基盤,CI/CD Platform,GitHub Actions・CI/CDパイプライン・ビルド基盤,,true,60
+product_class,remote_access,リモートアクセス,Remote Access,RDP・VPN・リモートサポートなどのリモートアクセス基盤,,true,70
+product_class,browser,ブラウザ,Browser,Chrome・Edge・Firefoxなどのブラウザ本体,,true,80
+product_class,browser_extension,ブラウザ拡張,Browser Extension,Chrome拡張などのブラウザ拡張エコシステム,,true,90
+product_class,security_tool,セキュリティツール,Security Tool,検出・スキャン・防御・監視などのセキュリティツール,,true,100
+product_class,developer_tool,開発者ツール,Developer Tool,IDE・CLI・開発支援ツール・コード生成ツール,,true,110
+product_class,ai_tool,AIツール・LLMアプリ,AI Tool,AIエージェント・LLMアプリ・AIブラウザ・AIノートブックなど,,true,120
+product_class,cloud_service,クラウドサービス,Cloud Service,クラウドSaaS・IaaS・クラウド管理サービス,,true,130
+product_class,cloud_workload,クラウドワークロード,Cloud Workload,クラウド上のサーバー・コンテナ・仮想マシン・実行環境,,true,140
+product_class,identity_service,認証・ID基盤,Identity Service,SSO・OAuth・IdP・認証基盤,,true,150
+product_class,network_device,ネットワーク機器,Network Device,ルーター・スイッチ・ゲートウェイ・管理コントローラーなど,,true,160
+product_class,firewall,ファイアウォール,Firewall,ファイアウォールや境界防御機器,,true,170
+product_class,vpn,VPN,VPN,VPN製品やVPNサービス,,true,180
+product_class,message_broker,メッセージブローカー,Message Broker,ActiveMQなどのメッセージング基盤,,true,190
+product_class,database,データベース,Database,DBMS・データベースサービス・分析データ基盤,,true,200
+product_class,web_server,Webサーバー,Web Server,Nginx・ApacheなどのWebサーバーやWeb管理UI,,true,210
+product_class,mobile_app,モバイルアプリ,Mobile App,Android・iOSアプリやモバイル向け配布物,,true,220
+product_class,cryptocurrency_platform,暗号資産サービス,Cryptocurrency Platform,暗号資産取引所・ウォレット・DeFi・暗号資産関連サービス,,true,230
+product_class,unknown,不明,Unknown,source から製品分類が判断できない場合,,true,900
+product_class,not_applicable,該当なし,Not Applicable,製品分類として評価しない事象,,true,999
+
+attack_method,remote_code_execution,リモートコード実行,Remote Code Execution,遠隔から任意コード実行に至る攻撃,,true,10
+attack_method,privilege_escalation,権限昇格,Privilege Escalation,低権限から高権限へ昇格する攻撃,,true,20
+attack_method,authentication_bypass,認証回避,Authentication Bypass,認証を回避してアクセスする攻撃,,true,30
+attack_method,credential_theft,認証情報窃取,Credential Theft,ID・パスワード・Cookie・秘密情報などの窃取,,true,40
+attack_method,token_theft,トークン窃取,Token Theft,OAuthトークン・APIキー・セッショントークンなどの窃取,,true,50
+attack_method,session_hijacking,セッション乗っ取り,Session Hijacking,セッションやCookieを悪用した乗っ取り,,true,60
+attack_method,social_engineering,ソーシャルエンジニアリング,Social Engineering,利用者や管理者を騙して実行や認証を誘導する攻撃,,true,70
+attack_method,malicious_document,悪性文書,Malicious Document,PDF・Office・LNKなど文書やファイルを使った攻撃,,true,80
+attack_method,malicious_package,悪性パッケージ,Malicious Package,依存パッケージやライブラリに悪性コードを混入する攻撃,,true,90
+attack_method,malicious_extension,悪性拡張,Malicious Extension,ブラウザ拡張やプラグインを悪用した攻撃,,true,100
+attack_method,command_injection,コマンドインジェクション,Command Injection,コマンド実行に繋がるインジェクション攻撃,,true,110
+attack_method,code_injection,コードインジェクション,Code Injection,プロセスやアプリケーションにコードを注入する攻撃,,true,120
+attack_method,process_injection,プロセスインジェクション,Process Injection,正規プロセスに悪性コードを注入する攻撃,,true,130
+attack_method,defense_evasion,防御回避,Defense Evasion,AV・EDR・ログ・検知を回避または無効化する攻撃,,true,140
+attack_method,persistence,永続化,Persistence,再起動後やログオン後も継続する仕組み,,true,150
+attack_method,data_exfiltration,データ窃取・持ち出し,Data Exfiltration,データを外部へ持ち出す攻撃,,true,160
+attack_method,ransomware,ランサムウェア,Ransomware,暗号化や業務停止を伴うランサムウェア攻撃,,true,170
+attack_method,c2_communication,C2通信,C2 Communication,攻撃者の指令・制御基盤との通信,,true,180
+attack_method,backdoor,バックドア,Backdoor,継続的な不正アクセスのためのバックドア設置,,true,190
+attack_method,spoofing,なりすまし,Spoofing,正当な主体や通信に見せかける攻撃,,true,200
+attack_method,supply_chain_compromise,サプライチェーン侵害,Supply Chain Compromise,信頼された更新・依存関係・配布経路の侵害,,true,210
+attack_method,prompt_injection,プロンプトインジェクション,Prompt Injection,LLMやAIエージェントの指示解釈を悪用する攻撃,,true,220
+attack_method,seo_spam_redirect,SEOスパム・リダイレクト,SEO Spam Redirect,不正ページ生成やリダイレクト誘導,,true,230
+attack_method,unknown,不明,Unknown,source から攻撃手法が判断できない場合,,true,900
+attack_method,not_applicable,該当なし,Not Applicable,攻撃手法として評価しない事象,,true,999
+
+crime_trend,ransomware_extortion,ランサム・恐喝,Ransomware Extortion,暗号化・漏えい・公開脅迫による恐喝,,true,10
+crime_trend,data_extortion,データ恐喝,Data Extortion,暗号化を伴わないデータ窃取や公開脅迫による恐喝,,true,20
+crime_trend,phishing_kit_ecosystem,フィッシングキット基盤,Phishing Kit Ecosystem,PhaaSやキット販売を含むフィッシング犯罪基盤,,true,30
+crime_trend,vishing,ビッシング,Vishing,音声通話や偽サポートを使った詐欺・侵入誘導,,true,40
+crime_trend,smishing,スミッシング,Smishing,SMSやメッセージを使ったフィッシング,,true,50
+crime_trend,qr_code_scam,QRコード詐欺,QR Code Scam,QRコードを使った誘導・認証情報窃取・決済詐欺,,true,60
+crime_trend,crypto_theft,暗号資産窃取,Crypto Theft,暗号資産やウォレットを狙う窃取,,true,70
+crime_trend,investment_scam,投資詐欺,Investment Scam,投資話や高収益を装う詐欺,,true,80
+crime_trend,business_email_compromise,BEC,Business Email Compromise,取引先や経営層を装う送金・請求詐欺,,true,90
+crime_trend,credential_stuffing,クレデンシャルスタッフィング,Credential Stuffing,流出認証情報を使った大量ログイン試行,,true,100
+crime_trend,account_takeover,アカウント乗っ取り,Account Takeover,認証情報やトークンを悪用したアカウント乗っ取り,,true,110
+crime_trend,ddos_for_hire,DDoS代行,DDoS-for-Hire,DDoS代行サービスやブーターサービス,,true,120
+crime_trend,malware_as_a_service,MaaS,Malware-as-a-Service,マルウェアや攻撃基盤のサービス化,,true,130
+crime_trend,ransomware_as_a_service,RaaS,Ransomware-as-a-Service,ランサムウェアのアフィリエイト型サービスモデル,,true,140
+crime_trend,infostealer_market,インフォスティーラー市場,Infostealer Market,窃取ログや認証情報の売買エコシステム,,true,150
+crime_trend,insider_recruitment_extortion,内部者勧誘型恐喝,Insider Recruitment Extortion,内部者を取り込みデータ閲覧や映像を使って恐喝する手口,,true,160
+crime_trend,fake_job_recruitment,偽求人・採用詐欺,Fake Job Recruitment,偽の求人や面接を使った侵入・窃取・詐欺,,true,170
+crime_trend,device_code_phishing,デバイスコードフィッシング,Device Code Phishing,OAuthデバイスコード認証を悪用するフィッシング,,true,180
+crime_trend,clickfix,ClickFix,ClickFix,偽CAPTCHAや偽修復手順でコマンド実行を誘導する手口,,true,190
+crime_trend,unknown,不明,Unknown,source から犯罪手口が判断できない場合,,true,900
+crime_trend,not_applicable,該当なし,Not Applicable,犯罪手口として評価しない事象,,true,999
