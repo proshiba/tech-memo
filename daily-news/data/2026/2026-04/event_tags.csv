@@ -234,7 +234,6 @@ event_key,dimension,raw_value,normalized_value,confidence,note
 2026-04_codex_red_linux_incident,initial_access,不明（以前の侵害によるマイナー残留・追加攻撃者の侵入経路は未特定）,unknown,low,初期侵害の経路は不明
 2026-04_codex_red_linux_incident,product_class,Linux OS（技術業界組織の侵害端末）,os,high,Huntressが調査したのはLinux端末
 2026-04_cpuid_supply_chain_attack,actor_attribution,不明（先月のFileZillaキャンペーンとの関連可能性あり）,unknown,medium,帰属情報なし・FileZillaキャンペーンとの関連示唆あり
-2026-04_cpuid_supply_chain_attack,attack_method,malicious update,malicious_update,high,
 2026-04_cpuid_supply_chain_attack,attack_method,supply chain compromise,supply_chain_compromise,high,
 2026-04_cpuid_supply_chain_attack,crime_trend,not applicable,not_applicable,high,
 2026-04_cpuid_supply_chain_attack,initial_access,CPUIDの公式ダウンロードリンク改ざん（サプライチェーン）,supply_chain,high,公式サイトAPIを侵害して悪性ファイルを配布
@@ -898,7 +897,6 @@ event_key,dimension,raw_value,normalized_value,confidence,note
 2026-04_trigona_ransomware_custom_exfil,product_class,Windows OS（Trigona攻撃対象環境）,os,high,Windows環境を標的としたランサムウェア攻撃
 2026-04_trueconf_cve_2026_3502_zero_day,actor_attribution,中国系脅威アクター（中程度の確度・Alibaba Cloud/Tencent C2使用）,nation_state,medium,
 2026-04_trueconf_cve_2026_3502_zero_day,attack_method,defense evasion,defense_evasion,high,
-2026-04_trueconf_cve_2026_3502_zero_day,attack_method,malicious update,malicious_update,high,
 2026-04_trueconf_cve_2026_3502_zero_day,attack_method,persistence,persistence,high,
 2026-04_trueconf_cve_2026_3502_zero_day,crime_trend,not applicable,not_applicable,high,
 2026-04_trueconf_cve_2026_3502_zero_day,initial_access,TrueConf更新機構の脆弱性悪用（CVE-2026-3502）で悪性更新を全クライアントへ配布,malicious_update,high,
