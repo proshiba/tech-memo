@@ -1,0 +1,10 @@
+dimension,label_ja,value_mode,description,allow_unknown,allow_not_applicable,active,sort_order
+event_type,イベント種別,closed,イベント本体の種別,true,false,true,10
+initial_access,初期アクセス,closed,攻撃や侵害の入口となった手法,true,true,true,20
+actor,アクター,dynamic,固有の攻撃者名・グループ名・クラスター名・キャンペーン名,true,true,true,30
+actor_attribution,アクター帰属,closed,国家支援系・サイバー犯罪・内部者などの大分類,true,true,true,40
+malware,マルウェア,dynamic,マルウェアファミリー・RAT・ローダー・ボット名,true,true,true,50
+product,製品,dynamic,具体的な製品名・サービス名・ライブラリ名・プラグイン名,true,true,true,60
+product_class,製品分類,closed,製品やサービスの大分類,true,true,true,70
+attack_method,攻撃手法,closed,実行・権限昇格・防御回避・認証情報窃取などの攻撃手法,true,true,true,80
+crime_trend,犯罪手口,closed,サイバー犯罪の手口や収益化モデルの傾向,true,true,true,90
