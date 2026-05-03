@@ -1,86 +1,160 @@
-name: Enable auto-merge for Claude IOC PRs
+name: Trigger Claude IOC Routine
 
 on:
-  pull_request_target:
-    types:
-      - opened
-      - reopened
-      - synchronize
-      - ready_for_review
+  push:
     branches:
       - main
+    paths:
+      - "daily-news/news/**/*.md"
+
+  workflow_dispatch:
+    inputs:
+      news_file:
+        description: "対象ニュースMD。例: daily-news/news/2026_04-06/20260406.md"
+        required: true
+        type: string
 
 permissions:
-  contents: write
-  pull-requests: write
+  contents: read
+
+concurrency:
+  group: trigger-claude-ioc-routine-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
-  enable-automerge:
+  trigger-routine:
     runs-on: ubuntu-latest
 
-    if: >
-      !github.event.pull_request.draft &&
-      github.event.pull_request.base.ref == 'main' &&
-      github.event.pull_request.head.repo.full_name == github.repository &&
-      startsWith(github.event.pull_request.head.ref, 'claude/collect-iocs-')
-
     steps:
-      - name: Check PR files
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Detect newly added news files
+        id: detect
+        shell: bash
         env:
-          GH_TOKEN: ${{ github.token }}
-          REPO: ${{ github.repository }}
-          PR_NUMBER: ${{ github.event.pull_request.number }}
+          EVENT_NAME: ${{ github.event_name }}
+          MANUAL_NEWS_FILE: ${{ github.event.inputs.news_file }}
         run: |
           set -euo pipefail
 
-          gh api --paginate \
-            "repos/$REPO/pulls/$PR_NUMBER/files" \
-            --jq '.[].filename' > /tmp/pr_files.txt
+          : > /tmp/candidate_news_files.txt
 
-          echo "PR files:"
-          cat /tmp/pr_files.txt
+          if [[ "$EVENT_NAME" == "workflow_dispatch" ]]; then
+            if [[ ! -f "$MANUAL_NEWS_FILE" ]]; then
+              echo "Manual input file does not exist: $MANUAL_NEWS_FILE" >&2
+              exit 1
+            fi
 
-          python3 <<'PY'
+            printf '%s\n' "$MANUAL_NEWS_FILE" > /tmp/candidate_news_files.txt
+          else
+            BASE="${{ github.event.before }}"
+            HEAD="${{ github.sha }}"
+
+            if [[ "$BASE" =~ ^0+$ ]]; then
+              git diff-tree --no-commit-id --name-only --diff-filter=A -r "$HEAD" > /tmp/changed_files.txt
+            else
+              git diff --name-only --diff-filter=A "$BASE" "$HEAD" > /tmp/changed_files.txt
+            fi
+
+            grep -E '^daily-news/news/[0-9]{4}_[0-9]{2}-[0-9]{2}/[0-9]{8}\.md$' /tmp/changed_files.txt > /tmp/candidate_news_files.txt || true
+          fi
+
+          if [[ ! -s /tmp/candidate_news_files.txt ]]; then
+            echo "has_files=false" >> "$GITHUB_OUTPUT"
+            echo "No newly added daily-news/news/YYYY_MM-MM/YYYYMMDD.md files."
+            exit 0
+          fi
+
+          python3 <<'PY' >> "$GITHUB_OUTPUT"
+          import json
           import pathlib
           import re
-          import sys
 
           files = [
               line.strip()
-              for line in pathlib.Path("/tmp/pr_files.txt").read_text().splitlines()
+              for line in pathlib.Path("/tmp/candidate_news_files.txt").read_text().splitlines()
               if line.strip()
           ]
 
-          if not files:
-              raise SystemExit("No changed files found.")
+          targets = []
 
-          allowed = re.compile(
-              r"^daily-news/iocs/[0-9]{4}_[0-9]{2}-[0-9]{2}/[0-9]{8}\.(csv|md)$"
-          )
+          for f in files:
+              m = re.fullmatch(r"daily-news/news/(\d{4}_\d{2}-\d{2})/(\d{8})\.md", f)
+              if not m:
+                  raise SystemExit(f"Unexpected news file path: {f}")
 
-          bad = [f for f in files if not allowed.fullmatch(f)]
-          csvs = [f for f in files if f.endswith(".csv")]
+              period, ymd = m.groups()
+              yyyy, mm, dd = ymd[:4], ymd[4:6], ymd[6:8]
+              out_dir = f"daily-news/iocs/{period}"
 
-          if bad:
-              print("Disallowed files were changed:", file=sys.stderr)
-              for f in bad:
-                  print(f"- {f}", file=sys.stderr)
-              raise SystemExit(1)
+              targets.append({
+                  "news_file": f,
+                  "news_date": f"{yyyy}-{mm}-{dd}",
+                  "output_csv": f"{out_dir}/{ymd}.csv",
+                  "output_log_md": f"{out_dir}/{ymd}.md"
+              })
 
-          if not csvs:
-              raise SystemExit("No IOC CSV file was changed.")
+          print("has_files=true")
 
-          print("PR file check passed.")
+          print("targets_json<<__JSON__")
+          print(json.dumps(targets, ensure_ascii=False, indent=2))
+          print("__JSON__")
           PY
 
-      - name: Enable auto-merge
+      - name: Trigger Claude Code Cloud Routine
+        if: steps.detect.outputs.has_files == 'true'
+        shell: bash
         env:
-          GH_TOKEN: ${{ github.token }}
-          REPO: ${{ github.repository }}
-          PR_NUMBER: ${{ github.event.pull_request.number }}
+          ROUTINE_FIRE_URL: ${{ secrets.CLAUDE_IOC_ROUTINE_FIRE_URL }}
+          ROUTINE_FIRE_TOKEN: ${{ secrets.CLAUDE_IOC_ROUTINE_FIRE_TOKEN }}
+          TARGETS_JSON: ${{ steps.detect.outputs.targets_json }}
         run: |
-          gh pr merge "$PR_NUMBER" \
-            --repo "$REPO" \
-            --squash \
-            --auto \
-            --delete-branch
+          set -euo pipefail
+
+          BODY="$(jq -n \
+            --arg repository "${GITHUB_REPOSITORY}" \
+            --arg branch "${GITHUB_REF_NAME}" \
+            --arg trigger_sha "${GITHUB_SHA}" \
+            --arg run_id "${GITHUB_RUN_ID}" \
+            --arg targets_json "${TARGETS_JSON}" \
+            '{
+              text: (
+                "GitHub Actions triggered Claude Code Cloud IOC collection.\n\n" +
+                "Repository: " + $repository + "\n" +
+                "Branch: " + $branch + "\n" +
+                "Trigger SHA: " + $trigger_sha + "\n" +
+                "GitHub Actions run ID: " + $run_id + "\n\n" +
+                "Process only the following targets.\n\n" +
+                "```json\n" +
+                $targets_json +
+                "\n```\n\n" +
+                "Use the saved Routine instructions. Create the IOC CSV and work log. Validate the CSV. If validation succeeds, commit and push directly to main. Do not create a pull request."
+              )
+            }')"
+
+          curl -sS -f -X POST "$ROUTINE_FIRE_URL" \
+            -H "Authorization: Bearer $ROUTINE_FIRE_TOKEN" \
+            -H "anthropic-version: 2023-06-01" \
+            -H "anthropic-beta: experimental-cc-routine-2026-04-01" \
+            -H "Content-Type: application/json" \
+            -d "$BODY" \
+            | tee /tmp/claude_routine_response.json
+
+          SESSION_URL="$(jq -r '.claude_code_session_url // empty' /tmp/claude_routine_response.json)"
+          SESSION_ID="$(jq -r '.claude_code_session_id // empty' /tmp/claude_routine_response.json)"
+
+          {
+            echo "### Claude Code Cloud Routine triggered"
+            echo
+            echo "- Session ID: ${SESSION_ID}"
+            echo "- Session URL: ${SESSION_URL}"
+            echo
+            echo "Targets:"
+            echo
+            echo '```json'
+            printf '%s\n' "$TARGETS_JSON"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
