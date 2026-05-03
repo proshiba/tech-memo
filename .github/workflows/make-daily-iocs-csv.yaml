@@ -1,160 +1,368 @@
-name: Trigger Claude IOC Routine
+name: Validate IOC CSV
 
 on:
-  push:
+  pull_request:
     branches:
       - main
-    paths:
-      - "daily-news/news/**/*.md"
-
-  workflow_dispatch:
-    inputs:
-      news_file:
-        description: "対象ニュースMD。例: daily-news/news/2026_04-06/20260406.md"
-        required: true
-        type: string
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review
 
 permissions:
   contents: read
-
-concurrency:
-  group: trigger-claude-ioc-routine-${{ github.ref }}
-  cancel-in-progress: false
+  pull-requests: read
 
 jobs:
-  trigger-routine:
+  validate-ioc-csv:
+    name: validate-ioc-csv
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout PR
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
-      - name: Detect newly added news files
-        id: detect
-        shell: bash
+      - name: List changed IOC CSV files
         env:
-          EVENT_NAME: ${{ github.event_name }}
-          MANUAL_NEWS_FILE: ${{ github.event.inputs.news_file }}
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          REPO: ${{ github.repository }}
+        shell: bash
         run: |
           set -euo pipefail
 
-          : > /tmp/candidate_news_files.txt
+          gh api --paginate \
+            "repos/$REPO/pulls/$PR_NUMBER/files" \
+            --jq '.[] | [.filename, .status] | @tsv' \
+            > /tmp/pr_files.tsv
 
-          if [[ "$EVENT_NAME" == "workflow_dispatch" ]]; then
-            if [[ ! -f "$MANUAL_NEWS_FILE" ]]; then
-              echo "Manual input file does not exist: $MANUAL_NEWS_FILE" >&2
-              exit 1
-            fi
+          echo "Changed PR files:"
+          cat /tmp/pr_files.tsv
 
-            printf '%s\n' "$MANUAL_NEWS_FILE" > /tmp/candidate_news_files.txt
-          else
-            BASE="${{ github.event.before }}"
-            HEAD="${{ github.sha }}"
+          awk -F '\t' '
+            $1 ~ /^daily-news\/iocs\/[0-9]{4}_[0-9]{2}-[0-9]{2}\/[0-9]{8}\.csv$/ {
+              print $0
+            }
+          ' /tmp/pr_files.tsv > /tmp/ioc_csv_files.tsv || true
 
-            if [[ "$BASE" =~ ^0+$ ]]; then
-              git diff-tree --no-commit-id --name-only --diff-filter=A -r "$HEAD" > /tmp/changed_files.txt
-            else
-              git diff --name-only --diff-filter=A "$BASE" "$HEAD" > /tmp/changed_files.txt
-            fi
+          echo "Changed IOC CSV files:"
+          cat /tmp/ioc_csv_files.tsv || true
 
-            grep -E '^daily-news/news/[0-9]{4}_[0-9]{2}-[0-9]{2}/[0-9]{8}\.md$' /tmp/changed_files.txt > /tmp/candidate_news_files.txt || true
-          fi
-
-          if [[ ! -s /tmp/candidate_news_files.txt ]]; then
-            echo "has_files=false" >> "$GITHUB_OUTPUT"
-            echo "No newly added daily-news/news/YYYY_MM-MM/YYYYMMDD.md files."
-            exit 0
-          fi
-
-          python3 <<'PY' >> "$GITHUB_OUTPUT"
-          import json
+      - name: Validate IOC CSV files
+        shell: bash
+        run: |
+          python3 <<'PY'
+          import csv
+          import ipaddress
           import pathlib
           import re
+          import sys
+          from urllib.parse import urlsplit
 
-          files = [
-              line.strip()
-              for line in pathlib.Path("/tmp/candidate_news_files.txt").read_text().splitlines()
-              if line.strip()
+          csv_list_path = pathlib.Path("/tmp/ioc_csv_files.tsv")
+
+          if not csv_list_path.exists():
+              print("No IOC CSV file list found.")
+              sys.exit(1)
+
+          entries = []
+          for line in csv_list_path.read_text(encoding="utf-8").splitlines():
+              if not line.strip():
+                  continue
+              parts = line.split("\t")
+              if len(parts) != 2:
+                  print(f"Invalid file list entry: {line}", file=sys.stderr)
+                  sys.exit(1)
+              filename, status = parts
+              entries.append((pathlib.Path(filename), status))
+
+          # This workflow is required for all PRs.
+          # Non-IOC PRs should pass without blocking manual workflows.
+          if not entries:
+              print("No changed IOC CSV files. Passing.")
+              sys.exit(0)
+
+          expected_header = [
+              "ioc_type",
+              "ioc_value",
+              "date",
+              "category",
+              "actor",
+              "actor_attribute",
+              "malware",
+              "malware_type",
+              "reference",
+              "description",
+              "author",
+              "confidence",
           ]
 
-          targets = []
+          allowed_types = {
+              "ip",
+              "domain",
+              "url",
+              "file_hash_md5",
+              "file_hash_sha1",
+              "file_hash_sha256",
+          }
 
-          for f in files:
-              m = re.fullmatch(r"daily-news/news/(\d{4}_\d{2}-\d{2})/(\d{8})\.md", f)
-              if not m:
-                  raise SystemExit(f"Unexpected news file path: {f}")
+          allowed_categories = {
+              "c2",
+              "srcip",
+              "phishing-site",
+              "malware",
+              "tool",
+              "abusefile",
+              "related-file",
+              "unknown",
+          }
 
-              period, ymd = m.groups()
-              yyyy, mm, dd = ymd[:4], ymd[4:6], ymd[6:8]
-              out_dir = f"daily-news/iocs/{period}"
+          known_noise_domains = {
+              "google.com",
+              "microsoft.com",
+              "github.com",
+              "npmjs.com",
+              "t.me",
+              "telegram.org",
+          }
 
-              targets.append({
-                  "news_file": f,
-                  "news_date": f"{yyyy}-{mm}-{dd}",
-                  "output_csv": f"{out_dir}/{ymd}.csv",
-                  "output_log_md": f"{out_dir}/{ymd}.md"
-              })
+          known_noise_ips = {
+              "1.1.1.1",
+              "8.8.8.8",
+              "8.8.4.4",
+              "127.0.0.1",
+              "0.0.0.0",
+          }
 
-          print("has_files=true")
+          documentation_networks = [
+              ipaddress.ip_network("192.0.2.0/24"),
+              ipaddress.ip_network("198.51.100.0/24"),
+              ipaddress.ip_network("203.0.113.0/24"),
+              ipaddress.ip_network("2001:db8::/32"),
+          ]
 
-          print("targets_json<<__JSON__")
-          print(json.dumps(targets, ensure_ascii=False, indent=2))
-          print("__JSON__")
+          domain_re = re.compile(
+              r"^(?=.{1,253}$)(?!-)(?:[A-Za-z0-9-]{1,63}\.)+[A-Za-z]{2,63}\.?$"
+          )
+
+          hash_patterns = {
+              "file_hash_md5": re.compile(r"^[A-Fa-f0-9]{32}$"),
+              "file_hash_sha1": re.compile(r"^[A-Fa-f0-9]{40}$"),
+              "file_hash_sha256": re.compile(r"^[A-Fa-f0-9]{64}$"),
+          }
+
+          errors = []
+
+          def add_error(path: pathlib.Path, line_no: int | None, message: str) -> None:
+              if line_no is None:
+                  errors.append(f"{path}: {message}")
+              else:
+                  errors.append(f"{path}:{line_no}: {message}")
+
+          def has_defang_artifact(value: str) -> bool:
+              lowered = value.lower()
+              artifacts = ["hxxp://", "hxxps://", "[.]", "(.)", "[:]", "hxxp", "hxxps"]
+              return any(a in lowered for a in artifacts)
+
+          def validate_ip(path: pathlib.Path, line_no: int, value: str) -> None:
+              try:
+                  ip = ipaddress.ip_address(value)
+              except ValueError:
+                  add_error(path, line_no, f"invalid ip value: {value}")
+                  return
+
+              if value in known_noise_ips:
+                  add_error(path, line_no, f"known noise IP should be excluded: {value}")
+
+              if (
+                  ip.is_private
+                  or ip.is_loopback
+                  or ip.is_link_local
+                  or ip.is_multicast
+                  or ip.is_unspecified
+                  or ip.is_reserved
+              ):
+                  add_error(path, line_no, f"non-public or reserved IP should be excluded: {value}")
+
+              for net in documentation_networks:
+                  if ip in net:
+                      add_error(path, line_no, f"documentation IP should be excluded: {value}")
+
+          def validate_domain(path: pathlib.Path, line_no: int, value: str) -> None:
+              if "://" in value or "/" in value or ":" in value or "@" in value:
+                  add_error(path, line_no, f"domain must be hostname only, not URL-like value: {value}")
+
+              normalized = value.rstrip(".").lower()
+
+              if normalized in known_noise_domains:
+                  add_error(path, line_no, f"generic legitimate service domain should be excluded unless represented as a specific URL IOC: {value}")
+
+              if not domain_re.fullmatch(value):
+                  add_error(path, line_no, f"invalid domain format: {value}")
+
+          def validate_url(path: pathlib.Path, line_no: int, value: str) -> None:
+              parsed = urlsplit(value)
+
+              if not parsed.scheme or not parsed.netloc:
+                  add_error(path, line_no, f"URL must include scheme and host: {value}")
+                  return
+
+              if parsed.scheme.lower() not in {"http", "https", "ftp"}:
+                  add_error(path, line_no, f"unexpected URL scheme: {parsed.scheme}")
+
+              if parsed.netloc.lower() in known_noise_domains and not parsed.path.strip("/"):
+                  add_error(path, line_no, f"generic legitimate service top-level URL should be excluded: {value}")
+
+          def validate_hash(path: pathlib.Path, line_no: int, ioc_type: str, value: str) -> None:
+              pattern = hash_patterns[ioc_type]
+              if not pattern.fullmatch(value):
+                  add_error(path, line_no, f"invalid {ioc_type} value: {value}")
+
+          for path, status in entries:
+              if status == "removed":
+                  add_error(path, None, "IOC CSV file was removed")
+                  continue
+
+              if not path.exists():
+                  add_error(path, None, "file does not exist in checked out PR")
+                  continue
+
+              raw = path.read_bytes()
+
+              if raw.startswith(b"\xef\xbb\xbf"):
+                  add_error(path, None, "CSV must be UTF-8 without BOM")
+
+              if b"\r" in raw:
+                  add_error(path, None, "CSV must use LF newlines only, not CRLF or CR")
+
+              try:
+                  text = raw.decode("utf-8")
+              except UnicodeDecodeError:
+                  add_error(path, None, "CSV is not valid UTF-8")
+                  continue
+
+              try:
+                  with path.open("r", encoding="utf-8", newline="") as f:
+                      reader = csv.reader(f)
+                      rows = list(reader)
+              except csv.Error as e:
+                  add_error(path, None, f"CSV parse error: {e}")
+                  continue
+
+              if not rows:
+                  add_error(path, None, "CSV is empty; header row is required")
+                  continue
+
+              header = rows[0]
+
+              if header != expected_header:
+                  add_error(path, 1, f"invalid header: {header}")
+                  continue
+
+              seen = set()
+
+              for index, row in enumerate(rows[1:], start=2):
+                  if not row or all(not cell.strip() for cell in row):
+                      add_error(path, index, "empty row is not allowed")
+                      continue
+
+                  if len(row) != len(expected_header):
+                      add_error(
+                          path,
+                          index,
+                          f"invalid column count: got {len(row)}, expected {len(expected_header)}. "
+                          "This is often caused by an unquoted comma, newline, or quote."
+                      )
+                      continue
+
+                  record = dict(zip(expected_header, row))
+
+                  ioc_type = record["ioc_type"].strip()
+                  ioc_value = record["ioc_value"].strip()
+                  date = record["date"].strip()
+                  category = record["category"].strip()
+                  actor = record["actor"].strip()
+                  actor_attribute = record["actor_attribute"].strip()
+                  malware = record["malware"].strip()
+                  malware_type = record["malware_type"].strip()
+                  reference = record["reference"].strip()
+                  description = record["description"].strip()
+                  author = record["author"].strip()
+                  confidence = record["confidence"].strip()
+
+                  # Reject leading/trailing spaces in all fields.
+                  for field_name, value in record.items():
+                      if value != value.strip():
+                          add_error(path, index, f"{field_name} has leading or trailing whitespace")
+
+                  required_non_empty = {
+                      "ioc_type": ioc_type,
+                      "ioc_value": ioc_value,
+                      "date": date,
+                      "category": category,
+                      "actor": actor,
+                      "actor_attribute": actor_attribute,
+                      "malware": malware,
+                      "malware_type": malware_type,
+                      "reference": reference,
+                      "description": description,
+                      "author": author,
+                      "confidence": confidence,
+                  }
+
+                  for field_name, value in required_non_empty.items():
+                      if not value:
+                          add_error(path, index, f"{field_name} must not be empty")
+
+                  if ioc_type not in allowed_types:
+                      add_error(path, index, f"invalid ioc_type: {ioc_type}")
+
+                  if category not in allowed_categories:
+                      add_error(path, index, f"invalid category: {category}")
+
+                  if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", date):
+                      add_error(path, index, f"invalid date format: {date}")
+
+                  if description and not description.startswith("AI generated."):
+                      add_error(path, index, "description must start with 'AI generated.'")
+
+                  if author != "AI agent":
+                      add_error(path, index, "author must be 'AI agent'")
+
+                  if confidence != "medium":
+                      add_error(path, index, "confidence must be 'medium'")
+
+                  if ioc_value and has_defang_artifact(ioc_value):
+                      add_error(path, index, f"ioc_value still contains defanged artifact: {ioc_value}")
+
+                  if reference and has_defang_artifact(reference):
+                      add_error(path, index, f"reference still contains defanged artifact: {reference}")
+
+                  if reference:
+                      ref = urlsplit(reference)
+                      if not ref.scheme or not ref.netloc:
+                          add_error(path, index, f"reference must be a URL: {reference}")
+
+                  if ioc_type == "ip" and ioc_value:
+                      validate_ip(path, index, ioc_value)
+                  elif ioc_type == "domain" and ioc_value:
+                      validate_domain(path, index, ioc_value)
+                  elif ioc_type == "url" and ioc_value:
+                      validate_url(path, index, ioc_value)
+                  elif ioc_type in hash_patterns and ioc_value:
+                      validate_hash(path, index, ioc_type, ioc_value)
+
+                  key = (ioc_type, ioc_value, reference)
+                  if key in seen:
+                      add_error(path, index, f"duplicated IOC/reference: {key}")
+                  seen.add(key)
+
+          if errors:
+              print("IOC CSV validation failed:", file=sys.stderr)
+              for error in errors:
+                  print(f"- {error}", file=sys.stderr)
+              sys.exit(1)
+
+          print("IOC CSV validation passed.")
           PY
-
-      - name: Trigger Claude Code Cloud Routine
-        if: steps.detect.outputs.has_files == 'true'
-        shell: bash
-        env:
-          ROUTINE_FIRE_URL: ${{ secrets.CLAUDE_IOC_ROUTINE_FIRE_URL }}
-          ROUTINE_FIRE_TOKEN: ${{ secrets.CLAUDE_IOC_ROUTINE_FIRE_TOKEN }}
-          TARGETS_JSON: ${{ steps.detect.outputs.targets_json }}
-        run: |
-          set -euo pipefail
-
-          BODY="$(jq -n \
-            --arg repository "${GITHUB_REPOSITORY}" \
-            --arg branch "${GITHUB_REF_NAME}" \
-            --arg trigger_sha "${GITHUB_SHA}" \
-            --arg run_id "${GITHUB_RUN_ID}" \
-            --arg targets_json "${TARGETS_JSON}" \
-            '{
-              text: (
-                "GitHub Actions triggered Claude Code Cloud IOC collection.\n\n" +
-                "Repository: " + $repository + "\n" +
-                "Branch: " + $branch + "\n" +
-                "Trigger SHA: " + $trigger_sha + "\n" +
-                "GitHub Actions run ID: " + $run_id + "\n\n" +
-                "Process only the following targets.\n\n" +
-                "```json\n" +
-                $targets_json +
-                "\n```\n\n" +
-                "Use the saved Routine instructions. Create the IOC CSV and work log. Validate the CSV. If validation succeeds, commit and push directly to main. Do not create a pull request."
-              )
-            }')"
-
-          curl -sS -f -X POST "$ROUTINE_FIRE_URL" \
-            -H "Authorization: Bearer $ROUTINE_FIRE_TOKEN" \
-            -H "anthropic-version: 2023-06-01" \
-            -H "anthropic-beta: experimental-cc-routine-2026-04-01" \
-            -H "Content-Type: application/json" \
-            -d "$BODY" \
-            | tee /tmp/claude_routine_response.json
-
-          SESSION_URL="$(jq -r '.claude_code_session_url // empty' /tmp/claude_routine_response.json)"
-          SESSION_ID="$(jq -r '.claude_code_session_id // empty' /tmp/claude_routine_response.json)"
-
-          {
-            echo "### Claude Code Cloud Routine triggered"
-            echo
-            echo "- Session ID: ${SESSION_ID}"
-            echo "- Session URL: ${SESSION_URL}"
-            echo
-            echo "Targets:"
-            echo
-            echo '```json'
-            printf '%s\n' "$TARGETS_JSON"
-            echo '```'
-          } >> "$GITHUB_STEP_SUMMARY"
