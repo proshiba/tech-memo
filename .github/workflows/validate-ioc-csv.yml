@@ -4,6 +4,11 @@ on:
   pull_request:
     branches:
       - main
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review
 
 permissions:
   contents: read
@@ -27,42 +32,55 @@ jobs:
         run: |
           set -euo pipefail
 
-          gh pr diff "$PR_NUMBER" \
-            --repo "$REPO" \
-            --name-only > /tmp/changed_files.txt
+          gh api --paginate \
+            "repos/$REPO/pulls/$PR_NUMBER/files" \
+            --jq '.[] | [.filename, .status] | @tsv' \
+            > /tmp/pr_files.tsv
 
-          grep -E '^daily-news/iocs/[0-9]{4}_[0-9]{2}-[0-9]{2}/[0-9]{8}\.csv$' \
-            /tmp/changed_files.txt > /tmp/ioc_csv_files.txt || true
+          echo "Changed PR files:"
+          cat /tmp/pr_files.tsv
 
-          echo "Changed files:"
-          cat /tmp/changed_files.txt
+          awk -F '\t' '
+            $1 ~ /^daily-news\/iocs\/[0-9]{4}_[0-9]{2}-[0-9]{2}\/[0-9]{8}\.csv$/ {
+              print $0
+            }
+          ' /tmp/pr_files.tsv > /tmp/ioc_csv_files.tsv || true
 
           echo "Changed IOC CSV files:"
-          cat /tmp/ioc_csv_files.txt || true
+          cat /tmp/ioc_csv_files.tsv || true
 
       - name: Validate IOC CSV files
         shell: bash
         run: |
           python3 <<'PY'
           import csv
+          import ipaddress
           import pathlib
           import re
           import sys
+          from urllib.parse import urlsplit
 
-          csv_list_path = pathlib.Path("/tmp/ioc_csv_files.txt")
+          csv_list_path = pathlib.Path("/tmp/ioc_csv_files.tsv")
 
           if not csv_list_path.exists():
               print("No IOC CSV file list found.")
               sys.exit(1)
 
-          csv_files = [
-              pathlib.Path(line.strip())
-              for line in csv_list_path.read_text().splitlines()
-              if line.strip()
-          ]
+          entries = []
+          for line in csv_list_path.read_text(encoding="utf-8").splitlines():
+              if not line.strip():
+                  continue
+              parts = line.split("\t")
+              if len(parts) != 2:
+                  print(f"Invalid file list entry: {line}", file=sys.stderr)
+                  sys.exit(1)
+              filename, status = parts
+              entries.append((pathlib.Path(filename), status))
 
-          if not csv_files:
-              print("No IOC CSV files changed. Passing.")
+          # This workflow is required for all PRs.
+          # Non-IOC PRs should pass without blocking manual workflows.
+          if not entries:
+              print("No changed IOC CSV files. Passing.")
               sys.exit(0)
 
           expected_header = [
@@ -100,67 +118,250 @@ jobs:
               "unknown",
           }
 
+          known_noise_domains = {
+              "google.com",
+              "microsoft.com",
+              "github.com",
+              "npmjs.com",
+              "t.me",
+              "telegram.org",
+          }
+
+          known_noise_ips = {
+              "1.1.1.1",
+              "8.8.8.8",
+              "8.8.4.4",
+              "127.0.0.1",
+              "0.0.0.0",
+          }
+
+          documentation_networks = [
+              ipaddress.ip_network("192.0.2.0/24"),
+              ipaddress.ip_network("198.51.100.0/24"),
+              ipaddress.ip_network("203.0.113.0/24"),
+              ipaddress.ip_network("2001:db8::/32"),
+          ]
+
+          domain_re = re.compile(
+              r"^(?=.{1,253}$)(?!-)(?:[A-Za-z0-9-]{1,63}\.)+[A-Za-z]{2,63}\.?$"
+          )
+
+          hash_patterns = {
+              "file_hash_md5": re.compile(r"^[A-Fa-f0-9]{32}$"),
+              "file_hash_sha1": re.compile(r"^[A-Fa-f0-9]{40}$"),
+              "file_hash_sha256": re.compile(r"^[A-Fa-f0-9]{64}$"),
+          }
+
           errors = []
 
-          for path in csv_files:
+          def add_error(path: pathlib.Path, line_no: int | None, message: str) -> None:
+              if line_no is None:
+                  errors.append(f"{path}: {message}")
+              else:
+                  errors.append(f"{path}:{line_no}: {message}")
+
+          def has_defang_artifact(value: str) -> bool:
+              lowered = value.lower()
+              artifacts = ["hxxp://", "hxxps://", "[.]", "(.)", "[:]", "hxxp", "hxxps"]
+              return any(a in lowered for a in artifacts)
+
+          def validate_ip(path: pathlib.Path, line_no: int, value: str) -> None:
+              try:
+                  ip = ipaddress.ip_address(value)
+              except ValueError:
+                  add_error(path, line_no, f"invalid ip value: {value}")
+                  return
+
+              if value in known_noise_ips:
+                  add_error(path, line_no, f"known noise IP should be excluded: {value}")
+
+              if (
+                  ip.is_private
+                  or ip.is_loopback
+                  or ip.is_link_local
+                  or ip.is_multicast
+                  or ip.is_unspecified
+                  or ip.is_reserved
+              ):
+                  add_error(path, line_no, f"non-public or reserved IP should be excluded: {value}")
+
+              for net in documentation_networks:
+                  if ip in net:
+                      add_error(path, line_no, f"documentation IP should be excluded: {value}")
+
+          def validate_domain(path: pathlib.Path, line_no: int, value: str) -> None:
+              if "://" in value or "/" in value or ":" in value or "@" in value:
+                  add_error(path, line_no, f"domain must be hostname only, not URL-like value: {value}")
+
+              normalized = value.rstrip(".").lower()
+
+              if normalized in known_noise_domains:
+                  add_error(path, line_no, f"generic legitimate service domain should be excluded unless represented as a specific URL IOC: {value}")
+
+              if not domain_re.fullmatch(value):
+                  add_error(path, line_no, f"invalid domain format: {value}")
+
+          def validate_url(path: pathlib.Path, line_no: int, value: str) -> None:
+              parsed = urlsplit(value)
+
+              if not parsed.scheme or not parsed.netloc:
+                  add_error(path, line_no, f"URL must include scheme and host: {value}")
+                  return
+
+              if parsed.scheme.lower() not in {"http", "https", "ftp"}:
+                  add_error(path, line_no, f"unexpected URL scheme: {parsed.scheme}")
+
+              if parsed.netloc.lower() in known_noise_domains and not parsed.path.strip("/"):
+                  add_error(path, line_no, f"generic legitimate service top-level URL should be excluded: {value}")
+
+          def validate_hash(path: pathlib.Path, line_no: int, ioc_type: str, value: str) -> None:
+              pattern = hash_patterns[ioc_type]
+              if not pattern.fullmatch(value):
+                  add_error(path, line_no, f"invalid {ioc_type} value: {value}")
+
+          for path, status in entries:
+              if status == "removed":
+                  add_error(path, None, "IOC CSV file was removed")
+                  continue
+
               if not path.exists():
-                  errors.append(f"{path}: file does not exist")
+                  add_error(path, None, "file does not exist in checked out PR")
+                  continue
+
+              raw = path.read_bytes()
+
+              if raw.startswith(b"\xef\xbb\xbf"):
+                  add_error(path, None, "CSV must be UTF-8 without BOM")
+
+              if b"\r" in raw:
+                  add_error(path, None, "CSV must use LF newlines only, not CRLF or CR")
+
+              try:
+                  text = raw.decode("utf-8")
+              except UnicodeDecodeError:
+                  add_error(path, None, "CSV is not valid UTF-8")
                   continue
 
               try:
                   with path.open("r", encoding="utf-8", newline="") as f:
-                      reader = csv.DictReader(f)
-
-                      if reader.fieldnames != expected_header:
-                          errors.append(f"{path}: invalid header: {reader.fieldnames}")
-                          continue
-
-                      seen = set()
-
-                      for line_no, row in enumerate(reader, start=2):
-                          ioc_type = row.get("ioc_type", "")
-                          ioc_value = row.get("ioc_value", "")
-                          date = row.get("date", "")
-                          category = row.get("category", "")
-                          description = row.get("description", "")
-                          author = row.get("author", "")
-                          confidence = row.get("confidence", "")
-                          reference = row.get("reference", "")
-
-                          if not ioc_value.strip():
-                              errors.append(f"{path}:{line_no}: empty ioc_value")
-
-                          if ioc_type not in allowed_types:
-                              errors.append(f"{path}:{line_no}: invalid ioc_type={ioc_type}")
-
-                          if category not in allowed_categories:
-                              errors.append(f"{path}:{line_no}: invalid category={category}")
-
-                          if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", date):
-                              errors.append(f"{path}:{line_no}: invalid date={date}")
-
-                          if not description.startswith("AI generated."):
-                              errors.append(f"{path}:{line_no}: description must start with 'AI generated.'")
-
-                          if author != "AI agent":
-                              errors.append(f"{path}:{line_no}: author must be 'AI agent'")
-
-                          if confidence != "medium":
-                              errors.append(f"{path}:{line_no}: confidence must be 'medium'")
-
-                          key = (ioc_type, ioc_value, reference)
-                          if key in seen:
-                              errors.append(f"{path}:{line_no}: duplicated IOC/reference: {key}")
-
-                          seen.add(key)
-
-              except UnicodeDecodeError:
-                  errors.append(f"{path}: not valid UTF-8")
+                      reader = csv.reader(f)
+                      rows = list(reader)
               except csv.Error as e:
-                  errors.append(f"{path}: CSV parse error: {e}")
+                  add_error(path, None, f"CSV parse error: {e}")
+                  continue
+
+              if not rows:
+                  add_error(path, None, "CSV is empty; header row is required")
+                  continue
+
+              header = rows[0]
+
+              if header != expected_header:
+                  add_error(path, 1, f"invalid header: {header}")
+                  continue
+
+              seen = set()
+
+              for index, row in enumerate(rows[1:], start=2):
+                  if not row or all(not cell.strip() for cell in row):
+                      add_error(path, index, "empty row is not allowed")
+                      continue
+
+                  if len(row) != len(expected_header):
+                      add_error(
+                          path,
+                          index,
+                          f"invalid column count: got {len(row)}, expected {len(expected_header)}. "
+                          "This is often caused by an unquoted comma, newline, or quote."
+                      )
+                      continue
+
+                  record = dict(zip(expected_header, row))
+
+                  ioc_type = record["ioc_type"].strip()
+                  ioc_value = record["ioc_value"].strip()
+                  date = record["date"].strip()
+                  category = record["category"].strip()
+                  actor = record["actor"].strip()
+                  actor_attribute = record["actor_attribute"].strip()
+                  malware = record["malware"].strip()
+                  malware_type = record["malware_type"].strip()
+                  reference = record["reference"].strip()
+                  description = record["description"].strip()
+                  author = record["author"].strip()
+                  confidence = record["confidence"].strip()
+
+                  # Reject leading/trailing spaces in all fields.
+                  for field_name, value in record.items():
+                      if value != value.strip():
+                          add_error(path, index, f"{field_name} has leading or trailing whitespace")
+
+                  required_non_empty = {
+                      "ioc_type": ioc_type,
+                      "ioc_value": ioc_value,
+                      "date": date,
+                      "category": category,
+                      "actor": actor,
+                      "actor_attribute": actor_attribute,
+                      "malware": malware,
+                      "malware_type": malware_type,
+                      "reference": reference,
+                      "description": description,
+                      "author": author,
+                      "confidence": confidence,
+                  }
+
+                  for field_name, value in required_non_empty.items():
+                      if not value:
+                          add_error(path, index, f"{field_name} must not be empty")
+
+                  if ioc_type not in allowed_types:
+                      add_error(path, index, f"invalid ioc_type: {ioc_type}")
+
+                  if category not in allowed_categories:
+                      add_error(path, index, f"invalid category: {category}")
+
+                  if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", date):
+                      add_error(path, index, f"invalid date format: {date}")
+
+                  if description and not description.startswith("AI generated."):
+                      add_error(path, index, "description must start with 'AI generated.'")
+
+                  if author != "AI agent":
+                      add_error(path, index, "author must be 'AI agent'")
+
+                  if confidence != "medium":
+                      add_error(path, index, "confidence must be 'medium'")
+
+                  if ioc_value and has_defang_artifact(ioc_value):
+                      add_error(path, index, f"ioc_value still contains defanged artifact: {ioc_value}")
+
+                  if reference and has_defang_artifact(reference):
+                      add_error(path, index, f"reference still contains defanged artifact: {reference}")
+
+                  if reference:
+                      ref = urlsplit(reference)
+                      if not ref.scheme or not ref.netloc:
+                          add_error(path, index, f"reference must be a URL: {reference}")
+
+                  if ioc_type == "ip" and ioc_value:
+                      validate_ip(path, index, ioc_value)
+                  elif ioc_type == "domain" and ioc_value:
+                      validate_domain(path, index, ioc_value)
+                  elif ioc_type == "url" and ioc_value:
+                      validate_url(path, index, ioc_value)
+                  elif ioc_type in hash_patterns and ioc_value:
+                      validate_hash(path, index, ioc_type, ioc_value)
+
+                  key = (ioc_type, ioc_value, reference)
+                  if key in seen:
+                      add_error(path, index, f"duplicated IOC/reference: {key}")
+                  seen.add(key)
 
           if errors:
-              print("\n".join(errors), file=sys.stderr)
+              print("IOC CSV validation failed:", file=sys.stderr)
+              for error in errors:
+                  print(f"- {error}", file=sys.stderr)
               sys.exit(1)
 
           print("IOC CSV validation passed.")
