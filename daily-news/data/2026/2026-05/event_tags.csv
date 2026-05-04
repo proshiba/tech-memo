@@ -1,0 +1,62 @@
+event_key,dimension,raw_value,normalized_value,confidence,note
+2026-05_aomori_prefecture_ehr_insider,initial_access,insider_abuse,insider_abuse,high,Hospital employee abused internal EHR access to obtain acquaintance's medical data
+2026-05_aomori_prefecture_ehr_insider,product_class,cloud_service,cloud_service,medium,Electronic health records system accessed
+2026-05_asahiseiki_defacement,attack_method,seo_spam_redirect,seo_spam_redirect,low,"Website defacement showing unrelated pages, possible SEO spam/redirect technique"
+2026-05_bluekit_phishing_service,attack_method,credential_theft,credential_theft,high,Bluekit designed to steal credentials via phishing
+2026-05_bluekit_phishing_service,crime_trend,phishing_kit_ecosystem,phishing_kit_ecosystem,high,Bluekit is a PhaaS with 40+ templates and AI assistant
+2026-05_cpanel_whm_cve_2026_41940_zeroday,attack_method,authentication_bypass,authentication_bypass,high,CRLF injection and improper session handling bypass authentication
+2026-05_cpanel_whm_cve_2026_41940_zeroday,initial_access,exploit_public_facing_app,exploit_public_facing_app,high,Internet-facing cPanel/WHM exploited pre-patch
+2026-05_cpanel_whm_cve_2026_41940_zeroday,product,cPanel,cpanel,high,CVE-2026-41940 in cPanel and WHM
+2026-05_cpanel_whm_cve_2026_41940_zeroday,product,WHM,whm,high,WHM affected by CVE-2026-41940
+2026-05_cpanel_whm_cve_2026_41940_zeroday,product_class,web_server,web_server,high,cPanel/WHM web hosting control panel exploited
+2026-05_crypto_scam_takedown_dubai,crime_trend,crypto_theft,crypto_theft,high,Crypto funds stolen via fake investment platforms
+2026-05_crypto_scam_takedown_dubai,crime_trend,investment_scam,investment_scam,high,Pig butchering crypto investment scam centers dismantled
+2026-05_deepdoor_python_backdoor,attack_method,backdoor,backdoor,high,Deep#Door provides persistent backdoor access
+2026-05_deepdoor_python_backdoor,attack_method,c2_communication,c2_communication,high,bore.pub TCP tunneling used for C2 without exposing dedicated server
+2026-05_deepdoor_python_backdoor,attack_method,credential_theft,credential_theft,high,"Browser, SSH, cloud credentials targeted"
+2026-05_deepdoor_python_backdoor,attack_method,persistence,persistence,high,Startup/Registry Run/scheduled tasks/WMI multi-layer persistence
+2026-05_deepdoor_python_backdoor,malware,Deep#Door,deepdoor,high,Source names malware Deep#Door
+2026-05_fbi_cargo_theft_cybercrime_surge,attack_method,credential_theft,credential_theft,high,Cargo broker system credentials targeted via phishing
+2026-05_fbi_cargo_theft_cybercrime_surge,initial_access,phishing,phishing,high,Phishing and fake emails used to access cargo broker systems
+2026-05_intercom_npm_supply_chain,attack_method,credential_theft,credential_theft,high,Kubernetes/Vault/cloud/GitHub credentials targeted
+2026-05_intercom_npm_supply_chain,attack_method,supply_chain_compromise,supply_chain_compromise,high,Intercom GitHub contributor account compromised; malicious package published
+2026-05_intercom_npm_supply_chain,attack_method,token_theft,token_theft,high,GitHub tokens stolen via preinstall script
+2026-05_intercom_npm_supply_chain,initial_access,supply_chain,supply_chain,high,Compromised GitHub account nhur used to publish malicious npm package
+2026-05_intercom_npm_supply_chain,malware,Mini Shai-Hulud,mini_shai_hulud,medium,Source associates attack with Mini Shai-Hulud worm
+2026-05_intercom_npm_supply_chain,product,intercom-client,intercom_client,high,intercom-client@7.0.4 compromised
+2026-05_intercom_npm_supply_chain,product_class,package_ecosystem,package_ecosystem,high,npm ecosystem targeted
+2026-05_jp_railway_chatwork_breach,crime_trend,business_email_compromise,business_email_compromise,high,Fraudulent invoices sent to business partners via compromised Chatwork
+2026-05_jp_railway_chatwork_breach,product,Chatwork,chatwork,high,Chatwork accounts compromised for BEC
+2026-05_lightning_pypi_mini_shaihulud,attack_method,credential_theft,credential_theft,high,"GitHub tokens, npm, cloud credentials targeted"
+2026-05_lightning_pypi_mini_shaihulud,attack_method,supply_chain_compromise,supply_chain_compromise,high,pl-ghost GitHub account compromised to publish malicious package
+2026-05_lightning_pypi_mini_shaihulud,attack_method,token_theft,token_theft,high,GitHub token stolen to commit malicious code and spread
+2026-05_lightning_pypi_mini_shaihulud,initial_access,supply_chain,supply_chain,high,Compromised PyPI package as initial vector
+2026-05_lightning_pypi_mini_shaihulud,malware,Mini Shai-Hulud,mini_shai_hulud,high,Source names malware as Mini Shai-Hulud
+2026-05_lightning_pypi_mini_shaihulud,product,lightning,lightning,high,PyPI package lightning 2.6.2/2.6.3 compromised
+2026-05_lightning_pypi_mini_shaihulud,product_class,package_ecosystem,package_ecosystem,high,PyPI package ecosystem targeted
+2026-05_linux_copy_fail_cve_2026_31431,attack_method,privilege_escalation,privilege_escalation,high,Unprivileged local user can gain root access
+2026-05_linux_copy_fail_cve_2026_31431,product,Linux kernel,linux_kernel,high,CVE-2026-31431 in Linux kernel authencesn template
+2026-05_linux_copy_fail_cve_2026_31431,product_class,os,os,high,Linux kernel vulnerability affecting major distributions
+2026-05_qinglong_rce_cryptominer,attack_method,authentication_bypass,authentication_bypass,high,Two auth bypass CVEs chained for RCE
+2026-05_qinglong_rce_cryptominer,attack_method,remote_code_execution,remote_code_execution,high,Chained auth bypass leads to RCE
+2026-05_qinglong_rce_cryptominer,initial_access,exploit_public_facing_app,exploit_public_facing_app,high,Public Qinglong panels exploited before patch
+2026-05_qinglong_rce_cryptominer,product,Qinglong,qinglong,high,CVE-2026-3965 and CVE-2026-4047 in Qinglong <= 2.20.1
+2026-05_qinglong_rce_cryptominer,product_class,developer_tool,developer_tool,high,Qinglong task scheduler targeting developer servers
+2026-05_ruby_gems_go_modules_malicious,attack_method,credential_theft,credential_theft,high,"SSH, AWS, npm, GitHub credentials collected"
+2026-05_ruby_gems_go_modules_malicious,attack_method,persistence,persistence,high,SSH public keys added to authorized_keys for persistence
+2026-05_ruby_gems_go_modules_malicious,attack_method,supply_chain_compromise,supply_chain_compromise,high,Malicious packages published under BufferZoneCorp GitHub account
+2026-05_ruby_gems_go_modules_malicious,initial_access,supply_chain,supply_chain,high,Malicious Ruby Gems and Go modules distributed via public registries
+2026-05_ruby_gems_go_modules_malicious,product_class,package_ecosystem,package_ecosystem,high,RubyGems and Go module ecosystems targeted
+2026-05_sap_npm_supply_chain,attack_method,credential_theft,credential_theft,high,npm/GitHub/SSH/cloud/Kubernetes credentials targeted
+2026-05_sap_npm_supply_chain,attack_method,supply_chain_compromise,supply_chain_compromise,high,Official SAP npm packages compromised with malicious preinstall script
+2026-05_sap_npm_supply_chain,attack_method,token_theft,token_theft,high,GitHub tokens stolen and data uploaded to victim repos
+2026-05_sap_npm_supply_chain,initial_access,supply_chain,supply_chain,high,Compromised official SAP npm packages as initial vector
+2026-05_sap_npm_supply_chain,product,@cap-js/postgres,cap_js_postgres,high,Official SAP package compromised
+2026-05_sap_npm_supply_chain,product,@cap-js/sqlite,cap_js_sqlite,high,Official SAP package compromised
+2026-05_sap_npm_supply_chain,product,mbt,mbt,high,Official SAP mbt npm package compromised
+2026-05_sap_npm_supply_chain,product_class,package_ecosystem,package_ecosystem,high,npm package ecosystem targeted
+2026-05_wordpress_quick_redirect_backdoor,attack_method,backdoor,backdoor,high,Hidden self-update mechanism enables arbitrary code execution
+2026-05_wordpress_quick_redirect_backdoor,attack_method,seo_spam_redirect,seo_spam_redirect,high,SEO spam functionality added via malicious update 5.2.3
+2026-05_wordpress_quick_redirect_backdoor,attack_method,supply_chain_compromise,supply_chain_compromise,high,Backdoored plugin distributed via WordPress.org update path
+2026-05_wordpress_quick_redirect_backdoor,product,Quick Page/Post Redirect,quick_page_post_redirect,high,Plugin versions 5.2.1/5.2.2 had hidden update mechanism
+2026-05_wordpress_quick_redirect_backdoor,product_class,wordpress_plugin,wordpress_plugin,high,WordPress plugin Quick Page/Post Redirect contained backdoor

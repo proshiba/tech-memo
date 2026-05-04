@@ -20,6 +20,17 @@ event_key,dimension,raw_value,normalized_value,confidence,note
 2026-04_activemq_cve_2026_34197_rce,crime_trend,not applicable,not_applicable,high,
 2026-04_activemq_cve_2026_34197_rce,initial_access,ActiveMQ Jolokia API経由のRCE,exploit_public_facing_app,high,Jolokia管理APIのaddNetworkConnector悪用
 2026-04_activemq_cve_2026_34197_rce,product,Apache ActiveMQ,apache_activemq,high,
+2026-04_adt_shinyhunters_breach,actor,ShinyHunters,shinyhunters,high,Source explicitly identifies ShinyHunters as threat actor
+2026-04_adt_shinyhunters_breach,actor_attribution,ShinyHunters,cybercrime,high,ShinyHunters is a well-known cybercrime extortion group
+2026-04_adt_shinyhunters_breach,attack_method,data_exfiltration,data_exfiltration,high,Personal information of 5.5M people exfiltrated
+2026-04_adt_shinyhunters_breach,attack_method,social_engineering,social_engineering,high,Vishing used to compromise employee Okta SSO
+2026-04_adt_shinyhunters_breach,crime_trend,data_extortion,data_extortion,high,ShinyHunters threatened to leak stolen data
+2026-04_adt_shinyhunters_breach,crime_trend,vishing,vishing,high,ShinyHunters used vishing to compromise SSO accounts
+2026-04_adt_shinyhunters_breach,initial_access,stolen_credentials,stolen_credentials,high,Vishing used to compromise Okta SSO credentials
+2026-04_adt_shinyhunters_breach,product,Okta SSO,okta_sso,high,Okta SSO accounts compromised via vishing
+2026-04_adt_shinyhunters_breach,product,Salesforce,salesforce,high,Salesforce was the source of stolen data
+2026-04_adt_shinyhunters_breach,product_class,cloud_service,cloud_service,high,Salesforce data exfiltrated
+2026-04_adt_shinyhunters_breach,product_class,identity_service,identity_service,high,Okta SSO compromised via vishing
 2026-04_agingfly_ukraine_malware,actor_attribution,不明（CERT-UAがUAC-0247として追跡・国籍不明）,unknown,medium,
 2026-04_agingfly_ukraine_malware,attack_method,c2 communication,c2_communication,high,
 2026-04_agingfly_ukraine_malware,attack_method,credential theft,credential_theft,high,
@@ -135,6 +146,8 @@ event_key,dimension,raw_value,normalized_value,confidence,note
 2026-04_breeze_cache_cve_2026_3844,initial_access,WordPress Breeze Cacheプラグインの認証不要ファイルアップロード（CVE-2026-3844）悪用,exploit_public_facing_app,high,認証なしでPHPファイルアップロードからRCEが可能
 2026-04_breeze_cache_cve_2026_3844,product,Breeze Cache,breeze_cache,high,WordPress plugin
 2026-04_breeze_cache_cve_2026_3844,product_class,Breeze Cache（WordPress用キャッシュプラグイン）,wordpress_plugin,high,Breeze CacheはCloudwaysのWordPressプラグイン
+2026-04_canada_sms_blaster_arrests,attack_method,spoofing,spoofing,high,SMS blaster device impersonates mobile base stations
+2026-04_canada_sms_blaster_arrests,crime_trend,smishing,smishing,high,Device used to send phishing SMS messages at scale
 2026-04_canis_c2_japan_surveillance,actor_attribution,不明（日本語に精通・国籍断定なし）,unknown,medium,帰属情報なし・国籍不明と明示
 2026-04_canis_c2_japan_surveillance,attack_method,credential theft,credential_theft,high,
 2026-04_canis_c2_japan_surveillance,attack_method,data exfiltration,data_exfiltration,high,
@@ -314,6 +327,13 @@ event_key,dimension,raw_value,normalized_value,confidence,note
 2026-04_dutch_finance_ministry_breach,attack_method,unknown,unknown,medium,
 2026-04_dutch_finance_ministry_breach,crime_trend,not applicable,not_applicable,high,
 2026-04_dutch_finance_ministry_breach,initial_access,侵入手法未公開,unknown,low,
+2026-04_elementary_data_pypi_supply_chain,attack_method,credential_theft,credential_theft,high,"SSH keys, cloud credentials, CI secrets targeted"
+2026-04_elementary_data_pypi_supply_chain,attack_method,supply_chain_compromise,supply_chain_compromise,high,GitHub Actions script injection exploited to compromise CI pipeline
+2026-04_elementary_data_pypi_supply_chain,attack_method,token_theft,token_theft,high,GITHUB_TOKEN exposed and abused to forge commits/tags
+2026-04_elementary_data_pypi_supply_chain,initial_access,supply_chain,supply_chain,high,Attack via GitHub Actions script injection in CI pipeline
+2026-04_elementary_data_pypi_supply_chain,product,elementary-data,elementary_data,high,PyPI package elementary-data compromised
+2026-04_elementary_data_pypi_supply_chain,product_class,ci_cd_platform,ci_cd_platform,high,GitHub Actions CI/CD pipeline exploited
+2026-04_elementary_data_pypi_supply_chain,product_class,package_ecosystem,package_ecosystem,high,PyPI package ecosystem targeted
 2026-04_essentialplugin_wp_supply_chain,actor_attribution,金銭目的のサイバー犯罪グループ（スパム配布）,cybercrime,medium,
 2026-04_essentialplugin_wp_supply_chain,attack_method,backdoor,backdoor,high,
 2026-04_essentialplugin_wp_supply_chain,attack_method,persistence,persistence,high,
@@ -399,6 +419,7 @@ event_key,dimension,raw_value,normalized_value,confidence,note
 2026-04_frostarmada_dns_hijack_m365,crime_trend,not applicable,not_applicable,high,Espionage
 2026-04_frostarmada_dns_hijack_m365,initial_access,SOHO ルーターDNS乗っ取りによる認証情報窃取（AiTM）,stolen_credentials,medium,DNSハイジャックでMicrosoft認証をAiTMプロキシ経由に変え認証情報を窃取
 2026-04_frostarmada_dns_hijack_m365,product,Microsoft 365,microsoft_365,high,
+2026-04_ftc_social_media_scam_2025,crime_trend,investment_scam,investment_scam,high,Investment scams on social media are the primary loss category
 2026-04_gentlemen_ransomware_systembc,actor_attribution,Gentlemanランサムウェア運営アフィリエイト（金銭目的のRaaS）,cybercrime,high,金銭目的RaaS運営と記事が明示
 2026-04_gentlemen_ransomware_systembc,attack_method,credential theft,credential_theft,high,
 2026-04_gentlemen_ransomware_systembc,attack_method,data exfiltration,data_exfiltration,high,
@@ -416,6 +437,11 @@ event_key,dimension,raw_value,normalized_value,confidence,note
 2026-04_gigabyte_gcc_cve_2026_4415,crime_trend,not applicable,not_applicable,high,
 2026-04_gigabyte_gcc_cve_2026_4415,initial_access,ネットワーク越しの任意ファイル書き込みによるRCE（pairing機能が有効な環境）,exploit_public_facing_app,high,
 2026-04_gigabyte_gcc_cve_2026_4415,product,Gigabyte Control Center,gigabyte_control_center,high,
+2026-04_glassworm_open_vsx_sleeper,actor,GlassWorm,glassworm,medium,Source attributes cluster to GlassWorm campaign
+2026-04_glassworm_open_vsx_sleeper,attack_method,malicious_extension,malicious_extension,high,Malicious VS Code extensions used as payload delivery
+2026-04_glassworm_open_vsx_sleeper,attack_method,supply_chain_compromise,supply_chain_compromise,high,Sleeper extensions activated for malware delivery via update path
+2026-04_glassworm_open_vsx_sleeper,initial_access,supply_chain,supply_chain,high,Malicious VS Code extensions distributed via Open VSX
+2026-04_glassworm_open_vsx_sleeper,product_class,developer_tool,developer_tool,high,VS Code extensions (developer tooling) targeted
 2026-04_glassworm_zig_ide_dropper,actor_attribution,不明（GlassWormキャンペーン運営者・国籍不明）,unknown,medium,帰属情報なし・国籍不明
 2026-04_glassworm_zig_ide_dropper,attack_method,data exfiltration,data_exfiltration,high,
 2026-04_glassworm_zig_ide_dropper,attack_method,malicious extension,malicious_extension,high,
@@ -505,6 +531,9 @@ event_key,dimension,raw_value,normalized_value,confidence,note
 2026-04_jp_malspam_poisonx_rat_0418,crime_trend,not applicable,not_applicable,high,
 2026-04_jp_malspam_poisonx_rat_0418,initial_access,Google Storage悪用のマルスパム（ZIP/LNK→PowerShell→PoisonX RAT）,malspam,medium,
 2026-04_jp_malspam_poisonx_rat_0418,malware,PoisonX RAT,poisonx_rat,high,
+2026-04_jp_malspam_tax_0429,attack_method,defense_evasion,defense_evasion,medium,DLL side-loading used to evade detection
+2026-04_jp_malspam_tax_0429,attack_method,malicious_document,malicious_document,medium,RAR archive containing EXE and DLL for side-loading
+2026-04_jp_malspam_tax_0429,initial_access,malspam,malspam,high,Tax notification themed malspam used as initial vector
 2026-04_jp_malspam_valleyrat_0425,actor_attribution,不明,unknown,low,帰属情報なし
 2026-04_jp_malspam_valleyrat_0425,attack_method,c2 communication,c2_communication,high,
 2026-04_jp_malspam_valleyrat_0425,attack_method,persistence,persistence,high,DLL sideloading
@@ -585,6 +614,10 @@ event_key,dimension,raw_value,normalized_value,confidence,note
 2026-04_mcp_sdk_structural_vuln,crime_trend,not applicable,not_applicable,high,
 2026-04_mcp_sdk_structural_vuln,product,MCP SDK,mcp_sdk,high,
 2026-04_mcp_sdk_structural_vuln,product_class,MCP SDK（Python/TypeScript/Java/Rust実装を含むAIツールエコシステム）,package_ecosystem,high,公式MCP SDKはnpm・PyPI等で配布される
+2026-04_medtronic_shinyhunters_breach,actor,ShinyHunters,shinyhunters,high,ShinyHunters explicitly named as threat actor
+2026-04_medtronic_shinyhunters_breach,actor_attribution,ShinyHunters,cybercrime,high,ShinyHunters is a cybercrime extortion group
+2026-04_medtronic_shinyhunters_breach,attack_method,data_exfiltration,data_exfiltration,high,900M+ PII records claimed to be exfiltrated
+2026-04_medtronic_shinyhunters_breach,crime_trend,data_extortion,data_extortion,high,ShinyHunters threatened public data leak on ransom deadline
 2026-04_mirai_dlink_cve_2025_29635,actor_attribution,不明（DDoSボットネット運営者）,cybercrime,medium,DDoSボットネットは金銭目的のサービス運営が一般的
 2026-04_mirai_dlink_cve_2025_29635,attack_method,command injection,command_injection,high,
 2026-04_mirai_dlink_cve_2025_29635,attack_method,remote code execution,remote_code_execution,high,
@@ -757,6 +790,10 @@ event_key,dimension,raw_value,normalized_value,confidence,note
 2026-04_rituals_data_breach,attack_method,data exfiltration,data_exfiltration,high,
 2026-04_rituals_data_breach,crime_trend,data extortion,data_extortion,medium,
 2026-04_rituals_data_breach,initial_access,不明（会員DBの不正取得手法は調査中）,unknown,low,詳細はフォレンジック調査中
+2026-04_robinhood_email_injection_phishing,attack_method,credential_theft,credential_theft,high,Phishing page aimed at stealing Robinhood credentials
+2026-04_robinhood_email_injection_phishing,attack_method,spoofing,spoofing,high,HTML injected into legitimate Robinhood email to create convincing phishing
+2026-04_robinhood_email_injection_phishing,initial_access,phishing,phishing,high,Phishing email sent via Robinhood legitimate email infrastructure
+2026-04_robinhood_email_injection_phishing,product,Robinhood,robinhood,high,Robinhood account creation flaw exploited
 2026-04_rockstar_shinyhunters_data_leak,actor,ShinyHunters,shinyhunters,high,
 2026-04_rockstar_shinyhunters_data_leak,actor_attribution,ShinyHunters恐喝グループ,cybercrime,high,ShinyHuntersが恐喝目的で侵害し流出データを公開
 2026-04_rockstar_shinyhunters_data_leak,attack_method,data exfiltration,data_exfiltration,high,
@@ -776,6 +813,10 @@ event_key,dimension,raw_value,normalized_value,confidence,note
 2026-04_sapphire_sleet_macos_intrusion,crime_trend,crypto theft,crypto_theft,high,
 2026-04_sapphire_sleet_macos_intrusion,initial_access,偽Zoom SDK更新.scptファイルのAppleScript実行誘導,phishing,high,
 2026-04_sapphire_sleet_macos_intrusion,product_class,macOS（Sapphire Sleetの標的OS）,os,high,
+2026-04_scattered_spider_bouquet_arrested,actor,Scattered Spider,scattered_spider,high,Source explicitly identifies Scattered Spider
+2026-04_scattered_spider_bouquet_arrested,actor_attribution,Scattered Spider,cybercrime,high,Scattered Spider is a financial-motivated cybercrime group
+2026-04_scattered_spider_bouquet_arrested,attack_method,social_engineering,social_engineering,high,IT helpdesk impersonation to reset credentials
+2026-04_scattered_spider_bouquet_arrested,crime_trend,vishing,vishing,high,Vishing and MFA fatigue attacks used by Scattered Spider
 2026-04_scattered_spider_buchanan_guilty,actor,Scattered Spider,scattered_spider,high,
 2026-04_scattered_spider_buchanan_guilty,actor_attribution,Scattered Spider（英語話者中心の金銭目的サイバー犯罪集団）,cybercrime,high,記事がScattered Spiderを英語話者中心の緩やかな犯罪集団と明示
 2026-04_scattered_spider_buchanan_guilty,attack_method,credential theft,credential_theft,high,
@@ -814,6 +855,13 @@ event_key,dimension,raw_value,normalized_value,confidence,note
 2026-04_signed_adware_av_killer,attack_method,persistence,persistence,high,
 2026-04_signed_adware_av_killer,crime_trend,not applicable,not_applicable,high,
 2026-04_signed_adware_av_killer,initial_access,署名付きAdwareツールの更新機構（Advanced Installer）を悪用した不正ペイロード配布,malicious_update,high,
+2026-04_silk_typhoon_xu_zewei_extradition,actor,Silk Typhoon,silk_typhoon,high,Source explicitly names Silk Typhoon (also Hafnium)
+2026-04_silk_typhoon_xu_zewei_extradition,actor_attribution,Silk Typhoon (China MSS contractor),nation_state,high,China Ministry of State Security contractor
+2026-04_silk_typhoon_xu_zewei_extradition,attack_method,backdoor,backdoor,high,Web shells deployed for persistent backdoor access
+2026-04_silk_typhoon_xu_zewei_extradition,attack_method,data_exfiltration,data_exfiltration,high,Data exfiltrated from compromised organizations
+2026-04_silk_typhoon_xu_zewei_extradition,initial_access,exploit_public_facing_app,exploit_public_facing_app,high,MS Exchange zero-days used to gain initial access
+2026-04_silk_typhoon_xu_zewei_extradition,product,Microsoft Exchange Server,microsoft_exchange_server,high,Zero-day vulnerabilities in Exchange Server were exploited
+2026-04_silk_typhoon_xu_zewei_extradition,product_class,collaboration_platform,collaboration_platform,high,Microsoft Exchange Server exploited
 2026-04_silver_fox_atlascross_rat,actor,Silver Fox,silver_fox,high,
 2026-04_silver_fox_atlascross_rat,actor_attribution,Silver Fox（別名Void Arachne/SwimSnake・中国系APT）,nation_state,high,
 2026-04_silver_fox_atlascross_rat,attack_method,c2 communication,c2_communication,high,
@@ -874,6 +922,8 @@ event_key,dimension,raw_value,normalized_value,confidence,note
 2026-04_ta416_eu_government_espionage,crime_trend,not applicable,not_applicable,high,Espionage
 2026-04_ta416_eu_government_espionage,initial_access,スピアフィッシング（フリーメール/侵害済み外交機関アカウント経由）,phishing,high,
 2026-04_ta416_eu_government_espionage,malware,PlugX,plugx,high,
+2026-04_tangeman_crypto_launder_sentenced,attack_method,social_engineering,social_engineering,high,Attackers impersonated Google/Gemini support to trick victim into 2FA reset
+2026-04_tangeman_crypto_launder_sentenced,crime_trend,crypto_theft,crypto_theft,high,4100+ BTC stolen from victim via social engineering and screen sharing
 2026-04_teams_helpdesk_impersonation,actor_attribution,不明（ITヘルプデスクなりすまし攻撃者群）,unknown,low,Microsoftは特定グループ名を明示していない
 2026-04_teams_helpdesk_impersonation,attack_method,data exfiltration,data_exfiltration,high,
 2026-04_teams_helpdesk_impersonation,attack_method,persistence,persistence,high,
@@ -902,6 +952,19 @@ event_key,dimension,raw_value,normalized_value,confidence,note
 2026-04_trueconf_cve_2026_3502_zero_day,initial_access,TrueConf更新機構の脆弱性悪用（CVE-2026-3502）で悪性更新を全クライアントへ配布,malicious_update,high,
 2026-04_trueconf_cve_2026_3502_zero_day,product,TrueConf,trueconf,high,
 2026-04_trueconf_cve_2026_3502_zero_day,product_class,TrueConf（ビデオ会議・コラボレーションプラットフォーム）,collaboration_platform,high,
+2026-04_unc6692_snow_malware_teams,actor,UNC6692,unc6692,medium,Source attributes campaign to UNC6692
+2026-04_unc6692_snow_malware_teams,actor_attribution,"UNC6692 (motivation: credential/data theft, domain takeover)",cybercrime,medium,"Actor's motivation is criminal (data theft, domain takeover), exact attribution unclear"
+2026-04_unc6692_snow_malware_teams,attack_method,c2_communication,c2_communication,high,SnowGlaze provides C2 communication concealment
+2026-04_unc6692_snow_malware_teams,attack_method,credential_theft,credential_theft,high,LSASS dump and Pass-the-Hash for credential theft
+2026-04_unc6692_snow_malware_teams,attack_method,data_exfiltration,data_exfiltration,high,FTK Imager + LimeWire used to exfiltrate AD DB and registry
+2026-04_unc6692_snow_malware_teams,attack_method,persistence,persistence,high,SnowBelt/SnowGlaze/SnowBasin provide persistence
+2026-04_unc6692_snow_malware_teams,attack_method,social_engineering,social_engineering,high,Email bombing + Teams IT helpdesk impersonation
+2026-04_unc6692_snow_malware_teams,initial_access,phishing,phishing,high,Email bomb + Teams impersonation used to lure victim
+2026-04_unc6692_snow_malware_teams,malware,SnowBasin,snowbasin,high,Source explicitly names SnowBasin component
+2026-04_unc6692_snow_malware_teams,malware,SnowBelt,snowbelt,high,Source explicitly names SnowBelt component
+2026-04_unc6692_snow_malware_teams,malware,SnowGlaze,snowglaze,high,Source explicitly names SnowGlaze component
+2026-04_unc6692_snow_malware_teams,product,Microsoft Teams,microsoft_teams,high,Teams impersonated as IT help desk to deploy malware
+2026-04_unc6692_snow_malware_teams,product_class,collaboration_platform,collaboration_platform,high,Microsoft Teams used as initial access vector
 2026-04_unc6783_zendesk_bpo_theft,actor,UNC6783,unc6783,high,
 2026-04_unc6783_zendesk_bpo_theft,actor_attribution,UNC6783（恐喝目的の脅威アクター・国籍不明）,cybercrime,medium,国籍不明だが金銭目的の恐喝グループとして動機が記載
 2026-04_unc6783_zendesk_bpo_theft,attack_method,credential theft,credential_theft,high,
@@ -936,6 +999,18 @@ event_key,dimension,raw_value,normalized_value,confidence,note
 2026-04_vercel_apr2026_incident,crime_trend,data extortion,data_extortion,high,
 2026-04_vercel_apr2026_incident,initial_access,サードパーティAIツールContext.ai侵害を起点とした従業員Google Workspaceアカウント乗っ取り,supply_chain,high,Context.ai経由でGoogle Workspaceが侵害されたことを公式ブログが明示
 2026-04_vercel_apr2026_incident,product,Vercel,vercel,high,
+2026-04_vidar_infostealer_surge,attack_method,c2_communication,c2_communication,high,Steam/Telegram dead-drop resolvers used for C2
+2026-04_vidar_infostealer_surge,attack_method,credential_theft,credential_theft,high,"Browser credentials, cookies, crypto wallets targeted"
+2026-04_vidar_infostealer_surge,crime_trend,infostealer_market,infostealer_market,high,"Vidar logs distributed via Telegram channels, infostealer market growth"
+2026-04_vidar_infostealer_surge,crime_trend,malware_as_a_service,malware_as_a_service,high,Vidar operates as MaaS with client registration panel
+2026-04_vidar_infostealer_surge,malware,Vidar,vidar,high,Source explicitly analyzes Vidar 2.0 infostealer
+2026-04_vimeo_anodot_shinyhunters_breach,actor,ShinyHunters,shinyhunters,high,ShinyHunters explicitly named as threat actor
+2026-04_vimeo_anodot_shinyhunters_breach,actor_attribution,ShinyHunters,cybercrime,high,ShinyHunters is a cybercrime extortion group
+2026-04_vimeo_anodot_shinyhunters_breach,attack_method,data_exfiltration,data_exfiltration,high,Technical data and customer email addresses exfiltrated
+2026-04_vimeo_anodot_shinyhunters_breach,attack_method,token_theft,token_theft,high,Authentication tokens stolen from Anodot
+2026-04_vimeo_anodot_shinyhunters_breach,crime_trend,data_extortion,data_extortion,high,ShinyHunters threatened to publish data by April 30
+2026-04_vimeo_anodot_shinyhunters_breach,initial_access,stolen_token,stolen_token,high,Auth tokens stolen from Anodot used to access Vimeo data
+2026-04_vimeo_anodot_shinyhunters_breach,product,Anodot,anodot,high,Anodot was the compromised third-party service
 2026-04_w3ll_phishing_takedown,actor_attribution,W3LL PhaaS運営者（金銭目的のサイバー犯罪者）,cybercrime,high,
 2026-04_w3ll_phishing_takedown,attack_method,credential theft,credential_theft,high,
 2026-04_w3ll_phishing_takedown,attack_method,session hijacking,session_hijacking,high,
@@ -959,6 +1034,7 @@ event_key,dimension,raw_value,normalized_value,confidence,note
 2026-04_wolfssl_cve_2026_5194,crime_trend,not applicable,not_applicable,high,
 2026-04_wolfssl_cve_2026_5194,product,wolfSSL,wolfssl,high,
 2026-04_wolfssl_cve_2026_5194,product_class,wolfSSL（組み込みTLSライブラリ）,security_tool,medium,wolfSSLはセキュリティ認証ライブラリ。IoT/組み込み機器向け暗号ライブラリ。taxonomy_gapの可能性あり
+2026-04_yamaichi_denki_ransomware,attack_method,ransomware,ransomware,medium,Source reports ransomware attack at overseas subsidiary
 2026-04_zimbra_cve_2025_48700_xss,actor_attribution,不明（過去にはAPT28/APT29による悪用も指摘）,unknown,low,記事は過去にAPT28/29が悪用した前例を挙げるが今回の攻撃者は不明
 2026-04_zimbra_cve_2025_48700_xss,attack_method,data exfiltration,data_exfiltration,high,
 2026-04_zimbra_cve_2025_48700_xss,attack_method,session hijacking,session_hijacking,high,XSS -> session theft
