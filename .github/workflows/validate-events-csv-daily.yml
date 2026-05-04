@@ -1,0 +1,381 @@
+name: Validate Events CSV
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  validate-events-csv:
+    name: validate-events-csv
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout PR
+        uses: actions/checkout@v4
+
+      - name: List changed Events CSV files
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          REPO: ${{ github.repository }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [[ "$EVENT_NAME" == "pull_request" ]]; then
+            gh api --paginate \
+              "repos/$REPO/pulls/$PR_NUMBER/files" \
+              --jq '.[] | [.filename, .status] | @tsv' \
+              > /tmp/pr_files.tsv
+
+            echo "Changed PR files:"
+            cat /tmp/pr_files.tsv
+          else
+            : > /tmp/pr_files.tsv
+            find daily-news/data \
+              \( -name events.csv -o -name event_tags.csv \) \
+              -type f \
+              | sort \
+              | awk '{ print $0 "\tmodified" }' > /tmp/pr_files.tsv
+
+            echo "Manual validation target files:"
+            cat /tmp/pr_files.tsv
+          fi
+
+          awk -F '\t' '
+            $1 ~ /^daily-news\/data\/[0-9]{4}\/[0-9]{4}-[0-9]{2}\/(events|event_tags)\.csv$/ {
+              print $0
+            }
+          ' /tmp/pr_files.tsv > /tmp/events_csv_files.tsv || true
+
+          echo "Events CSV files selected for validation:"
+          cat /tmp/events_csv_files.tsv || true
+
+      - name: Validate Events CSV files
+        shell: bash
+        run: |
+          python3 <<'PY'
+          import csv
+          import pathlib
+          import re
+          import sys
+
+          file_list_path = pathlib.Path("/tmp/events_csv_files.tsv")
+
+          if not file_list_path.exists():
+              print("No Events CSV file list found.", file=sys.stderr)
+              sys.exit(1)
+
+          entries = []
+          for line in file_list_path.read_text(encoding="utf-8").splitlines():
+              if not line.strip():
+                  continue
+              parts = line.split("\t")
+              if len(parts) != 2:
+                  print(f"Invalid file list entry: {line}", file=sys.stderr)
+                  sys.exit(1)
+              filename, status = parts
+              entries.append((pathlib.Path(filename), status))
+
+          # This workflow is intended to be safe as a required status check.
+          # Non-events PRs should pass without blocking manual workflows.
+          if not entries:
+              print("No changed Events CSV files. Passing.")
+              sys.exit(0)
+
+          EVENTS_HEADER = [
+              "event_key",
+              "date",
+              "week",
+              "month",
+              "event_type",
+              "title",
+              "summary",
+              "source_file",
+              "source_url",
+              "confidence",
+              "needs_review",
+              "monthly_followup_candidate",
+          ]
+
+          TAGS_HEADER = [
+              "event_key",
+              "dimension",
+              "raw_value",
+              "normalized_value",
+              "confidence",
+              "note",
+          ]
+
+          CONFIDENCE_VALUES = {"high", "medium", "low"}
+          BOOL_VALUES = {"true", "false"}
+          FOLLOWUP_VALUES = {"yes", "maybe", "no"}
+          SNAKE_RE = re.compile(r"^[a-z0-9]+(?:_[a-z0-9]+)*$")
+
+          REPO_ROOT = pathlib.Path(".").resolve()
+          TAXONOMY_VALUES = pathlib.Path("daily-news/data/taxonomy/taxonomy_values.csv")
+          TAXONOMY_DIMENSIONS = pathlib.Path("daily-news/data/taxonomy/taxonomy_dimensions.csv")
+
+          errors = []
+
+          def add_error(path: pathlib.Path, line_no: int | None, message: str) -> None:
+              if line_no is None:
+                  errors.append(f"{path}: {message}")
+              else:
+                  errors.append(f"{path}:{line_no}: {message}")
+
+          def load_dimension_modes() -> dict[str, str]:
+              if not TAXONOMY_DIMENSIONS.exists():
+                  errors.append(f"{TAXONOMY_DIMENSIONS}: file does not exist")
+                  return {}
+
+              modes: dict[str, str] = {}
+              with TAXONOMY_DIMENSIONS.open("r", encoding="utf-8", newline="") as f:
+                  reader = csv.DictReader(f)
+                  for row in reader:
+                      dim = (row.get("dimension") or "").strip()
+                      mode = (row.get("value_mode") or "").strip()
+                      if dim:
+                          modes[dim] = mode
+              return modes
+
+          def load_taxonomy_values() -> dict[str, set[str]]:
+              if not TAXONOMY_VALUES.exists():
+                  errors.append(f"{TAXONOMY_VALUES}: file does not exist")
+                  return {}
+
+              values: dict[str, set[str]] = {}
+              with TAXONOMY_VALUES.open("r", encoding="utf-8", newline="") as f:
+                  reader = csv.DictReader(f)
+                  for row in reader:
+                      dim = (row.get("dimension") or "").strip()
+                      val = (row.get("normalized_value") or "").strip()
+                      if dim and val:
+                          values.setdefault(dim, set()).add(val)
+              return values
+
+          dimension_modes = load_dimension_modes()
+          taxonomy_values = load_taxonomy_values()
+          valid_event_types = taxonomy_values.get("event_type", set())
+
+          def read_csv_records(path: pathlib.Path, expected_header: list[str]) -> list[tuple[int, dict[str, str]]]:
+              if not path.exists():
+                  add_error(path, None, "file does not exist")
+                  return []
+
+              raw = path.read_bytes()
+
+              if raw.startswith(b"\xef\xbb\xbf"):
+                  add_error(path, None, "CSV must be UTF-8 without BOM")
+
+              if b"\r" in raw:
+                  add_error(path, None, "CSV must use LF newlines only, not CRLF or CR")
+
+              try:
+                  raw.decode("utf-8")
+              except UnicodeDecodeError:
+                  add_error(path, None, "CSV is not valid UTF-8")
+                  return []
+
+              try:
+                  with path.open("r", encoding="utf-8", newline="") as f:
+                      reader = csv.reader(f)
+                      rows = list(reader)
+              except csv.Error as e:
+                  add_error(path, None, f"CSV parse error: {e}")
+                  return []
+
+              if not rows:
+                  add_error(path, None, "CSV is empty; header row is required")
+                  return []
+
+              header = rows[0]
+              if header != expected_header:
+                  add_error(path, 1, f"invalid header: {header}")
+                  return []
+
+              records: list[tuple[int, dict[str, str]]] = []
+
+              for line_no, row in enumerate(rows[1:], start=2):
+                  if not row or all(not cell.strip() for cell in row):
+                      add_error(path, line_no, "empty row is not allowed")
+                      continue
+
+                  if len(row) != len(expected_header):
+                      add_error(
+                          path,
+                          line_no,
+                          f"invalid column count: got {len(row)}, expected {len(expected_header)}. "
+                          "This is often caused by an unquoted comma, newline, or quote."
+                      )
+                      continue
+
+                  record = dict(zip(expected_header, row))
+
+                  for field_name, value in record.items():
+                      if value != value.strip():
+                          add_error(path, line_no, f"{field_name} has leading or trailing whitespace")
+
+                      if "\r" in value or "\n" in value:
+                          add_error(path, line_no, f"{field_name} must not contain newline characters")
+
+                  records.append((line_no, record))
+
+              return records
+
+          for path, status in entries:
+              if status == "removed":
+                  add_error(path, None, "Events CSV file was removed")
+
+          month_dirs = sorted({path.parent for path, _ in entries})
+
+          for month_dir in month_dirs:
+              events_path = month_dir / "events.csv"
+              tags_path = month_dir / "event_tags.csv"
+
+              events_records = read_csv_records(events_path, EVENTS_HEADER)
+              tags_records = read_csv_records(tags_path, TAGS_HEADER)
+
+              event_keys: set[str] = set()
+
+              for line_no, row in events_records:
+                  event_key = row["event_key"].strip()
+                  date = row["date"].strip()
+                  week = row["week"].strip()
+                  month = row["month"].strip()
+                  event_type = row["event_type"].strip()
+                  title = row["title"].strip()
+                  summary = row["summary"].strip()
+                  source_file = row["source_file"].strip()
+                  source_url = row["source_url"].strip()
+                  confidence = row["confidence"].strip()
+                  needs_review = row["needs_review"].strip()
+                  monthly_followup_candidate = row["monthly_followup_candidate"].strip()
+
+                  required_non_empty = {
+                      "event_key": event_key,
+                      "date": date,
+                      "week": week,
+                      "month": month,
+                      "event_type": event_type,
+                      "title": title,
+                      "summary": summary,
+                      "source_file": source_file,
+                      "confidence": confidence,
+                      "needs_review": needs_review,
+                      "monthly_followup_candidate": monthly_followup_candidate,
+                  }
+
+                  for field_name, value in required_non_empty.items():
+                      if not value:
+                          add_error(events_path, line_no, f"{field_name} must not be empty")
+
+                  if event_key:
+                      if event_key in event_keys:
+                          add_error(events_path, line_no, f"duplicated event_key: {event_key}")
+                      event_keys.add(event_key)
+
+                  if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", date):
+                      add_error(events_path, line_no, f"invalid date format: {date}")
+
+                  if not re.fullmatch(r"\d{4}-W\d{2}", week):
+                      add_error(events_path, line_no, f"invalid week format: {week}")
+
+                  if not re.fullmatch(r"\d{4}-\d{2}", month):
+                      add_error(events_path, line_no, f"invalid month format: {month}")
+
+                  if event_type and event_type not in valid_event_types:
+                      add_error(events_path, line_no, f"event_type is not valid taxonomy value: {event_type}")
+
+                  if confidence and confidence not in CONFIDENCE_VALUES:
+                      add_error(events_path, line_no, f"invalid confidence: {confidence}")
+
+                  if needs_review and needs_review not in BOOL_VALUES:
+                      add_error(events_path, line_no, f"invalid needs_review: {needs_review}")
+
+                  if monthly_followup_candidate and monthly_followup_candidate not in FOLLOWUP_VALUES:
+                      add_error(events_path, line_no, f"invalid monthly_followup_candidate: {monthly_followup_candidate}")
+
+                  if source_file and not source_file.startswith("daily-news/news/"):
+                      add_error(events_path, line_no, f"source_file must be under daily-news/news/: {source_file}")
+
+                  if not source_url and needs_review != "true":
+                      add_error(events_path, line_no, "source_url is empty, so needs_review must be true")
+
+              seen_tags: set[tuple[str, str, str]] = set()
+
+              for line_no, row in tags_records:
+                  event_key = row["event_key"].strip()
+                  dimension = row["dimension"].strip()
+                  raw_value = row["raw_value"].strip()
+                  normalized_value = row["normalized_value"].strip()
+                  confidence = row["confidence"].strip()
+                  note = row["note"].strip()
+
+                  required_non_empty = {
+                      "event_key": event_key,
+                      "dimension": dimension,
+                      "raw_value": raw_value,
+                      "normalized_value": normalized_value,
+                      "confidence": confidence,
+                  }
+
+                  for field_name, value in required_non_empty.items():
+                      if not value:
+                          add_error(tags_path, line_no, f"{field_name} must not be empty")
+
+                  if event_key and event_key not in event_keys:
+                      add_error(tags_path, line_no, f"event_key does not exist in events.csv: {event_key}")
+
+                  if dimension and dimension not in dimension_modes:
+                      add_error(tags_path, line_no, f"dimension does not exist in taxonomy_dimensions.csv: {dimension}")
+
+                  if confidence and confidence not in CONFIDENCE_VALUES:
+                      add_error(tags_path, line_no, f"invalid confidence: {confidence}")
+
+                  tag_key = (event_key, dimension, normalized_value)
+                  if tag_key in seen_tags:
+                      add_error(tags_path, line_no, f"duplicated event tag: {tag_key}")
+                  seen_tags.add(tag_key)
+
+                  mode = dimension_modes.get(dimension)
+
+                  if mode == "closed":
+                      valid_values = taxonomy_values.get(dimension, set())
+                      if normalized_value and normalized_value not in valid_values:
+                          add_error(
+                              tags_path,
+                              line_no,
+                              f"normalized_value is not valid for closed dimension {dimension}: {normalized_value}"
+                          )
+                  elif mode == "dynamic":
+                      if normalized_value and not SNAKE_RE.fullmatch(normalized_value):
+                          add_error(
+                              tags_path,
+                              line_no,
+                              f"normalized_value for dynamic dimension must be lowercase snake_case: {normalized_value}"
+                          )
+                  elif dimension:
+                      add_error(tags_path, line_no, f"unknown value_mode for dimension {dimension}: {mode}")
+
+          if errors:
+              print("Events CSV validation failed:", file=sys.stderr)
+              for error in errors:
+                  print(f"- {error}", file=sys.stderr)
+              sys.exit(1)
+
+          print("Events CSV validation passed.")
+          PY
