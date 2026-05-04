@@ -25,6 +25,7 @@ jobs:
   trigger-routine:
     name: trigger-claude-events-routine
     runs-on: ubuntu-latest
+    environment: claude-events-delay-5h
 
     steps:
       - name: Checkout
