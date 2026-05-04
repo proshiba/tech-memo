@@ -7,13 +7,6 @@ on:
     paths:
       - "daily-news/news/**/*.md"
 
-  workflow_dispatch:
-    inputs:
-      news_file:
-        description: "対象ニュースMD。例: daily-news/news/2026_04-06/20260430.md"
-        required: true
-        type: string
-
 permissions:
   contents: read
 
