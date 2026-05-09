@@ -19,7 +19,131 @@
 必ず `target_start` と `target_end` を正として扱ってください。
 例や現在日付ではなく、実行パラメータを正としてください。
 
+## IOC分析
+
+週次レポート作成前に、以下のスクリプトを実行してください。
+
+```bash
+python3 daily-news/scripts/correlate_iocs.py \
+  --target-start {{target_start}} \
+  --target-end {{target_end}} \
+  --week-label {{week_label}}
+```
+
+スクリプト実行後、以下のCSVを読み込んでください。
+
+```text
+daily-news/weekly-review/YYYY/ioc-analysis/{{week_label}}_current_iocs.csv
+daily-news/weekly-review/YYYY/ioc-analysis/{{week_label}}_ioc_matches.csv
+daily-news/weekly-review/YYYY/ioc-analysis/{{week_label}}_ioc_summary.csv
+```
+
+`YYYY` は `target_end` の年です。
+
+### IOC分析で見ること
+
+週次レポートに `## IOC分析` セクションを追加してください。
+
+含める内容:
+
+1. 今週のIOC件数
+
+   * total rows
+   * distinct IOC count
+   * ioc_type別件数
+   * category別件数
+
+2. IOCに紐づく主な actor / malware
+
+   * actor 上位
+   * malware 上位
+   * unknown が多い場合はその旨を書く
+
+3. 過去IOCとの突合結果
+
+   * exact match 件数
+   * host_overlap 件数
+   * `same_reference=false` の件数
+   * 過去別件との関連候補を Markdown table で列挙する
+
+4. 注意点
+
+   * IOCはAI生成・source依存であること
+   * confidence が medium / low のものは検知やブロックに直結させないこと
+   * victim_asset や legitimate_service_abused と攻撃インフラを混同しないこと
+
+### IOC突合結果の表示ルール
+
+`{{week_label}}_ioc_matches.csv` から、特に以下を優先して表示してください。
+
+優先順位:
+
+1. `same_reference=false`
+2. `match_type=exact`
+3. `same_malware=true` または `same_actor=true`
+4. `target_confidence=high` または `medium`
+5. `past_confidence=high` または `medium`
+
+表の列:
+
+* match_type
+* ioc
+* ioc_type
+* current_date
+* current_malware
+* current_actor
+* past_date
+* past_malware
+* past_actor
+* same_reference
+* current_reference
+* past_reference
+
+表示件数は原則20件までにしてください。
+20件を超える場合は、CSVパスを記載し、表は上位20件に絞ってください。
+
+### IOC分析で避けること
+
+* IOCが一致しただけで同一アクター・同一キャンペーンと断定しないこと
+* shared hosting / CDN / GitHub / Telegram / Cloudflare Workers などの legitimate service を安易に強い関連とみなさないこと
+* `host_overlap` は弱い関連として扱うこと
+* `same_reference=true` は同じレポート内の再出現であり、過去別件との関連とは別に扱うこと
+* CSVにないIOCを補完しないこと
+
 ---
+
+## 週次レポートの出力イメージ
+
+週次レポート側には、こんなセクションを追加すると読みやすいです。
+
+```md
+## IOC分析
+
+### IOCサマリ
+
+| metric | value |
+|---|---:|
+| IOC rows | 120 |
+| distinct IOCs | 96 |
+| past matches | 8 |
+| cross-reference matches | 3 |
+
+### IOC type別
+
+| ioc_type | count |
+|---|---:|
+| sha256 | 60 |
+| domain | 20 |
+| url | 15 |
+| ip | 5 |
+
+### 過去IOCとの突合
+
+| match_type | ioc | type | current | past | same_reference | note |
+|---|---|---|---|---|---|---|
+| exact | `example.com` | domain | NWHStealer / 2026-05-09 | Example campaign / 2026-04-21 | false | 過去別件にも出現 |
+| host_overlap | `evil.example` | host | URL in current week | domain in past week | false | 弱い関連候補 |
+```
 
 ## 入力
 
