@@ -57,7 +57,7 @@ jobs:
               raise SystemExit("No changed files found.")
 
           allowed = re.compile(
-              r"^daily-news/data/[0-9]{4}/[0-9]{4}-[0-9]{2}/(events|event_tags)/[0-9]+\.csv$"
+              r"^daily-news/data/[0-9]{4}/[0-9]{4}-[0-9]{2}/(events|event_tags)/[0-9]{8}\.csv$"
           )
 
           bad = [f for f in files if not allowed.fullmatch(f)]
