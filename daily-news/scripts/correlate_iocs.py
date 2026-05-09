@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import json
 import re
 from collections import Counter, defaultdict
 from dataclasses import dataclass
@@ -68,6 +69,64 @@ TYPE_ALIASES = {
     "user_agent": "user_agent",
 }
 
+DEFAULT_SHARED_SERVICE_HOSTS_FILE = "daily-news/scripts/ioc_shared_service_hosts.json"
+
+@dataclass(frozen=True)
+class SharedServiceHostConfig:
+    exact_hosts: frozenset[str]
+    suffixes: tuple[str, ...]
+
+
+def normalize_host_for_compare(host: str) -> str:
+    return (host or "").strip().lower().rstrip(".")
+
+
+def load_shared_service_hosts(path: Path | None) -> SharedServiceHostConfig:
+    if path is None:
+        return SharedServiceHostConfig(exact_hosts=frozenset(), suffixes=tuple())
+
+    if not path.exists():
+        return SharedServiceHostConfig(exact_hosts=frozenset(), suffixes=tuple())
+
+    with path.open("r", encoding="utf-8") as f:
+        data = json.load(f)
+
+    exact_hosts = {
+        normalize_host_for_compare(h)
+        for h in data.get("host_overlap_exclude_exact_hosts", [])
+        if isinstance(h, str) and h.strip()
+    }
+
+    suffixes = []
+    for suffix in data.get("host_overlap_exclude_suffixes", []):
+        if not isinstance(suffix, str) or not suffix.strip():
+            continue
+        s = suffix.strip().lower()
+        if not s.startswith("."):
+            s = "." + s
+        suffixes.append(s.rstrip("."))
+
+    return SharedServiceHostConfig(
+        exact_hosts=frozenset(exact_hosts),
+        suffixes=tuple(sorted(set(suffixes))),
+    )
+
+
+def is_shared_service_host(host: str, config: SharedServiceHostConfig) -> bool:
+    h = normalize_host_for_compare(host)
+    if not h:
+        return False
+
+    if h in config.exact_hosts:
+        return True
+
+    for suffix in config.suffixes:
+        # suffix is like ".github.io"
+        # Match foo.github.io, but not github.io unless it is explicitly listed.
+        if h.endswith(suffix):
+            return True
+
+    return False
 
 @dataclass(frozen=True)
 class IocRow:
