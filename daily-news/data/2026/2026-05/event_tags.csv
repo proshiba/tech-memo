@@ -1,23 +1,95 @@
 event_key,dimension,raw_value,normalized_value,confidence,note
+2026-05_ai_supply_chain_huggingface_openclaw,attack_method,supply_chain_compromise,supply_chain_compromise,high,Model/skill distribution channel abuse
+2026-05_ai_supply_chain_huggingface_openclaw,product,Hugging Face,hugging_face,high,Platform referenced in report
+2026-05_ai_supply_chain_huggingface_openclaw,product,OpenClaw,openclaw,high,Platform referenced in report
+2026-05_ai_supply_chain_huggingface_openclaw,product_class,ai_tool,ai_tool,high,AI tooling ecosystem targeted
+2026-05_amazon_ses_phishing_evasion,crime_trend,business_email_compromise,business_email_compromise,high,BEC usage explicitly mentioned
+2026-05_amazon_ses_phishing_evasion,initial_access,phishing,phishing,high,Phishing delivery channel
+2026-05_amazon_ses_phishing_evasion,product,Amazon SES,amazon_ses,high,Abused service named in source
+2026-05_amazon_ses_phishing_evasion,product_class,cloud_service,cloud_service,high,Cloud email service abused
 2026-05_aomori_prefecture_ehr_insider,initial_access,insider_abuse,insider_abuse,high,Hospital employee abused internal EHR access to obtain acquaintance's medical data
 2026-05_aomori_prefecture_ehr_insider,product_class,cloud_service,cloud_service,medium,Electronic health records system accessed
 2026-05_asahiseiki_defacement,attack_method,seo_spam_redirect,seo_spam_redirect,low,"Website defacement showing unrelated pages, possible SEO spam/redirect technique"
 2026-05_bluekit_phishing_service,attack_method,credential_theft,credential_theft,high,Bluekit designed to steal credentials via phishing
 2026-05_bluekit_phishing_service,crime_trend,phishing_kit_ecosystem,phishing_kit_ecosystem,high,Bluekit is a PhaaS with 40+ templates and AI assistant
+2026-05_canvas_portal_shinyhunters_extortion,actor,ShinyHunters,shinyhunters,high,Actor explicitly named
+2026-05_canvas_portal_shinyhunters_extortion,actor_attribution,cybercrime,cybercrime,high,Extortion campaign context
+2026-05_canvas_portal_shinyhunters_extortion,attack_method,defense_evasion,defense_evasion,high,Portal tampering and extortion messaging
+2026-05_canvas_portal_shinyhunters_extortion,crime_trend,data_extortion,data_extortion,high,Ransom/extortion pressure
+2026-05_canvas_portal_shinyhunters_extortion,product,Canvas,canvas,high,Impacted login portals
+2026-05_cisco_cnc_nso_cve_2026_20188_dos,attack_method,ddos,ddos,high,DoS condition caused by remote request flood/resource exhaustion
+2026-05_cisco_cnc_nso_cve_2026_20188_dos,product,Cisco Crosswork Network Controller,cisco_crosswork_network_controller,high,Affected product
+2026-05_cisco_cnc_nso_cve_2026_20188_dos,product,Cisco NSO,cisco_nso,high,Affected product
+2026-05_cisco_cnc_nso_cve_2026_20188_dos,product_class,network_device,network_device,high,Network management infrastructure
+2026-05_claude_ai_water_utility_attack,attack_method,credential_theft,credential_theft,medium,Password spraying and credential list generation described
+2026-05_claude_ai_water_utility_attack,product,Claude,claude,medium,AI tool used in operation planning per report
+2026-05_claude_ai_water_utility_attack,product_class,ai_tool,ai_tool,medium,AI tool abuse context
+2026-05_clickfix_vidar_campaign,attack_method,social_engineering,social_engineering,high,Fake verification/CAPTCHA prompts
+2026-05_clickfix_vidar_campaign,crime_trend,clickfix,clickfix,high,ClickFix explicitly identified
+2026-05_clickfix_vidar_campaign,malware,Vidar Stealer,vidar_stealer,high,Malware family named
+2026-05_clickfix_vidar_campaign,product,WordPress,wordpress,high,Compromised WordPress sites used
+2026-05_clickfix_vidar_campaign,product_class,cms,cms,high,WordPress CMS abuse
+2026-05_cloudz_phone_link_otp_theft,attack_method,credential_theft,credential_theft,high,Credential/OTP theft
+2026-05_cloudz_phone_link_otp_theft,attack_method,token_theft,token_theft,high,OTP interception used for account takeover
+2026-05_cloudz_phone_link_otp_theft,malware,CloudZ,cloudz,high,Malware family named
+2026-05_cloudz_phone_link_otp_theft,product,Microsoft Phone Link,microsoft_phone_link,high,Abused product
+2026-05_consentfix_v3_azure_oauth_abuse,attack_method,session_hijacking,session_hijacking,high,Session takeover via delegated access
+2026-05_consentfix_v3_azure_oauth_abuse,attack_method,token_theft,token_theft,high,OAuth consent abuse for token capture
+2026-05_consentfix_v3_azure_oauth_abuse,product,Microsoft Azure,microsoft_azure,high,Targeted platform
+2026-05_consentfix_v3_azure_oauth_abuse,product_class,identity_service,identity_service,high,Identity/OAuth abuse
 2026-05_cpanel_whm_cve_2026_41940_zeroday,attack_method,authentication_bypass,authentication_bypass,high,CRLF injection and improper session handling bypass authentication
+2026-05_cpanel_whm_cve_2026_41940_zeroday,attack_method,ransomware,ransomware,high,Sorry ransomware attacks reported
 2026-05_cpanel_whm_cve_2026_41940_zeroday,initial_access,exploit_public_facing_app,exploit_public_facing_app,high,Internet-facing cPanel/WHM exploited pre-patch
 2026-05_cpanel_whm_cve_2026_41940_zeroday,product,cPanel,cpanel,high,CVE-2026-41940 in cPanel and WHM
 2026-05_cpanel_whm_cve_2026_41940_zeroday,product,WHM,whm,high,WHM affected by CVE-2026-41940
 2026-05_cpanel_whm_cve_2026_41940_zeroday,product_class,web_server,web_server,high,cPanel/WHM web hosting control panel exploited
+2026-05_credential_theft_systemization_trend,actor,CLR Team,clr_team,medium,Actor cluster mentioned in report
+2026-05_credential_theft_systemization_trend,actor,Roku Team,roku_team,medium,Actor cluster mentioned in report
+2026-05_credential_theft_systemization_trend,crime_trend,infostealer_market,infostealer_market,high,Infostealer ecosystem trend
+2026-05_credential_theft_systemization_trend,crime_trend,malware_as_a_service,malware_as_a_service,high,Affiliate-style malware business model
+2026-05_crypto_heist_gang_sentencing,actor_attribution,cybercrime,cybercrime,high,Organized criminal group
+2026-05_crypto_heist_gang_sentencing,crime_trend,crypto_theft,crypto_theft,high,Large-scale crypto theft operation
 2026-05_crypto_scam_takedown_dubai,crime_trend,crypto_theft,crypto_theft,high,Crypto funds stolen via fake investment platforms
 2026-05_crypto_scam_takedown_dubai,crime_trend,investment_scam,investment_scam,high,Pig butchering crypto investment scam centers dismantled
+2026-05_daemon_tools_supply_chain_backdoor,attack_method,backdoor,backdoor,high,Backdoor deployment reported
+2026-05_daemon_tools_supply_chain_backdoor,attack_method,supply_chain_compromise,supply_chain_compromise,high,Build/distribution compromise
+2026-05_daemon_tools_supply_chain_backdoor,initial_access,supply_chain,supply_chain,high,Official installer tampering
+2026-05_daemon_tools_supply_chain_backdoor,product,DAEMON Tools Lite,daemon_tools_lite,high,Affected software
 2026-05_deepdoor_python_backdoor,attack_method,backdoor,backdoor,high,Deep#Door provides persistent backdoor access
 2026-05_deepdoor_python_backdoor,attack_method,c2_communication,c2_communication,high,bore.pub TCP tunneling used for C2 without exposing dedicated server
 2026-05_deepdoor_python_backdoor,attack_method,credential_theft,credential_theft,high,"Browser, SSH, cloud credentials targeted"
 2026-05_deepdoor_python_backdoor,attack_method,persistence,persistence,high,Startup/Registry Run/scheduled tasks/WMI multi-layer persistence
 2026-05_deepdoor_python_backdoor,malware,Deep#Door,deepdoor,high,Source names malware Deep#Door
+2026-05_etherrat_github_facade_distribution,attack_method,seo_spam_redirect,seo_spam_redirect,high,SEO poisoning/facade redirection
+2026-05_etherrat_github_facade_distribution,attack_method,social_engineering,social_engineering,high,Admin tool spoofing
+2026-05_etherrat_github_facade_distribution,malware,EtherRAT,etherrat,high,Malware family named in source
+2026-05_fake_claude_beagle_malware,attack_method,backdoor,backdoor,high,Backdoor capability reported
+2026-05_fake_claude_beagle_malware,attack_method,c2_communication,c2_communication,high,Encrypted C2 communication
+2026-05_fake_claude_beagle_malware,malware,Beagle,beagle,high,Malware name explicitly stated
+2026-05_fake_claude_beagle_malware,product,Claude,claude,high,Brand spoofed in lure site
+2026-05_fake_claude_beagle_malware,product_class,ai_tool,ai_tool,high,AI tool brand impersonation
+2026-05_fake_tanstack_npm_packages,attack_method,credential_theft,credential_theft,high,Secrets exfiltration from .env files
+2026-05_fake_tanstack_npm_packages,attack_method,malicious_package,malicious_package,high,Fake package publication
+2026-05_fake_tanstack_npm_packages,initial_access,supply_chain,supply_chain,high,Malicious npm package vector
+2026-05_fake_tanstack_npm_packages,product,tanstack,tanstack,high,Spoofed package name
+2026-05_fake_tanstack_npm_packages,product_class,package_ecosystem,package_ecosystem,high,npm ecosystem impacted
+2026-05_falcon_shield_spider_extortion_campaigns,actor,CORDIAL SPIDER,cordial_spider,high,Actor explicitly named
+2026-05_falcon_shield_spider_extortion_campaigns,actor,SNARKY SPIDER,snarky_spider,high,Actor explicitly named
+2026-05_falcon_shield_spider_extortion_campaigns,actor_attribution,cybercrime,cybercrime,high,Extortion-driven campaigns
+2026-05_falcon_shield_spider_extortion_campaigns,attack_method,credential_theft,credential_theft,high,Credential theft emphasized
+2026-05_falcon_shield_spider_extortion_campaigns,attack_method,session_hijacking,session_hijacking,high,AiTM token/session theft
+2026-05_falcon_shield_spider_extortion_campaigns,attack_method,vishing,social_engineering,high,Vishing and social engineering tactics described
 2026-05_fbi_cargo_theft_cybercrime_surge,attack_method,credential_theft,credential_theft,high,Cargo broker system credentials targeted via phishing
 2026-05_fbi_cargo_theft_cybercrime_surge,initial_access,phishing,phishing,high,Phishing and fake emails used to access cargo broker systems
+2026-05_former_contractor_federal_db_wipe,actor_attribution,insider,insider,high,Former contractor insider abuse context
+2026-05_former_contractor_federal_db_wipe,initial_access,stolen_credentials,stolen_credentials,high,Unauthorized re-access after termination implied
+2026-05_homebrew_malicious_ad_macsync,attack_method,c2_communication,c2_communication,high,C2 exfiltration reported
+2026-05_homebrew_malicious_ad_macsync,attack_method,credential_theft,credential_theft,high,Infostealer behavior described
+2026-05_homebrew_malicious_ad_macsync,initial_access,drive_by_download,drive_by_download,high,Malicious ad/landing page drives script execution
+2026-05_homebrew_malicious_ad_macsync,malware,MacSync Stealer,macsync_stealer,high,Malware explicitly named
+2026-05_instructure_shinyhunters_breach,actor,ShinyHunters,shinyhunters,high,Extortion group named in source
+2026-05_instructure_shinyhunters_breach,actor_attribution,cybercrime,cybercrime,high,Financially motivated extortion group
+2026-05_instructure_shinyhunters_breach,crime_trend,data_extortion,data_extortion,high,Extortion context described
 2026-05_intercom_npm_supply_chain,attack_method,credential_theft,credential_theft,high,Kubernetes/Vault/cloud/GitHub credentials targeted
 2026-05_intercom_npm_supply_chain,attack_method,supply_chain_compromise,supply_chain_compromise,high,Intercom GitHub contributor account compromised; malicious package published
 2026-05_intercom_npm_supply_chain,attack_method,token_theft,token_theft,high,GitHub tokens stolen via preinstall script
@@ -25,8 +97,13 @@ event_key,dimension,raw_value,normalized_value,confidence,note
 2026-05_intercom_npm_supply_chain,malware,Mini Shai-Hulud,mini_shai_hulud,medium,Source associates attack with Mini Shai-Hulud worm
 2026-05_intercom_npm_supply_chain,product,intercom-client,intercom_client,high,intercom-client@7.0.4 compromised
 2026-05_intercom_npm_supply_chain,product_class,package_ecosystem,package_ecosystem,high,npm ecosystem targeted
+2026-05_ivanti_epmm_cve_2026_6973,attack_method,remote_code_execution,remote_code_execution,high,RCE vulnerability exploited
+2026-05_ivanti_epmm_cve_2026_6973,product,Ivanti EPMM,ivanti_epmm,high,Affected product
 2026-05_jp_railway_chatwork_breach,crime_trend,business_email_compromise,business_email_compromise,high,Fraudulent invoices sent to business partners via compromised Chatwork
 2026-05_jp_railway_chatwork_breach,product,Chatwork,chatwork,high,Chatwork accounts compromised for BEC
+2026-05_karakurt_negotiator_sentenced,actor,Karakurt,karakurt,high,Group explicitly named
+2026-05_karakurt_negotiator_sentenced,actor_attribution,cybercrime,cybercrime,high,Criminal extortion group
+2026-05_karakurt_negotiator_sentenced,crime_trend,data_extortion,data_extortion,high,Extortion activity context
 2026-05_lightning_pypi_mini_shaihulud,attack_method,credential_theft,credential_theft,high,"GitHub tokens, npm, cloud credentials targeted"
 2026-05_lightning_pypi_mini_shaihulud,attack_method,supply_chain_compromise,supply_chain_compromise,high,pl-ghost GitHub account compromised to publish malicious package
 2026-05_lightning_pypi_mini_shaihulud,attack_method,token_theft,token_theft,high,GitHub token stolen to commit malicious code and spread
@@ -37,11 +114,66 @@ event_key,dimension,raw_value,normalized_value,confidence,note
 2026-05_linux_copy_fail_cve_2026_31431,attack_method,privilege_escalation,privilege_escalation,high,Unprivileged local user can gain root access
 2026-05_linux_copy_fail_cve_2026_31431,product,Linux kernel,linux_kernel,high,CVE-2026-31431 in Linux kernel authencesn template
 2026-05_linux_copy_fail_cve_2026_31431,product_class,os,os,high,Linux kernel vulnerability affecting major distributions
+2026-05_linux_dirty_frag_zero_day,attack_method,privilege_escalation,privilege_escalation,high,Local root escalation vulnerability
+2026-05_linux_dirty_frag_zero_day,product,Linux kernel,linux_kernel,high,Kernel-level issue
+2026-05_linux_dirty_frag_zero_day,product_class,os,os,high,Operating system vulnerability
+2026-05_managewp_google_ads_aitm_phishing,attack_method,credential_theft,credential_theft,high,Credential and 2FA theft
+2026-05_managewp_google_ads_aitm_phishing,attack_method,session_hijacking,session_hijacking,high,AiTM relay for session takeover
+2026-05_managewp_google_ads_aitm_phishing,crime_trend,account_takeover,account_takeover,high,Compromised account control objective
+2026-05_managewp_google_ads_aitm_phishing,initial_access,phishing,phishing,high,Phishing login lure
+2026-05_managewp_google_ads_aitm_phishing,product,GoDaddy ManageWP,godaddy_managewp,high,Targeted service
+2026-05_moveit_automation_cve_2026_4670,attack_method,authentication_bypass,authentication_bypass,high,Auth bypass CVE explicitly stated
+2026-05_moveit_automation_cve_2026_4670,attack_method,privilege_escalation,privilege_escalation,high,Related privilege escalation CVE also fixed
+2026-05_moveit_automation_cve_2026_4670,product,MOVEit Automation,moveit_automation,high,Affected product
+2026-05_muddywater_chaos_decoy_intrusions,actor,MuddyWater,muddywater,high,Actor explicitly named
+2026-05_muddywater_chaos_decoy_intrusions,actor_attribution,nation_state,nation_state,high,Iran-linked state-sponsored group in source
+2026-05_muddywater_chaos_decoy_intrusions,attack_method,credential_theft,credential_theft,high,Credential theft described
+2026-05_muddywater_chaos_decoy_intrusions,attack_method,data_exfiltration,data_exfiltration,high,Data theft/exfiltration described
+2026-05_muddywater_chaos_decoy_intrusions,attack_method,social_engineering,social_engineering,high,Teams lure and phishing process
+2026-05_muddywater_chaos_decoy_intrusions,crime_trend,ransomware_extortion,ransomware_extortion,high,Extortion component present
+2026-05_muddywater_chaos_decoy_intrusions,malware,Chaos ransomware,chaos_ransomware,high,Decoy ransomware brand used
+2026-05_north_korea_laptop_farm_sentencing,actor_attribution,nation_state,nation_state,high,North Korea-linked illicit labor operation
+2026-05_north_korea_laptop_farm_sentencing,crime_trend,fake_job_recruitment,fake_job_recruitment,high,Fraudulent remote employment scheme
+2026-05_nvidia_geforce_now_armenia_breach,product,GeForce NOW,geforce_now,high,Impacted service
+2026-05_nvidia_geforce_now_armenia_breach,product_class,cloud_service,cloud_service,high,Cloud gaming service data breach
+2026-05_nwhstealer_bun_distribution,attack_method,credential_theft,credential_theft,high,Infostealer behavior in report
+2026-05_nwhstealer_bun_distribution,malware,NWHStealer,nwhstealer,high,Malware name explicitly stated
+2026-05_nwhstealer_bun_distribution,product,Bun,bun,high,Runtime abused in campaign
+2026-05_nwhstealer_bun_distribution,product_class,developer_tool,developer_tool,high,Developer runtime abused
+2026-05_oceanlotus_zichatbot_pypi,actor,OceanLotus,oceanlotus,medium,Source says suspected link
+2026-05_oceanlotus_zichatbot_pypi,actor_attribution,nation_state,nation_state,medium,"Attribution is suspected, not definitive"
+2026-05_oceanlotus_zichatbot_pypi,attack_method,malicious_package,malicious_package,high,Trojanized Python packages
+2026-05_oceanlotus_zichatbot_pypi,initial_access,supply_chain,supply_chain,high,Malicious package distribution vector
+2026-05_oceanlotus_zichatbot_pypi,malware,ZiChatBot,zichatbot,high,Malware family named
+2026-05_oceanlotus_zichatbot_pypi,product_class,package_ecosystem,package_ecosystem,high,PyPI ecosystem targeted
+2026-05_panos_cve_2026_0300_zero_day,attack_method,remote_code_execution,remote_code_execution,high,Unauthenticated root RCE
+2026-05_panos_cve_2026_0300_zero_day,initial_access,exploit_public_facing_app,exploit_public_facing_app,high,Internet-exposed portal targeted
+2026-05_panos_cve_2026_0300_zero_day,product,PAN-OS User-ID Authentication Portal,pan_os_user_id_authentication_portal,high,Affected component
+2026-05_panos_cve_2026_0300_zero_day,product_class,firewall,firewall,high,Firewall platform vulnerability
+2026-05_pcpjack_cloud_worm,actor,PCPJack,pcpjack,high,Campaign/worm name used as actor cluster in source
+2026-05_pcpjack_cloud_worm,attack_method,c2_communication,c2_communication,high,Encrypted exfiltration to Telegram
+2026-05_pcpjack_cloud_worm,attack_method,credential_theft,credential_theft,high,Steals .env/SSH/cloud secrets
+2026-05_pcpjack_cloud_worm,attack_method,persistence,persistence,high,Persistent monitor.py execution
+2026-05_pcpjack_cloud_worm,malware,PCPJack,pcpjack,high,Worm malware name
+2026-05_pcpjack_cloud_worm,product_class,cloud_workload,cloud_workload,high,Cloud workloads and orchestrators targeted
+2026-05_pnpm_11_supply_chain_protection,product,pnpm,pnpm,high,Released tool
+2026-05_pnpm_11_supply_chain_protection,product_class,developer_tool,developer_tool,high,Developer package manager hardening
+2026-05_pytorch_lightning_263_backdoor,attack_method,credential_theft,credential_theft,high,Credential stealer behavior
+2026-05_pytorch_lightning_263_backdoor,attack_method,supply_chain_compromise,supply_chain_compromise,high,Package tampering
+2026-05_pytorch_lightning_263_backdoor,initial_access,supply_chain,supply_chain,high,Compromised package delivery
+2026-05_pytorch_lightning_263_backdoor,malware,ShaiWorm,shaiworm,high,Defender detection name in source
+2026-05_pytorch_lightning_263_backdoor,product,PyTorch Lightning,pytorch_lightning,high,Compromised package name
+2026-05_pytorch_lightning_263_backdoor,product_class,package_ecosystem,package_ecosystem,high,PyPI ecosystem impact
 2026-05_qinglong_rce_cryptominer,attack_method,authentication_bypass,authentication_bypass,high,Two auth bypass CVEs chained for RCE
 2026-05_qinglong_rce_cryptominer,attack_method,remote_code_execution,remote_code_execution,high,Chained auth bypass leads to RCE
 2026-05_qinglong_rce_cryptominer,initial_access,exploit_public_facing_app,exploit_public_facing_app,high,Public Qinglong panels exploited before patch
 2026-05_qinglong_rce_cryptominer,product,Qinglong,qinglong,high,CVE-2026-3965 and CVE-2026-4047 in Qinglong <= 2.20.1
 2026-05_qinglong_rce_cryptominer,product_class,developer_tool,developer_tool,high,Qinglong task scheduler targeting developer servers
+2026-05_quasar_linux_qlnx_campaign,attack_method,backdoor,backdoor,high,Backdoor capabilities reported
+2026-05_quasar_linux_qlnx_campaign,attack_method,credential_theft,credential_theft,high,Credential theft capability highlighted
+2026-05_quasar_linux_qlnx_campaign,attack_method,persistence,persistence,high,Multiple persistence mechanisms reported
+2026-05_quasar_linux_qlnx_campaign,malware,QLNX,qlnx,high,Alias used in source
+2026-05_quasar_linux_qlnx_campaign,malware,Quasar Linux,quasar_linux,high,Malware family explicitly named
 2026-05_ruby_gems_go_modules_malicious,attack_method,credential_theft,credential_theft,high,"SSH, AWS, npm, GitHub credentials collected"
 2026-05_ruby_gems_go_modules_malicious,attack_method,persistence,persistence,high,SSH public keys added to authorized_keys for persistence
 2026-05_ruby_gems_go_modules_malicious,attack_method,supply_chain_compromise,supply_chain_compromise,high,Malicious packages published under BufferZoneCorp GitHub account
@@ -55,8 +187,44 @@ event_key,dimension,raw_value,normalized_value,confidence,note
 2026-05_sap_npm_supply_chain,product,@cap-js/sqlite,cap_js_sqlite,high,Official SAP package compromised
 2026-05_sap_npm_supply_chain,product,mbt,mbt,high,Official SAP mbt npm package compromised
 2026-05_sap_npm_supply_chain,product_class,package_ecosystem,package_ecosystem,high,npm package ecosystem targeted
+2026-05_scarcruft_birdcall_android,actor,ScarCruft,scarcruft,high,Actor explicitly named
+2026-05_scarcruft_birdcall_android,actor_attribution,nation_state,nation_state,high,North Korea-linked APT attribution in source
+2026-05_scarcruft_birdcall_android,attack_method,supply_chain_compromise,supply_chain_compromise,high,Compromised platform used for malware distribution
+2026-05_scarcruft_birdcall_android,malware,BirdCall,birdcall,high,Malware name explicitly stated
+2026-05_silver_fox_abcdoor_campaign,actor,Silver Fox,silver_fox,high,Actor explicitly named
+2026-05_silver_fox_abcdoor_campaign,attack_method,c2_communication,c2_communication,high,C2 infrastructure listed
+2026-05_silver_fox_abcdoor_campaign,attack_method,malicious_document,malicious_document,high,PDF lure documents
+2026-05_silver_fox_abcdoor_campaign,initial_access,phishing,phishing,high,Tax-notification lures via email
+2026-05_silver_fox_abcdoor_campaign,malware,ABCDoor,abcdoor,high,Backdoor family named
+2026-05_silver_fox_abcdoor_campaign,malware,ValleyRAT,valleyrat,high,Downloader chain includes ValleyRAT
+2026-05_taiwan_high_speed_rail_tetra_intrusion,attack_method,spoofing,spoofing,high,High-priority alert signal spoofing via SDR
+2026-05_tclbanker_whatsapp_outlook_spread,attack_method,credential_theft,credential_theft,high,Banking and credential theft behavior
+2026-05_tclbanker_whatsapp_outlook_spread,attack_method,persistence,persistence,high,Trojanized installer execution chain
+2026-05_tclbanker_whatsapp_outlook_spread,malware,TCLBanker,tclbanker,high,Malware family explicitly named
+2026-05_telegram_mini_apps_crypto_scam,crime_trend,crypto_theft,crypto_theft,high,Crypto theft intent in source
+2026-05_telegram_mini_apps_crypto_scam,crime_trend,investment_scam,investment_scam,high,Crypto scam model described
+2026-05_telegram_mini_apps_crypto_scam,product,Telegram Mini Apps,telegram_mini_apps,high,Platform abused
+2026-05_telegram_mini_apps_crypto_scam,product_class,mobile_app,mobile_app,high,Mobile app ecosystem abused
+2026-05_trellix_source_code_breach,actor,RansomHouse,ransomhouse,high,Actor claimed responsibility in follow-up report
+2026-05_trellix_source_code_breach,actor_attribution,cybercrime,cybercrime,medium,Ransom group claim not independently verified
+2026-05_trellix_source_code_breach,product,Trellix,trellix,high,Impacted organization product portfolio
+2026-05_trellix_source_code_breach,product_class,security_tool,security_tool,high,Security vendor source repositories impacted
+2026-05_uat_8302_toolbox_campaign,actor,UAT-8302,uat_8302,high,Cluster name explicitly used
+2026-05_uat_8302_toolbox_campaign,actor_attribution,nation_state,nation_state,medium,Source assesses China-linked APT with high confidence
+2026-05_uat_8302_toolbox_campaign,attack_method,persistence,persistence,high,Long-term access maintenance highlighted
+2026-05_vimeo_anodot_breach_shinyhunters,actor,ShinyHunters,shinyhunters,high,Actor named in source
+2026-05_vimeo_anodot_breach_shinyhunters,actor_attribution,cybercrime,cybercrime,high,Extortion/data theft group
+2026-05_vimeo_anodot_breach_shinyhunters,attack_method,data_exfiltration,data_exfiltration,high,Personal data stolen
+2026-05_vm2_cve_2026_26956_rce,attack_method,remote_code_execution,remote_code_execution,high,Sandbox escape to host RCE
+2026-05_vm2_cve_2026_26956_rce,product,vm2,vm2,high,Affected package
+2026-05_vm2_cve_2026_26956_rce,product_class,developer_tool,developer_tool,high,Node.js sandbox library
+2026-05_weaver_ecology_cve_2026_22679,attack_method,remote_code_execution,remote_code_execution,high,RCE vulnerability exploitation
+2026-05_weaver_ecology_cve_2026_22679,initial_access,exploit_public_facing_app,exploit_public_facing_app,high,Internet-facing system exploitation
+2026-05_weaver_ecology_cve_2026_22679,product,Weaver E-cology,weaver_e_cology,high,Affected product
 2026-05_wordpress_quick_redirect_backdoor,attack_method,backdoor,backdoor,high,Hidden self-update mechanism enables arbitrary code execution
 2026-05_wordpress_quick_redirect_backdoor,attack_method,seo_spam_redirect,seo_spam_redirect,high,SEO spam functionality added via malicious update 5.2.3
 2026-05_wordpress_quick_redirect_backdoor,attack_method,supply_chain_compromise,supply_chain_compromise,high,Backdoored plugin distributed via WordPress.org update path
 2026-05_wordpress_quick_redirect_backdoor,product,Quick Page/Post Redirect,quick_page_post_redirect,high,Plugin versions 5.2.1/5.2.2 had hidden update mechanism
 2026-05_wordpress_quick_redirect_backdoor,product_class,wordpress_plugin,wordpress_plugin,high,WordPress plugin Quick Page/Post Redirect contained backdoor
+2026-05_zara_customer_data_breach,attack_method,data_exfiltration,data_exfiltration,high,Customer information exposed
+2026-05_zara_customer_data_breach,product,Zara,zara,high,Impacted service/brand
