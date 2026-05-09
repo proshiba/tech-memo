@@ -11,6 +11,11 @@ Output:
   daily-news/weekly-review/YYYY/ioc-analysis/<week_label>_ioc_summary.csv
 
 This script does not access the network and does not modify source IOC CSV files.
+
+Shared/cloud/service host handling:
+  - exact matches are always preserved
+  - host_overlap matches are suppressed for hosts listed in:
+      daily-news/scripts/ioc_shared_service_hosts.json
 """
 
 from __future__ import annotations
@@ -43,6 +48,9 @@ REQUIRED_COLUMNS = [
 ]
 
 
+DEFAULT_SHARED_SERVICE_HOSTS_FILE = "daily-news/scripts/ioc_shared_service_hosts.json"
+
+
 TYPE_ALIASES = {
     "ip": "ip",
     "ipv4": "ip",
@@ -69,64 +77,6 @@ TYPE_ALIASES = {
     "user_agent": "user_agent",
 }
 
-DEFAULT_SHARED_SERVICE_HOSTS_FILE = "daily-news/scripts/ioc_shared_service_hosts.json"
-
-@dataclass(frozen=True)
-class SharedServiceHostConfig:
-    exact_hosts: frozenset[str]
-    suffixes: tuple[str, ...]
-
-
-def normalize_host_for_compare(host: str) -> str:
-    return (host or "").strip().lower().rstrip(".")
-
-
-def load_shared_service_hosts(path: Path | None) -> SharedServiceHostConfig:
-    if path is None:
-        return SharedServiceHostConfig(exact_hosts=frozenset(), suffixes=tuple())
-
-    if not path.exists():
-        return SharedServiceHostConfig(exact_hosts=frozenset(), suffixes=tuple())
-
-    with path.open("r", encoding="utf-8") as f:
-        data = json.load(f)
-
-    exact_hosts = {
-        normalize_host_for_compare(h)
-        for h in data.get("host_overlap_exclude_exact_hosts", [])
-        if isinstance(h, str) and h.strip()
-    }
-
-    suffixes = []
-    for suffix in data.get("host_overlap_exclude_suffixes", []):
-        if not isinstance(suffix, str) or not suffix.strip():
-            continue
-        s = suffix.strip().lower()
-        if not s.startswith("."):
-            s = "." + s
-        suffixes.append(s.rstrip("."))
-
-    return SharedServiceHostConfig(
-        exact_hosts=frozenset(exact_hosts),
-        suffixes=tuple(sorted(set(suffixes))),
-    )
-
-
-def is_shared_service_host(host: str, config: SharedServiceHostConfig) -> bool:
-    h = normalize_host_for_compare(host)
-    if not h:
-        return False
-
-    if h in config.exact_hosts:
-        return True
-
-    for suffix in config.suffixes:
-        # suffix is like ".github.io"
-        # Match foo.github.io, but not github.io unless it is explicitly listed.
-        if h.endswith(suffix):
-            return True
-
-    return False
 
 @dataclass(frozen=True)
 class IocRow:
@@ -148,6 +98,19 @@ class IocRow:
     description: str
     author: str
     confidence: str
+
+
+@dataclass(frozen=True)
+class SharedServiceHostConfig:
+    exact_hosts: frozenset[str]
+    suffixes: tuple[str, ...]
+    source_file: str
+
+
+@dataclass
+class MatchBuildStats:
+    suppressed_past_host_overlap_rows: int = 0
+    suppressed_current_host_overlap_rows: int = 0
 
 
 def parse_yyyy_mm_dd(value: str) -> date | None:
@@ -199,18 +162,22 @@ def canonical_type(ioc_type: str) -> str:
     return TYPE_ALIASES.get(key, key or "other")
 
 
+def normalize_host_for_compare(host: str) -> str:
+    return (host or "").strip().lower().rstrip(".")
+
+
 def normalize_domain(value: str) -> tuple[str, str]:
     v = defang_to_plain(value).strip().strip("\"'").lower()
 
     # If a URL accidentally appears as domain, extract host.
     if "://" in v:
         parsed = urlsplit(v)
-        host = parsed.hostname or ""
-        return host.rstrip("."), host.rstrip(".")
+        host = normalize_host_for_compare(parsed.hostname or "")
+        return host, host
 
     # Remove path if present.
     v = v.split("/")[0]
-    v = v.rstrip(".")
+    v = normalize_host_for_compare(v)
     return v, v
 
 
@@ -220,13 +187,13 @@ def normalize_url(value: str) -> tuple[str, str]:
     if not re.match(r"^[a-zA-Z][a-zA-Z0-9+.-]*://", v):
         # Keep as-is if the source says URL but scheme is missing.
         lowered = v.lower()
-        host = lowered.split("/")[0].rstrip(".")
+        host = normalize_host_for_compare(lowered.split("/")[0])
         return lowered, host
 
     parsed = urlsplit(v)
     scheme = parsed.scheme.lower()
+    host = normalize_host_for_compare(parsed.hostname or "")
     netloc = parsed.netloc.lower()
-    host = parsed.hostname.lower().rstrip(".") if parsed.hostname else ""
 
     # Remove default ports for stability.
     if parsed.port:
@@ -265,6 +232,76 @@ def normalize_value(ioc_type: str, ioc_value: str) -> tuple[str, str, str]:
         return ctype, defang_to_plain(ioc_value).strip(), ""
 
     return ctype, defang_to_plain(ioc_value).strip(), ""
+
+
+def load_shared_service_hosts(path: Path | None) -> SharedServiceHostConfig:
+    """
+    Load shared/cloud/service host config.
+
+    This config only suppresses host_overlap matches.
+    Exact matches are never suppressed by this config.
+    """
+    if path is None:
+        return SharedServiceHostConfig(
+            exact_hosts=frozenset(),
+            suffixes=tuple(),
+            source_file="",
+        )
+
+    if not path.exists():
+        return SharedServiceHostConfig(
+            exact_hosts=frozenset(),
+            suffixes=tuple(),
+            source_file=str(path),
+        )
+
+    with path.open("r", encoding="utf-8") as f:
+        data = json.load(f)
+
+    exact_hosts = {
+        normalize_host_for_compare(h)
+        for h in data.get("host_overlap_exclude_exact_hosts", [])
+        if isinstance(h, str) and h.strip()
+    }
+
+    suffixes: list[str] = []
+    for suffix in data.get("host_overlap_exclude_suffixes", []):
+        if not isinstance(suffix, str) or not suffix.strip():
+            continue
+
+        s = suffix.strip().lower().rstrip(".")
+        if not s.startswith("."):
+            s = "." + s
+        suffixes.append(s)
+
+    return SharedServiceHostConfig(
+        exact_hosts=frozenset(exact_hosts),
+        suffixes=tuple(sorted(set(suffixes))),
+        source_file=str(path),
+    )
+
+
+def is_shared_service_host(host: str, config: SharedServiceHostConfig) -> bool:
+    """
+    Return True if host is a legitimate shared/cloud/service host.
+
+    Intended use:
+      - suppress host_overlap matches
+      - do not suppress exact matches
+    """
+    h = normalize_host_for_compare(host)
+    if not h:
+        return False
+
+    if h in config.exact_hosts:
+        return True
+
+    for suffix in config.suffixes:
+        suffix_root = suffix.lstrip(".")
+        if h == suffix_root or h.endswith(suffix):
+            return True
+
+    return False
 
 
 def read_ioc_csv(path: Path) -> list[IocRow]:
@@ -373,19 +410,32 @@ def write_current_iocs(path: Path, rows: list[IocRow]) -> None:
             )
 
 
-def build_matches(current: list[IocRow], past: list[IocRow], include_host_overlap: bool) -> list[dict[str, str]]:
+def build_matches(
+    current: list[IocRow],
+    past: list[IocRow],
+    include_host_overlap: bool,
+    shared_service_hosts: SharedServiceHostConfig,
+) -> tuple[list[dict[str, str]], MatchBuildStats]:
     exact_index: dict[tuple[str, str], list[IocRow]] = defaultdict(list)
     host_index: dict[str, list[IocRow]] = defaultdict(list)
+    stats = MatchBuildStats()
 
     for p in past:
+        # Exact matches are always indexed.
         exact_index[(p.normalized_type, p.normalized_value)].append(p)
+
+        # Host-overlap matches are skipped for shared/cloud/service hosts.
         if include_host_overlap and p.host:
+            if is_shared_service_host(p.host, shared_service_hosts):
+                stats.suppressed_past_host_overlap_rows += 1
+                continue
             host_index[p.host].append(p)
 
     matches: list[dict[str, str]] = []
     seen: set[tuple[str, int, str, int, str]] = set()
 
     for c in current:
+        # Exact matches are always preserved, even on GitHub/CDN/shared hosts.
         exact_matches = exact_index.get((c.normalized_type, c.normalized_value), [])
         for p in exact_matches:
             key = (c.source_file, c.source_line, p.source_file, p.source_line, "exact")
@@ -395,6 +445,10 @@ def build_matches(current: list[IocRow], past: list[IocRow], include_host_overla
             matches.append(match_record(c, p, "exact"))
 
         if include_host_overlap and c.host:
+            if is_shared_service_host(c.host, shared_service_hosts):
+                stats.suppressed_current_host_overlap_rows += 1
+                continue
+
             for p in host_index.get(c.host, []):
                 if p.normalized_type == c.normalized_type and p.normalized_value == c.normalized_value:
                     continue
@@ -404,7 +458,7 @@ def build_matches(current: list[IocRow], past: list[IocRow], include_host_overla
                 seen.add(key)
                 matches.append(match_record(c, p, "host_overlap"))
 
-    return matches
+    return matches, stats
 
 
 def match_record(current: IocRow, past: IocRow, match_type: str) -> dict[str, str]:
@@ -491,7 +545,7 @@ def write_matches(path: Path, matches: list[dict[str, str]]) -> None:
             writer.writerow(row)
 
 
-def write_summary(path: Path, current: list[IocRow], matches: list[dict[str, str]]) -> None:
+def write_summary(path: Path, current: list[IocRow], matches: list[dict[str, str]], stats: MatchBuildStats) -> None:
     rows: list[dict[str, str]] = []
 
     def add(metric: str, name: str, count: int) -> None:
@@ -510,6 +564,8 @@ def write_summary(path: Path, current: list[IocRow], matches: list[dict[str, str
     add("matched_ioc_rows", "total", len(matches))
     add("matched_ioc_distinct", "total", len(matched_distinct))
     add("cross_reference_matched_ioc_distinct", "total", len(cross_reference_distinct))
+    add("host_overlap_suppressed_current_shared_service_rows", "total", stats.suppressed_current_host_overlap_rows)
+    add("host_overlap_suppressed_past_shared_service_rows", "total", stats.suppressed_past_host_overlap_rows)
 
     for name, count in Counter(r.normalized_type for r in current).most_common():
         add("target_ioc_type", name, count)
@@ -557,10 +613,24 @@ def main() -> int:
         default=True,
         help="Also match URL/domain rows by host overlap. Default: true.",
     )
+    parser.add_argument(
+        "--shared-service-hosts-file",
+        default=DEFAULT_SHARED_SERVICE_HOSTS_FILE,
+        help=(
+            "JSON file that lists legitimate shared/cloud/service hosts to suppress "
+            "from host_overlap matching. Exact matches are not suppressed. "
+            f"Default: {DEFAULT_SHARED_SERVICE_HOSTS_FILE}"
+        ),
+    )
     args = parser.parse_args()
 
     repo_root = Path(args.repo_root).resolve()
     ioc_dir = (repo_root / args.ioc_dir).resolve()
+
+    shared_service_hosts_file = Path(args.shared_service_hosts_file)
+    if not shared_service_hosts_file.is_absolute():
+        shared_service_hosts_file = repo_root / shared_service_hosts_file
+    shared_service_hosts = load_shared_service_hosts(shared_service_hosts_file)
 
     target_start = parse_yyyy_mm_dd(args.target_start)
     target_end = parse_yyyy_mm_dd(args.target_end)
@@ -576,8 +646,10 @@ def main() -> int:
     )
     output_dir.mkdir(parents=True, exist_ok=True)
 
+    ioc_files = list(iter_ioc_files(ioc_dir))
+
     all_rows: list[IocRow] = []
-    for csv_path in iter_ioc_files(ioc_dir):
+    for csv_path in ioc_files:
         all_rows.extend(read_ioc_csv(csv_path))
 
     current: list[IocRow] = []
@@ -596,7 +668,13 @@ def main() -> int:
     current.sort(key=lambda r: (r.row_date, r.normalized_type, r.normalized_value, r.source_file, r.source_line))
     past.sort(key=lambda r: (r.row_date, r.normalized_type, r.normalized_value, r.source_file, r.source_line))
 
-    matches = build_matches(current, past, include_host_overlap=args.include_host_overlap)
+    matches, stats = build_matches(
+        current,
+        past,
+        include_host_overlap=args.include_host_overlap,
+        shared_service_hosts=shared_service_hosts,
+    )
+
     matches.sort(
         key=lambda m: (
             m["target_date"],
@@ -615,15 +693,20 @@ def main() -> int:
 
     write_current_iocs(current_path, current)
     write_matches(matches_path, matches)
-    write_summary(summary_path, current, matches)
+    write_summary(summary_path, current, matches, stats)
 
     print(f"target_start: {args.target_start}")
     print(f"target_end: {args.target_end}")
     print(f"week_label: {args.week_label}")
-    print(f"ioc_files_scanned: {len(list(iter_ioc_files(ioc_dir)))}")
+    print(f"ioc_files_scanned: {len(ioc_files)}")
     print(f"current_ioc_rows: {len(current)}")
     print(f"past_ioc_rows: {len(past)}")
     print(f"match_rows: {len(matches)}")
+    print(f"shared_service_hosts_file: {shared_service_hosts_file}")
+    print(f"shared_service_exact_hosts: {len(shared_service_hosts.exact_hosts)}")
+    print(f"shared_service_suffixes: {len(shared_service_hosts.suffixes)}")
+    print(f"host_overlap_suppressed_current_shared_service_rows: {stats.suppressed_current_host_overlap_rows}")
+    print(f"host_overlap_suppressed_past_shared_service_rows: {stats.suppressed_past_host_overlap_rows}")
     print(f"current_iocs_csv: {current_path}")
     print(f"ioc_matches_csv: {matches_path}")
     print(f"ioc_summary_csv: {summary_path}")
