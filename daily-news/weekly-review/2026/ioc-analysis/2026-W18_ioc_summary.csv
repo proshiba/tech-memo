@@ -1,0 +1,55 @@
+metric,name,count
+target_ioc_rows,total,334
+target_ioc_distinct,total,334
+matched_ioc_rows,total,300
+matched_ioc_distinct,total,5
+cross_reference_matched_ioc_distinct,total,5
+target_ioc_type,md5,75
+target_ioc_type,sha256,72
+target_ioc_type,domain,64
+target_ioc_type,ip,51
+target_ioc_type,url,50
+target_ioc_type,sha1,22
+target_category,malware,170
+target_category,c2,119
+target_category,phishing-site,20
+target_category,related-file,17
+target_category,abusefile,6
+target_category,srcip,2
+target_actor,unknown,113
+target_actor,Silver Fox,86
+target_actor,APT37,66
+target_actor,MuddyWater,20
+target_actor,OceanLotus (suspected),18
+target_actor,UAT-8302,18
+target_actor,REF3076,13
+target_actor_attribute,unknown,190
+target_actor_attribute,north-korea,66
+target_actor_attribute,cybercrime,40
+target_actor_attribute,iran,20
+target_actor_attribute,china,18
+target_malware,BirdCall,65
+target_malware,ABCDoor,52
+target_malware,RustSL,31
+target_malware,PCPJack,26
+target_malware,Beagle,25
+target_malware,NWHStealer,19
+target_malware,ZiChatBot,18
+target_malware,CloudSorcerer/VSHELL/DeedRAT,15
+target_malware,OpenClaw,14
+target_malware,N/A,13
+target_malware,TCLBanker,13
+target_malware,unknown,11
+target_malware,Quasar Linux (QLNX),9
+target_malware,Game.exe,5
+target_malware,ms_upd.exe,4
+target_malware,AMOS Stealer,4
+target_malware,ValleyRAT,3
+target_malware,Stowaway,2
+target_malware,Trojanized mono.dll,1
+target_malware,SoftEther VPN,1
+target_malware,Chaos,1
+target_malware,WebView2.exe,1
+target_malware,DIDS.exe,1
+match_type,host_overlap,300
+matched_ioc_type,url,300
