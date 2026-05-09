@@ -25,7 +25,7 @@ jobs:
       - name: Checkout PR
         uses: actions/checkout@v4
 
-      - name: List changed Events CSV files
+      - name: List changed daily Events CSV files
         env:
           EVENT_NAME: ${{ github.event_name }}
           GH_TOKEN: ${{ github.token }}
@@ -46,7 +46,8 @@ jobs:
           else
             : > /tmp/pr_files.tsv
             find daily-news/data \
-              \( -name events.csv -o -name event_tags.csv \) \
+              \( -path "*/events/[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9].csv" -o \
+                 -path "*/event_tags/[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9].csv" \) \
               -type f \
               | sort \
               | awk '{ print $0 "\tmodified" }' > /tmp/pr_files.tsv
@@ -56,15 +57,16 @@ jobs:
           fi
 
           awk -F '\t' '
-            $1 ~ /^daily-news\/data\/[0-9]{4}\/[0-9]{4}-[0-9]{2}\/(events|event_tags)\.csv$/ {
+            $1 ~ /^daily-news\/data\/[0-9]{4}\/[0-9]{4}-[0-9]{2}\/events\/[0-9]{8}\.csv$/ ||
+            $1 ~ /^daily-news\/data\/[0-9]{4}\/[0-9]{4}-[0-9]{2}\/event_tags\/[0-9]{8}\.csv$/ {
               print $0
             }
           ' /tmp/pr_files.tsv > /tmp/events_csv_files.tsv || true
 
-          echo "Events CSV files selected for validation:"
+          echo "Daily Events CSV files selected for validation:"
           cat /tmp/events_csv_files.tsv || true
 
-      - name: Validate Events CSV files
+      - name: Validate daily Events CSV files
         shell: bash
         run: |
           python3 <<'PY'
@@ -90,10 +92,9 @@ jobs:
               filename, status = parts
               entries.append((pathlib.Path(filename), status))
 
-          # This workflow is intended to be safe as a required status check.
-          # Non-events PRs should pass without blocking manual workflows.
+          # Required checkとして安全に使うため、events CSV変更がないPRはpassさせる。
           if not entries:
-              print("No changed Events CSV files. Passing.")
+              print("No changed daily Events CSV files. Passing.")
               sys.exit(0)
 
           EVENTS_HEADER = [
@@ -125,7 +126,6 @@ jobs:
           FOLLOWUP_VALUES = {"yes", "maybe", "no"}
           SNAKE_RE = re.compile(r"^[a-z0-9]+(?:_[a-z0-9]+)*$")
 
-          REPO_ROOT = pathlib.Path(".").resolve()
           TAXONOMY_VALUES = pathlib.Path("daily-news/data/taxonomy/taxonomy_values.csv")
           TAXONOMY_DIMENSIONS = pathlib.Path("daily-news/data/taxonomy/taxonomy_dimensions.csv")
 
@@ -142,7 +142,7 @@ jobs:
                   errors.append(f"{TAXONOMY_DIMENSIONS}: file does not exist")
                   return {}
 
-              modes: dict[str, str] = {}
+              modes = {}
               with TAXONOMY_DIMENSIONS.open("r", encoding="utf-8", newline="") as f:
                   reader = csv.DictReader(f)
                   for row in reader:
@@ -157,7 +157,7 @@ jobs:
                   errors.append(f"{TAXONOMY_VALUES}: file does not exist")
                   return {}
 
-              values: dict[str, set[str]] = {}
+              values = {}
               with TAXONOMY_VALUES.open("r", encoding="utf-8", newline="") as f:
                   reader = csv.DictReader(f)
                   for row in reader:
@@ -207,7 +207,7 @@ jobs:
                   add_error(path, 1, f"invalid header: {header}")
                   return []
 
-              records: list[tuple[int, dict[str, str]]] = []
+              records = []
 
               for line_no, row in enumerate(rows[1:], start=2):
                   if not row or all(not cell.strip() for cell in row):
@@ -236,26 +236,54 @@ jobs:
 
               return records
 
+          def parse_daily_path(path: pathlib.Path):
+              m = re.fullmatch(
+                  r"daily-news/data/(\d{4})/(\d{4}-\d{2})/(events|event_tags)/(\d{8})\.csv",
+                  str(path),
+              )
+              if not m:
+                  return None
+              year, month, kind, ymd = m.groups()
+              target_date = f"{ymd[:4]}-{ymd[4:6]}-{ymd[6:8]}"
+              return year, month, kind, ymd, target_date
+
           for path, status in entries:
               if status == "removed":
-                  add_error(path, None, "Events CSV file was removed")
+                  add_error(path, None, "daily Events CSV file was removed")
 
-          month_dirs = sorted({path.parent for path, _ in entries})
+              parsed = parse_daily_path(path)
+              if parsed is None:
+                  add_error(path, None, "invalid daily events CSV path")
 
-          for month_dir in month_dirs:
-              events_path = month_dir / "events.csv"
-              tags_path = month_dir / "event_tags.csv"
+          # 変更された日付単位で events と event_tags のペアを検証する。
+          target_groups = {}
+
+          for path, _ in entries:
+              parsed = parse_daily_path(path)
+              if parsed is None:
+                  continue
+
+              year, month, kind, ymd, target_date = parsed
+              base_dir = pathlib.Path(f"daily-news/data/{year}/{month}")
+              target_groups[(year, month, ymd, target_date)] = {
+                  "events": base_dir / "events" / f"{ymd}.csv",
+                  "event_tags": base_dir / "event_tags" / f"{ymd}.csv",
+              }
+
+          for (year, month, ymd, target_date), paths in sorted(target_groups.items()):
+              events_path = paths["events"]
+              tags_path = paths["event_tags"]
 
               events_records = read_csv_records(events_path, EVENTS_HEADER)
               tags_records = read_csv_records(tags_path, TAGS_HEADER)
 
-              event_keys: set[str] = set()
+              event_keys = set()
 
               for line_no, row in events_records:
                   event_key = row["event_key"].strip()
                   date = row["date"].strip()
                   week = row["week"].strip()
-                  month = row["month"].strip()
+                  row_month = row["month"].strip()
                   event_type = row["event_type"].strip()
                   title = row["title"].strip()
                   summary = row["summary"].strip()
@@ -269,7 +297,7 @@ jobs:
                       "event_key": event_key,
                       "date": date,
                       "week": week,
-                      "month": month,
+                      "month": row_month,
                       "event_type": event_type,
                       "title": title,
                       "summary": summary,
@@ -288,14 +316,17 @@ jobs:
                           add_error(events_path, line_no, f"duplicated event_key: {event_key}")
                       event_keys.add(event_key)
 
-                  if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", date):
-                      add_error(events_path, line_no, f"invalid date format: {date}")
+                  if date != target_date:
+                      add_error(events_path, line_no, f"date must match filename date {target_date}: {date}")
+
+                  if not event_key.startswith(f"{target_date}_"):
+                      add_error(events_path, line_no, f"event_key must start with {target_date}_: {event_key}")
 
                   if not re.fullmatch(r"\d{4}-W\d{2}", week):
                       add_error(events_path, line_no, f"invalid week format: {week}")
 
-                  if not re.fullmatch(r"\d{4}-\d{2}", month):
-                      add_error(events_path, line_no, f"invalid month format: {month}")
+                  if row_month != month:
+                      add_error(events_path, line_no, f"month must match path month {month}: {row_month}")
 
                   if event_type and event_type not in valid_event_types:
                       add_error(events_path, line_no, f"event_type is not valid taxonomy value: {event_type}")
@@ -315,7 +346,7 @@ jobs:
                   if not source_url and needs_review != "true":
                       add_error(events_path, line_no, "source_url is empty, so needs_review must be true")
 
-              seen_tags: set[tuple[str, str, str]] = set()
+              seen_tags = set()
 
               for line_no, row in tags_records:
                   event_key = row["event_key"].strip()
@@ -323,7 +354,6 @@ jobs:
                   raw_value = row["raw_value"].strip()
                   normalized_value = row["normalized_value"].strip()
                   confidence = row["confidence"].strip()
-                  note = row["note"].strip()
 
                   required_non_empty = {
                       "event_key": event_key,
@@ -338,7 +368,7 @@ jobs:
                           add_error(tags_path, line_no, f"{field_name} must not be empty")
 
                   if event_key and event_key not in event_keys:
-                      add_error(tags_path, line_no, f"event_key does not exist in events.csv: {event_key}")
+                      add_error(tags_path, line_no, f"event_key does not exist in daily events CSV: {event_key}")
 
                   if dimension and dimension not in dimension_modes:
                       add_error(tags_path, line_no, f"dimension does not exist in taxonomy_dimensions.csv: {dimension}")
@@ -359,23 +389,23 @@ jobs:
                           add_error(
                               tags_path,
                               line_no,
-                              f"normalized_value is not valid for closed dimension {dimension}: {normalized_value}"
+                              f"normalized_value is not valid for closed dimension {dimension}: {normalized_value}",
                           )
                   elif mode == "dynamic":
                       if normalized_value and not SNAKE_RE.fullmatch(normalized_value):
                           add_error(
                               tags_path,
                               line_no,
-                              f"normalized_value for dynamic dimension must be lowercase snake_case: {normalized_value}"
+                              f"normalized_value for dynamic dimension must be lowercase snake_case: {normalized_value}",
                           )
                   elif dimension:
                       add_error(tags_path, line_no, f"unknown value_mode for dimension {dimension}: {mode}")
 
           if errors:
-              print("Events CSV validation failed:", file=sys.stderr)
+              print("Daily Events CSV validation failed:", file=sys.stderr)
               for error in errors:
                   print(f"- {error}", file=sys.stderr)
               sys.exit(1)
 
-          print("Events CSV validation passed.")
+          print("Daily Events CSV validation passed.")
           PY
