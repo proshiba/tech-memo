@@ -1,4 +1,4 @@
-name: Enable auto-merge for Claude Events PRs
+name: Enable auto-merge for Claude Daily Events PRs
 
 on:
   pull_request_target:
@@ -16,14 +16,14 @@ permissions:
 
 jobs:
   enable-automerge:
-    name: enable-events-automerge
+    name: enable-daily-events-automerge
     runs-on: ubuntu-latest
 
     if: >
       !github.event.pull_request.draft &&
       github.event.pull_request.base.ref == 'main' &&
       github.event.pull_request.head.repo.full_name == github.repository &&
-      startsWith(github.event.pull_request.head.ref, 'claude/make-events-csv-')
+      startsWith(github.event.pull_request.head.ref, 'claude/make-daily-events-csv-')
 
     steps:
       - name: Check PR files
@@ -70,7 +70,16 @@ jobs:
               raise SystemExit(1)
 
           if not csvs:
-              raise SystemExit("No events.csv or event_tags.csv file was changed.")
+              raise SystemExit("No daily events CSV file was changed.")
+
+          events = [f for f in csvs if "/events/" in f]
+          event_tags = [f for f in csvs if "/event_tags/" in f]
+
+          if not events:
+              raise SystemExit("No daily events CSV file under events/ was changed.")
+
+          if not event_tags:
+              raise SystemExit("No daily event_tags CSV file under event_tags/ was changed.")
 
           print("PR file check passed.")
           PY
