@@ -1,0 +1,49 @@
+event_key,dimension,raw_value,normalized_value,confidence,note
+2026-05-11_instructure_canvas_xss_incident,actor,ShinyHunters,shinyhunters,high,Instructureへの身代金交渉とデータ窃取を主張
+2026-05-11_instructure_canvas_xss_incident,actor_attribution,cybercrime,cybercrime,high,金銭目的の恐喝活動
+2026-05-11_instructure_canvas_xss_incident,product,Canvas,canvas,high,攻撃対象のLMSプラットフォーム
+2026-05-11_instructure_canvas_xss_incident,product_class,cloud service (SaaS LMS),cloud_service,high,CanvasはSaaSクラウドLMS
+2026-05-11_instructure_canvas_xss_incident,initial_access,exploit public-facing app (XSS),exploit_public_facing_app,high,複数のXSS脆弱性が悪用された
+2026-05-11_instructure_canvas_xss_incident,attack_method,session hijacking via XSS,session_hijacking,high,XSS経由で認証済み管理者セッションを取得
+2026-05-11_instructure_canvas_xss_incident,attack_method,data exfiltration (3.6TB+),data_exfiltration,high,3.6TB超のデータ窃取をShinyHuntersが主張
+2026-05-11_instructure_canvas_xss_incident,crime_trend,data extortion,data_extortion,high,データ窃取と身代金交渉による恐喝
+2026-05-11_ai_generated_zero_day_web_admin_tool,product_class,open source web admin tool,web_server,medium,ツール名は伏せられているがWeb管理ツールとして分類
+2026-05-11_ai_generated_zero_day_web_admin_tool,attack_method,authentication bypass (2FA bypass),authentication_bypass,high,2FA保護を回避するゼロデイエクスプロイト
+2026-05-11_trickmo_android_ton_blockchain_c2,malware,TrickMo,trickmo,high,Androidバンキングマルウェアの新亜種Trickmo.C
+2026-05-11_trickmo_android_ton_blockchain_c2,product_class,Android mobile app,mobile_app,high,偽TikTok・ストリーミングアプリとして配布
+2026-05-11_trickmo_android_ton_blockchain_c2,initial_access,drive-by download (fake APK),drive_by_download,high,TikTok等を装う偽APKのダウンロード・インストール
+2026-05-11_trickmo_android_ton_blockchain_c2,attack_method,credential theft,credential_theft,high,銀行認証情報・OTP・キーロギング
+2026-05-11_trickmo_android_ton_blockchain_c2,attack_method,C2 communication via TON blockchain,c2_communication,high,TONブロックチェーンを経由した秘匿C2通信
+2026-05-11_trickmo_android_ton_blockchain_c2,crime_trend,crypto theft,crypto_theft,high,暗号資産ウォレット利用者を明示的に標的
+2026-05-11_trickmo_android_ton_blockchain_c2,actor_attribution,cybercrime,cybercrime,high,金銭目的の犯罪活動
+2026-05-11_google_ads_claude_ai_mac_malvertising,product,Claude.ai,claude_ai,high,正規のClaude.ai共有チャット機能が悪用された
+2026-05-11_google_ads_claude_ai_mac_malvertising,product,Google Ads,google_ads,high,Google広告でClaude関連キーワードを悪用
+2026-05-11_google_ads_claude_ai_mac_malvertising,product_class,AI tool (Claude.ai),ai_tool,high,Claude.aiプラットフォームへのなりすまし悪用
+2026-05-11_google_ads_claude_ai_mac_malvertising,initial_access,phishing via malvertising,phishing,high,偽広告・偽手順ページで利用者を誘導
+2026-05-11_google_ads_claude_ai_mac_malvertising,attack_method,social engineering (Terminal command execution),social_engineering,high,Terminalコマンド貼り付けによるマルウェア実行誘導
+2026-05-11_google_ads_claude_ai_mac_malvertising,attack_method,"credential theft (browser, Cookie, Keychain)",credential_theft,high,ブラウザ認証情報・Cookie・macOS Keychain窃取
+2026-05-11_clickfix_macos_infostealer_campaign,malware,Macsync,macsync,high,ClickFix経由で配布されるmacOSインフォスティーラー
+2026-05-11_clickfix_macos_infostealer_campaign,malware,Shub Stealer,shub_stealer,high,ClickFix経由で配布されるインフォスティーラー
+2026-05-11_clickfix_macos_infostealer_campaign,malware,AMOS,amos,high,ClickFix経由で配布されるmacOS向けインフォスティーラー
+2026-05-11_clickfix_macos_infostealer_campaign,product_class,macOS,os,high,macOSが主要な攻撃対象
+2026-05-11_clickfix_macos_infostealer_campaign,initial_access,phishing (fake macOS utility pages),phishing,high,偽ユーティリティページでTerminalコマンド実行を誘導
+2026-05-11_clickfix_macos_infostealer_campaign,attack_method,credential theft,credential_theft,high,ブラウザ認証情報・Keychain・iCloud・暗号資産ウォレット窃取
+2026-05-11_clickfix_macos_infostealer_campaign,attack_method,data exfiltration,data_exfiltration,high,収集した認証情報・ファイルの外部流出
+2026-05-11_clickfix_macos_infostealer_campaign,crime_trend,ClickFix,clickfix,high,偽修復手順でコマンド実行を誘導するClickFix手口
+2026-05-11_clickfix_macos_infostealer_campaign,crime_trend,infostealer market,infostealer_market,medium,認証情報・ウォレット情報窃取を目的とする活動
+2026-05-11_etherrat_tuktuk_gentleman_ransomware,malware,EtherRAT,etherrat,high,初期アクセス後に実行されたRAT
+2026-05-11_etherrat_tuktuk_gentleman_ransomware,malware,TukTuk,tuktuk,high,SaaS C2を使う追加ペイロード
+2026-05-11_etherrat_tuktuk_gentleman_ransomware,malware,The Gentleman,the_gentleman,high,最終的に展開されたランサムウェア
+2026-05-11_etherrat_tuktuk_gentleman_ransomware,initial_access,unknown (malicious MSI delivery method not specified),unknown,medium,Sysinternals RAMMapを装う悪性MSIの配布経路は記事から不明
+2026-05-11_etherrat_tuktuk_gentleman_ransomware,attack_method,ransomware,ransomware,high,GPO経由でドメイン全体にThe Gentlemenを展開
+2026-05-11_etherrat_tuktuk_gentleman_ransomware,attack_method,data exfiltration (Rclone to Wasabi),data_exfiltration,high,Rcloneを使いWasabiへ大量データを流出
+2026-05-11_etherrat_tuktuk_gentleman_ransomware,attack_method,"credential theft (Kerberoasting, Mimikatz, NTDS)",credential_theft,high,Kerberoasting・Mimikatz・NTDSダンプによる認証情報窃取
+2026-05-11_etherrat_tuktuk_gentleman_ransomware,attack_method,"C2 communication (TryCloudflare, SaaS)",c2_communication,high,TryCloudflare・Supabase・ClickHouseをC2として悪用
+2026-05-11_etherrat_tuktuk_gentleman_ransomware,attack_method,defense evasion (decoy domains),defense_evasion,high,デコイドメインを混在させてインフラ帰属を困難にした
+2026-05-11_etherrat_tuktuk_gentleman_ransomware,crime_trend,ransomware extortion,ransomware_extortion,high,データ窃取後のランサムウェア展開による二重恐喝型
+2026-05-11_etherrat_tuktuk_gentleman_ransomware,actor_attribution,cybercrime,cybercrime,high,金銭目的のランサムウェア活動
+2026-05-11_mini_shai_hulud_npm_supply_chain,product,@tanstack,tanstack,high,侵害された公式npmパッケージファミリー
+2026-05-11_mini_shai_hulud_npm_supply_chain,product_class,npm package ecosystem,package_ecosystem,high,npmエコシステムを悪用したサプライチェーン攻撃
+2026-05-11_mini_shai_hulud_npm_supply_chain,initial_access,supply chain (compromised npm packages),supply_chain,high,正規npmパッケージへの悪性コード注入が入口
+2026-05-11_mini_shai_hulud_npm_supply_chain,attack_method,supply chain compromise,supply_chain_compromise,high,正規パッケージに悪性ペイロードを注入して拡散
+2026-05-11_mini_shai_hulud_npm_supply_chain,attack_method,"token theft (GitHub, npm, CI/CD)",token_theft,high,GitHubトークン・npmトークン・CI/CDシークレットを窃取
