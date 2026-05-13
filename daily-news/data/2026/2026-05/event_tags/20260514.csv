@@ -1,0 +1,36 @@
+event_key,dimension,raw_value,normalized_value,confidence,note
+2026-05-14_japanese_malspam_sideloading_campaign,initial_access,マルスパム,malspam,high,件名「電子領収書」のマルスパムが入口
+2026-05-14_japanese_malspam_sideloading_campaign,attack_method,サイドローディング（防御回避）,defense_evasion,high,DLLサイドローディングによる防御回避
+2026-05-14_japanese_malspam_sideloading_campaign,attack_method,C2通信,c2_communication,high,38.76.199.112:28888へのC2通信
+2026-05-14_japanese_malspam_sideloading_campaign,product_class,OS（Windows）,os,medium,Windows実行ファイル(.exe)が標的
+2026-05-14_shai_hulud_mini_c2_ioc,malware,Shai-Hulud,shai_hulud,medium,mini-shai-huludはShai-Huludのバリアント
+2026-05-14_shai_hulud_mini_c2_ioc,attack_method,C2通信,c2_communication,low,埋め込みC2情報
+2026-05-14_breachforums_shai_hulud_sc_competition,actor,BreachForums,breachforums,medium,コンペ主催フォーラム
+2026-05-14_breachforums_shai_hulud_sc_competition,actor,TeamPCP,team_pcp,medium,コンペ共同主催グループ
+2026-05-14_breachforums_shai_hulud_sc_competition,actor_attribution,cybercrime,cybercrime,high,犯罪フォーラムによる組織的活動
+2026-05-14_breachforums_shai_hulud_sc_competition,malware,Shai-Hulud,shai_hulud,high,コンペで使用されるマルウェアのソースコード
+2026-05-14_breachforums_shai_hulud_sc_competition,attack_method,サプライチェーン侵害,supply_chain_compromise,medium,サプライチェーン攻撃を目的としたコンペ
+2026-05-14_exim_cve_2026_45185_rce,product,Exim,exim,high,影響製品 Exim 4.97〜4.99.2
+2026-05-14_exim_cve_2026_45185_rce,attack_method,リモートコード実行,remote_code_execution,high,未認証RCEにつながるUse-After-Free
+2026-05-14_exim_cve_2026_45185_rce,initial_access,公開アプリ悪用,exploit_public_facing_app,high,公開Eximサーバーへの攻撃
+2026-05-14_windows_bitlocker_zero_day_poc,product,Windows,windows,high,影響製品 Windows 11 / Windows Server 2022/2025
+2026-05-14_windows_bitlocker_zero_day_poc,product_class,OS,os,high,Windows OS
+2026-05-14_windows_bitlocker_zero_day_poc,attack_method,認証回避（BitLockerバイパス）,authentication_bypass,high,YellowKeyによるBitLocker保護ボリュームへの無制限アクセス
+2026-05-14_windows_bitlocker_zero_day_poc,attack_method,権限昇格,privilege_escalation,high,GreenPlasmaによるSYSTEM権限昇格
+2026-05-14_windows_bitlocker_zero_day_poc,actor,Chaotic Eclipse,chaotic_eclipse,high,PoC公開の研究者
+2026-05-14_windows_bitlocker_zero_day_poc,actor_attribution,security_researcher,security_researcher,high,研究者によるPoC公開
+2026-05-14_bitlocker_recovery_patch_windows11,product,Windows 11,windows_11,high,修正対象製品
+2026-05-14_bitlocker_recovery_patch_windows11,product_class,OS,os,high,Windows OS
+2026-05-14_foxconn_nitrogen_ransomware_incident,actor,Nitrogen,nitrogen,high,ランサムウェア攻撃集団
+2026-05-14_foxconn_nitrogen_ransomware_incident,actor_attribution,cybercrime,cybercrime,high,恐喝目的の犯罪グループ
+2026-05-14_foxconn_nitrogen_ransomware_incident,crime_trend,ランサムウェア恐喝,ransomware_extortion,high,ランサムウェア攻撃とデータ恐喝
+2026-05-14_foxconn_nitrogen_ransomware_incident,attack_method,ランサムウェア,ransomware,high,ランサムウェアによる攻撃
+2026-05-14_foxconn_nitrogen_ransomware_incident,attack_method,データ窃取,data_exfiltration,high,8TBのデータ窃取
+2026-05-14_instructure_canvas_shinyhunters_breach,actor,ShinyHunters,shinyhunters,high,攻撃グループ
+2026-05-14_instructure_canvas_shinyhunters_breach,actor_attribution,cybercrime,cybercrime,high,データ窃取・恐喝目的の犯罪グループ
+2026-05-14_instructure_canvas_shinyhunters_breach,crime_trend,データ恐喝,data_extortion,high,データ窃取と恐喝
+2026-05-14_instructure_canvas_shinyhunters_breach,attack_method,データ窃取,data_exfiltration,high,2.8億件のデータ窃取
+2026-05-14_instructure_canvas_shinyhunters_breach,product,Canvas,canvas,high,侵害されたLMSプラットフォーム
+2026-05-14_instructure_canvas_shinyhunters_breach,product_class,クラウドサービス,cloud_service,high,クラウドベースのLMS
+2026-05-14_enesan_hd_ransomware_incident,crime_trend,ランサムウェア恐喝,ransomware_extortion,medium,ランサムウェア被害と個人情報流出
+2026-05-14_enesan_hd_ransomware_incident,attack_method,ランサムウェア,ransomware,medium,ランサムウェア攻撃
