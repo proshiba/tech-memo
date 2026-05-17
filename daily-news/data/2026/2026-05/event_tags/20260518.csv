@@ -1,0 +1,27 @@
+event_key,dimension,raw_value,normalized_value,confidence,note
+2026-05-18_japanese_malspam_exe_campaign,initial_access,マルスパム,malspam,high,件名を持つ日本語悪性メールからのZIP配布
+2026-05-18_japanese_malspam_exe_campaign,attack_method,C2通信,c2_communication,high,EXE実行後に2つのC2 IPへ通信
+2026-05-18_tycoon2fa_device_code_phishing_m365,malware,Tycoon2FA,tycoon2fa,high,PhaaS/フィッシングキット名
+2026-05-18_tycoon2fa_device_code_phishing_m365,initial_access,フィッシングメール（請求書偽装）,phishing,high,請求書を装ったメールから開始
+2026-05-18_tycoon2fa_device_code_phishing_m365,attack_method,OAuthトークン窃取,token_theft,high,OAuthアクセス・リフレッシュトークンを窃取
+2026-05-18_tycoon2fa_device_code_phishing_m365,crime_trend,デバイスコードフィッシング,device_code_phishing,high,OAuthデバイスコード認証悪用
+2026-05-18_tycoon2fa_device_code_phishing_m365,crime_trend,フィッシングキット（PhaaS）,phishing_kit_ecosystem,high,Tycoon2FAはPhaaSプラットフォーム
+2026-05-18_tycoon2fa_device_code_phishing_m365,crime_trend,アカウント乗っ取り,account_takeover,high,Microsoft 365アカウント乗っ取りに悪用
+2026-05-18_tycoon2fa_device_code_phishing_m365,product,Microsoft 365,microsoft_365,high,標的サービス
+2026-05-18_tycoon2fa_device_code_phishing_m365,product_class,認証・ID基盤,identity_service,high,Entra ID/OAuthを悪用
+2026-05-18_azure_backup_aks_priv_escalation_report,attack_method,権限昇格（Backup ContributorからCluster-admin）,privilege_escalation,high,低権限からCluster-admin権限へ昇格可能
+2026-05-18_azure_backup_aks_priv_escalation_report,product,Azure Backup for AKS,azure_backup_for_aks,high,脆弱性が報告された対象サービス
+2026-05-18_azure_backup_aks_priv_escalation_report,product_class,クラウドサービス,cloud_service,high,Azure クラウドサービス
+2026-05-18_azure_backup_aks_priv_escalation_report,actor_attribution,セキュリティ研究者,security_researcher,high,研究者による発見・報告。実攻撃なし
+2026-05-18_secret_blizzard_kazuar_p2p_botnet,actor,Secret Blizzard,secret_blizzard,high,Microsoftが帰属するロシア系APT
+2026-05-18_secret_blizzard_kazuar_p2p_botnet,actor_attribution,国家支援（FSB関連）,nation_state,high,FSB関連のロシア国家支援グループ
+2026-05-18_secret_blizzard_kazuar_p2p_botnet,malware,Kazuar,kazuar,high,P2Pボットネット構造に進化したバックドア
+2026-05-18_secret_blizzard_kazuar_p2p_botnet,attack_method,C2通信（P2P/HTTP/WebSocket/EWS）,c2_communication,high,P2P構造でC2外部通信を最小化
+2026-05-18_secret_blizzard_kazuar_p2p_botnet,attack_method,バックドア,backdoor,high,Kazuarはバックドアとして機能
+2026-05-18_secret_blizzard_kazuar_p2p_botnet,attack_method,防御回避（AMSI/ETW/WLDPバイパス）,defense_evasion,high,AMSI・ETW・WLDPバイパス機能を内蔵
+2026-05-18_grafana_labs_github_breach,initial_access,GitHub Actions Pwn Request（pull_request_target設定不備）,exploit_public_facing_app,medium,CI/CDワークフローの設定不備を悪用したトークン窃取
+2026-05-18_grafana_labs_github_breach,attack_method,トークン窃取（GitHub Actionsシークレット）,token_theft,high,悪性PRでワークフローを起動しシークレット/トークンを窃取
+2026-05-18_grafana_labs_github_breach,attack_method,コードベースのダウンロード（データ窃取）,data_exfiltration,high,窃取トークンでリポジトリコードをダウンロード
+2026-05-18_grafana_labs_github_breach,crime_trend,身代金要求（コード公開脅迫）,data_extortion,high,コード公開を盾にした恐喝
+2026-05-18_grafana_labs_github_breach,product,GitHub Actions,github_actions,high,Pwn Request脆弱性の対象
+2026-05-18_grafana_labs_github_breach,product_class,CI/CD基盤,ci_cd_platform,high,GitHub Actions CI/CDプラットフォーム
