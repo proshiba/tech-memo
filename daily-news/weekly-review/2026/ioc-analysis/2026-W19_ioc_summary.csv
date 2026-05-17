@@ -1,0 +1,35 @@
+metric,name,count
+target_ioc_rows,total,104
+target_ioc_distinct,total,104
+matched_ioc_rows,total,0
+matched_ioc_distinct,total,0
+cross_reference_matched_ioc_distinct,total,0
+host_overlap_suppressed_current_shared_service_rows,total,16
+host_overlap_suppressed_past_shared_service_rows,total,91
+target_ioc_type,sha256,33
+target_ioc_type,url,26
+target_ioc_type,ip,18
+target_ioc_type,domain,15
+target_ioc_type,md5,6
+target_ioc_type,sha1,6
+target_category,c2,52
+target_category,malware,34
+target_category,related-file,8
+target_category,phishing-site,4
+target_category,abusefile,3
+target_category,tool,3
+target_actor,unknown,58
+target_actor,TeamPCP,31
+target_actor,KongTuke,11
+target_actor,Lazarus Group,4
+target_actor_attribute,unknown,100
+target_actor_attribute,north-korea,4
+target_malware,unknown,34
+target_malware,EtherRAT,23
+target_malware,ModeloRAT,11
+target_malware,TukTuk,9
+target_malware,Infostealer,9
+target_malware,TrickMo,6
+target_malware,Macsync,5
+target_malware,"InvisibleFerret, BeaverTail",4
+target_malware,N/A,3
