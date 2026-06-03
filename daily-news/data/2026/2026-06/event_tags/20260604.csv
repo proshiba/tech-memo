@@ -1,0 +1,60 @@
+event_key,dimension,raw_value,normalized_value,confidence,note
+2026-06-04_japanese_malspam_js_wmi,initial_access,マルスパム,malspam,high,
+2026-06-04_japanese_malspam_js_wmi,attack_method,wmicall/PowerShell/環境変数経由の難読化実行,defense_evasion,medium,INTERNAL_DB_CACHE環境変数に悪性コードを仕込む手口
+2026-06-04_nobitex_ofac_sanctions,actor_attribution,IRGC関連ランサムウェア攻撃者,nation_state,high,IRGC関連と明記
+2026-06-04_nobitex_ofac_sanctions,product,Nobitex,nobitex,high,
+2026-06-04_nobitex_ofac_sanctions,product_class,暗号資産取引所,cryptocurrency_platform,high,
+2026-06-04_nobitex_ofac_sanctions,crime_trend,ランサムウェア攻撃者の資金洗浄支援,ransomware_extortion,high,ランサムウェア攻撃者がこの取引所を利用
+2026-06-04_atg_fuel_tank_active_attacks,initial_access,インターネット公開ATGシステムの侵害,exploit_public_facing_app,high,インターネットに露出したATGを侵害と明記
+2026-06-04_atg_fuel_tank_active_attacks,attack_method,コマンド実行による設定・警報改ざん,remote_code_execution,medium,コマンド実行による制御システムへの不正操作
+2026-06-04_atg_fuel_tank_active_attacks,actor_attribution,不明,unknown,high,米政府は国家や脅威グループへの帰属を公表していない
+2026-06-04_http2_bomb_dos_webserver,attack_method,HTTP/2 BombによるDoS攻撃,ddos,high,
+2026-06-04_http2_bomb_dos_webserver,product,nginx,nginx,high,
+2026-06-04_http2_bomb_dos_webserver,product,Apache HTTP Server,apache_http_server,high,
+2026-06-04_http2_bomb_dos_webserver,product,Microsoft IIS,microsoft_iis,high,
+2026-06-04_http2_bomb_dos_webserver,product,Envoy,envoy,high,
+2026-06-04_http2_bomb_dos_webserver,product,Cloudflare Pingora,cloudflare_pingora,high,
+2026-06-04_http2_bomb_dos_webserver,product_class,Webサーバー,web_server,high,
+2026-06-04_android_linux_cve_kev_active,attack_method,権限昇格・コンテナ脱出,privilege_escalation,high,CVE-2025-48595とCVE-2022-0492どちらも権限昇格に繋がる
+2026-06-04_android_linux_cve_kev_active,product,Android,android,high,CVE-2025-48595: Android 14-16
+2026-06-04_android_linux_cve_kev_active,product,Linux Kernel,linux_kernel,high,CVE-2022-0492: Linux cgroups v1
+2026-06-04_android_linux_cve_kev_active,product_class,OS,os,high,
+2026-06-04_acer_wave7_zerodayrouter_vuln,product,Acer Wave 7,acer_wave_7,high,
+2026-06-04_acer_wave7_zerodayrouter_vuln,product_class,ネットワーク機器,network_device,high,
+2026-06-04_acer_wave7_zerodayrouter_vuln,attack_method,未認証でログ内の平文認証情報へリモートアクセス CVE-2026-49200,authentication_bypass,high,アクセス制御不備により認証なしでアクセス可能
+2026-06-04_acer_wave7_zerodayrouter_vuln,attack_method,ハードコードAES鍵によるバックドア注入 CVE-2026-49201,backdoor,high,
+2026-06-04_operation_kratos2_streaming_takedown,actor_attribution,組織犯罪グループ,cybercrime,high,9つの組織犯罪グループと明記
+2026-06-04_vscode_github_token_zerodayvuln,product,Visual Studio Code,visual_studio_code,high,
+2026-06-04_vscode_github_token_zerodayvuln,product_class,開発者ツール,developer_tool,high,
+2026-06-04_vscode_github_token_zerodayvuln,attack_method,GitHub OAuthトークン窃取,token_theft,high,
+2026-06-04_vscode_github_token_zerodayvuln,attack_method,悪意ある拡張機能のインストール誘導,malicious_extension,high,Webviewメッセージ処理悪用で悪性拡張をインストール
+2026-06-04_kirki_wordpress_active_exploitation,product,Kirki,kirki,high,
+2026-06-04_kirki_wordpress_active_exploitation,product_class,WordPressプラグイン,wordpress_plugin,high,
+2026-06-04_kirki_wordpress_active_exploitation,attack_method,特権昇格脆弱性CVE-2026-8206,privilege_escalation,high,
+2026-06-04_kirki_wordpress_active_exploitation,attack_method,REST APIが任意メールアドレスを受け入れる認証回避,authentication_bypass,high,パスワードリセットREST APIの不備
+2026-06-04_weedhack_minecraft_maas_campaign,malware,WeedHack,weedhack,high,
+2026-06-04_weedhack_minecraft_maas_campaign,initial_access,YouTube/SEOポイズニング経由の悪性Mod配布,drive_by_download,high,
+2026-06-04_weedhack_minecraft_maas_campaign,attack_method,ブラウザ認証情報・暗号資産ウォレット窃取,credential_theft,high,
+2026-06-04_weedhack_minecraft_maas_campaign,crime_trend,MaaSダッシュボード型インフォスティーラー,malware_as_a_service,high,
+2026-06-04_npm_dependency_confusion_33packages,product_class,npmパッケージエコシステム,package_ecosystem,high,
+2026-06-04_npm_dependency_confusion_33packages,initial_access,依存関係混同によるサプライチェーン侵入,supply_chain,high,
+2026-06-04_npm_dependency_confusion_33packages,attack_method,悪性npmパッケージのpostinstallフック実行,malicious_package,high,
+2026-06-04_npm_dependency_confusion_33packages,attack_method,C2からのペイロード取得,c2_communication,high,
+2026-06-04_npm_dependency_confusion_33packages,attack_method,環境情報・認証情報の外部送信,data_exfiltration,high,偵察モードで環境変数・ホスト名等を収集・送信
+2026-06-04_deskcvb_rat_malspam_delivery,malware,DesckVB RAT,deskcvb_rat,high,
+2026-06-04_deskcvb_rat_malspam_delivery,initial_access,HTML添付マルスパム,malspam,high,
+2026-06-04_deskcvb_rat_malspam_delivery,attack_method,MSBuild.exe/InstallUtil.exeへのプロセスインジェクション,process_injection,high,
+2026-06-04_deskcvb_rat_malspam_delivery,attack_method,AMSI/ETW回避・Defender無効化,defense_evasion,high,
+2026-06-04_deskcvb_rat_malspam_delivery,attack_method,永続化機構の設置,persistence,high,
+2026-06-04_deskcvb_rat_malspam_delivery,attack_method,DDNS C2通信,c2_communication,high,
+2026-06-04_ironworm_npm_supply_chain,malware,IronWorm,ironworm,high,
+2026-06-04_ironworm_npm_supply_chain,product_class,npmパッケージエコシステム,package_ecosystem,high,
+2026-06-04_ironworm_npm_supply_chain,initial_access,悪性npmパッケージ経由,supply_chain,high,
+2026-06-04_ironworm_npm_supply_chain,attack_method,盗んだ認証情報でのGitHubリポジトリへの悪性コミット自己伝播,supply_chain_compromise,high,
+2026-06-04_ironworm_npm_supply_chain,attack_method,認証情報・クラウド/CI/CD秘密情報の窃取,credential_theft,high,
+2026-06-04_ironworm_npm_supply_chain,attack_method,悪性npmパッケージの配布,malicious_package,high,
+2026-06-04_japan_support_scam_school,crime_trend,サポート詐欺(電話ビッシング),vishing,medium,サポート詐欺は電話を使った詐欺の一種
+2026-06-04_japan_support_scam_school,actor_attribution,不明,cybercrime,medium,サポート詐欺は通常サイバー犯罪グループが実施
+2026-06-04_japan_hotel_booking_tamper,actor_attribution,不明,unknown,low,情報が少なく帰属不明
+2026-06-04_google_android_fake_call_detection,product,Android,android,high,
+2026-06-04_google_android_fake_call_detection,product_class,OS,os,high,
