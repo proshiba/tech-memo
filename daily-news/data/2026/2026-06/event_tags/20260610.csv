@@ -1,0 +1,72 @@
+event_key,dimension,raw_value,normalized_value,confidence,note
+2026-06-10_contagious_interview_c2_domain,actor,Contagious Interview,contagious_interview,low,Markdown内でContagious Interviewと同じパターンと記載、推定
+2026-06-10_contagious_interview_c2_domain,actor_attribution,北朝鮮ハッカー,nation_state,low,Markdown内で可能性として記載
+2026-06-10_contagious_interview_c2_domain,attack_method,C2通信,c2_communication,high,C2 IPとドメインが確認されている
+2026-06-10_japanese_malspam_agent_tesla,initial_access,マルスパム,malspam,high,日本語メール添付ファイル経由
+2026-06-10_japanese_malspam_agent_tesla,malware,DonutLoader,donut_loader,high,ローダーとして明示
+2026-06-10_japanese_malspam_agent_tesla,malware,AgentTesla,agent_tesla,high,ペイロードとして明示
+2026-06-10_japanese_malspam_agent_tesla,attack_method,悪性ファイル (RAR内JS),malicious_document,high,.rar > .js の添付ファイル経由
+2026-06-10_japanese_malspam_agent_tesla,attack_method,C2通信 (FTP),c2_communication,high,FTPサーバーとの通信先が確認済み
+2026-06-10_openclaw_ai_phishing_research,product,OpenClaw,openclaw,high,AIエージェントの名称
+2026-06-10_openclaw_ai_phishing_research,product_class,AIエージェント,ai_tool,high,AIメールエージェント
+2026-06-10_openclaw_ai_phishing_research,attack_method,プロンプトインジェクション/フィッシング誘導,prompt_injection,high,フィッシングメールでAIエージェントの指示を操作
+2026-06-10_openclaw_ai_phishing_research,attack_method,データ窃取 (認証情報・顧客データ),data_exfiltration,high,認証情報や顧客データが外部送信された
+2026-06-10_sap_june_2026_patch,product,SAP NetWeaver,sap_netweaver,high,影響製品として明示
+2026-06-10_sap_june_2026_patch,product,SAP Commerce Cloud,sap_commerce_cloud,high,影響製品として明示
+2026-06-10_sap_june_2026_patch,product,SAP ABAP Platform,sap_abap_platform,high,影響製品として明示
+2026-06-10_sap_june_2026_patch,attack_method,"認証バイパス (XML署名ラッピング, CVE-2026-44748)",authentication_bypass,high,SAML環境での認証バイパス
+2026-06-10_sap_june_2026_patch,attack_method,"リモートコード実行 (メモリ破壊, CVE-2026-27671)",remote_code_execution,high,未認証RFCリクエストによるメモリ破壊
+2026-06-10_sap_june_2026_patch,attack_method,SQLインジェクション,sql_injection,medium,修正対象脆弱性の一種として記載
+2026-06-10_microsoft_patch_tuesday_june_2026,product,Windows,windows,high,影響製品として明示
+2026-06-10_microsoft_patch_tuesday_june_2026,product,HTTP.sys,http_sys,high,HTTP/2 Bomb脆弱性CVE-2026-49160の対象
+2026-06-10_microsoft_patch_tuesday_june_2026,product_class,OS,os,high,Windows OS
+2026-06-10_microsoft_patch_tuesday_june_2026,attack_method,"DoS (HTTP/2 Bomb, CVE-2026-49160)",ddos,medium,HTTP/2ヘッダー処理悪用のDoS脆弱性
+2026-06-10_veeam_rce_cve_2026_44963,product,Veeam Backup & Replication,veeam_backup_replication,high,影響製品として明示
+2026-06-10_veeam_rce_cve_2026_44963,attack_method,リモートコード実行 (CVE-2026-44963),remote_code_execution,high,ドメイン参加済みサーバーでの低権限ユーザーによるRCE
+2026-06-10_checkpoint_vpn_active_exploitation,product,Check Point VPN,check_point_vpn,high,対象製品として明示
+2026-06-10_checkpoint_vpn_active_exploitation,product_class,VPN,vpn,high,VPN製品
+2026-06-10_checkpoint_vpn_active_exploitation,initial_access,公開VPNサービス悪用 (CVE-2026-50751),exploit_public_facing_app,high,インターネット公開VPNへの認証バイパス
+2026-06-10_checkpoint_vpn_active_exploitation,attack_method,認証バイパス (CVE-2026-50751),authentication_bypass,high,未認証遠隔攻撃者が認証を迂回
+2026-06-10_checkpoint_vpn_active_exploitation,attack_method,ランサムウェア展開,ransomware,high,Qilinランサムウェアアフィリエイトによる侵害後活動
+2026-06-10_checkpoint_vpn_active_exploitation,actor_attribution,Qilinランサムウェアアフィリエイト,cybercrime,high,Qilin RaaS関係者による悪用
+2026-06-10_checkpoint_vpn_active_exploitation,crime_trend,RaaS (Qilin),ransomware_as_a_service,high,Qilin RaaSアフィリエイトモデル
+2026-06-10_chrome_zerodey_cve_2026_11645,product,Google Chrome,google_chrome,high,対象ブラウザとして明示
+2026-06-10_chrome_zerodey_cve_2026_11645,product_class,ブラウザ,browser,high,Google Chrome
+2026-06-10_chrome_zerodey_cve_2026_11645,initial_access,細工したHTMLページによるドライブバイ,drive_by_download,high,悪性HTMLページへの誘導
+2026-06-10_chrome_zerodey_cve_2026_11645,attack_method,リモートコード実行 (V8境界外メモリアクセス),remote_code_execution,high,CVE-2026-11645 V8での任意コード実行
+2026-06-10_nfcshare_android_malware_github,malware,NFCShare,nfcshare,high,Androidマルウェア名として明示
+2026-06-10_nfcshare_android_malware_github,product_class,モバイルアプリ,mobile_app,high,偽銀行アプリとして配布されるAndroid APK
+2026-06-10_nfcshare_android_malware_github,initial_access,偽銀行アプリ更新 (GitHub APK),malicious_update,high,GitHubから正規銀行アプリの偽更新として配布
+2026-06-10_nfcshare_android_malware_github,attack_method,認証情報窃取 (NFCカード情報・PIN),credential_theft,high,NFCチップを通じたカード情報とPIN窃取
+2026-06-10_nfcshare_android_malware_github,attack_method,防御回避 (不正APKパッケージング),defense_evasion,medium,自動解析妨害のための不正パッケージング
+2026-06-10_sofi_hongkong_data_breach,product,SoFi Securities (Hong Kong),sofi_securities_hong_kong,high,侵害を受けた会社名
+2026-06-10_sofi_hongkong_data_breach,product_class,金融/クラウドサービス,cloud_service,medium,金融サービス会社のシステム、cloud_serviceで近似
+2026-06-10_sofi_hongkong_data_breach,initial_access,第三者ベンダー経由の不正アクセス,supply_chain,medium,委託先ベンダーのデータベースへの不正アクセス
+2026-06-10_sofi_hongkong_data_breach,attack_method,データ窃取,data_exfiltration,high,顧客情報への不正アクセスが確認された
+2026-06-10_miasma_hades_pypi_supply_chain,malware,Hades (Miasma PyPI分岐),hades,medium,Miasma系統のPyPI分岐として追跡
+2026-06-10_miasma_hades_pypi_supply_chain,malware,Miasma,miasma,medium,関連マルウェアファミリー
+2026-06-10_miasma_hades_pypi_supply_chain,product_class,PyPIパッケージエコシステム,package_ecosystem,high,PyPIへの悪性パッケージ混入
+2026-06-10_miasma_hades_pypi_supply_chain,initial_access,悪性PyPIパッケージ,supply_chain,high,パッケージエコシステム経由の信頼関係悪用
+2026-06-10_miasma_hades_pypi_supply_chain,attack_method,悪性パッケージ (PyPI wheel),malicious_package,high,悪性wheelアーティファクトを使った攻撃
+2026-06-10_miasma_hades_pypi_supply_chain,attack_method,認証情報窃取 (開発者・CI/CD),credential_theft,high,GitHub・AWS・GCP・Azure等の認証情報を標的
+2026-06-10_miasma_hades_pypi_supply_chain,attack_method,防御回避 (難読化JavaScript),defense_evasion,high,難読化JavaScriptペイロードで自動解析を妨害
+2026-06-10_unk_deaddrop_developer_phishing,actor,UNK_DeadDrop,unk_deaddrop,high,Proofpointが追跡するクラスター名
+2026-06-10_unk_deaddrop_developer_phishing,actor_attribution,北朝鮮連携の可能性が高い,nation_state,medium,Proofpointが北朝鮮連携の可能性が高いと評価
+2026-06-10_unk_deaddrop_developer_phishing,malware,Overlord,overlord,high,Linux/macOS向けRATとして明示
+2026-06-10_unk_deaddrop_developer_phishing,initial_access,フィッシング (偽求人・コードレビュー),phishing,high,求人やコードレビューを装ったフィッシング
+2026-06-10_unk_deaddrop_developer_phishing,attack_method,悪性拡張 (VSIX拡張),malicious_extension,high,VSCode/Cursor向けのVSIX拡張を悪用
+2026-06-10_unk_deaddrop_developer_phishing,attack_method,認証情報窃取,credential_theft,high,暗号資産ウォレットや認証情報を窃取
+2026-06-10_unk_deaddrop_developer_phishing,attack_method,データ窃取,data_exfiltration,high,開発者の認証情報・ウォレットを外部送信
+2026-06-10_unk_deaddrop_developer_phishing,crime_trend,偽求人・採用詐欺,fake_job_recruitment,high,偽の求人やコードレビューを使った侵入
+2026-06-10_unk_deaddrop_developer_phishing,crime_trend,暗号資産窃取,crypto_theft,high,暗号資産ウォレットを標的
+2026-06-10_servicenow_auth_bypass,product,ServiceNow,servicenow,high,対象製品として明示
+2026-06-10_servicenow_auth_bypass,product_class,クラウドサービス,cloud_service,high,SaaSプラットフォーム
+2026-06-10_servicenow_auth_bypass,attack_method,認証バイパス (アクセス制御不備),authentication_bypass,high,未認証ユーザーが意図以上のアクセス権を取得
+2026-06-10_servicenow_auth_bypass,initial_access,公開クラウドサービス悪用,exploit_public_facing_app,medium,インターネット公開のServiceNowへの不正アクセス
+2026-06-10_jp_career_site_credential_stuffing,product_class,モバイルアプリ (転職サイト),mobile_app,high,スマホアプリが攻撃対象
+2026-06-10_jp_career_site_credential_stuffing,initial_access,窃取認証情報 (パスワードリスト),stolen_credentials,high,パスワードリスト攻撃
+2026-06-10_jp_career_site_credential_stuffing,attack_method,認証情報窃取,credential_theft,high,アカウントへの不正アクセス試行
+2026-06-10_jp_career_site_credential_stuffing,crime_trend,クレデンシャルスタッフィング,credential_stuffing,high,パスワードリスト攻撃として明示
+2026-06-10_jp_sumoto_city_sns_data_leak,actor_attribution,職員による内部者流出,insider,high,職員がSNSに投稿したインシデント
+2026-06-10_jp_sumoto_city_sns_data_leak,initial_access,内部者悪用,insider_abuse,high,職員による個人情報の外部漏えい
+2026-06-10_jp_metro_employee_access_control,attack_method,アクセス制御不備,authentication_bypass,medium,アクセス制御不備による個人情報への不正アクセス可能な状態
