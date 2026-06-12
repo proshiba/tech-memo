@@ -1,0 +1,57 @@
+event_key,dimension,raw_value,normalized_value,confidence,note
+2026-06-13_valleyrat_japanese_malspam,initial_access,マルスパム,malspam,high,日本語メールでzip添付リンク
+2026-06-13_valleyrat_japanese_malspam,malware,ValleyRAT,valleyrat,high,
+2026-06-13_valleyrat_japanese_malspam,attack_method,DLLサイドローディング,defense_evasion,high,MicrosoftEdgeUpdate.exeとして偽装しDLLサイドローディング
+2026-06-13_valleyrat_japanese_malspam,attack_method,C2通信,c2_communication,high,43.128.26.132:779/778へ通信
+2026-06-13_agentTesla_japanese_malspam,initial_access,マルスパム,malspam,high,日本語メールでrar添付
+2026-06-13_agentTesla_japanese_malspam,malware,AgentTesla,agent_tesla,high,
+2026-06-13_agentTesla_japanese_malspam,attack_method,C2通信,c2_communication,high,FTPサーバへ通信
+2026-06-13_maine_breach_portal_fake_disclosures,attack_method,なりすまし,spoofing,high,企業名義の偽通知を提出
+2026-06-13_maine_breach_portal_fake_disclosures,actor_attribution,不明,unknown,high,攻撃者の属性情報なし
+2026-06-13_phpbb_auth_bypass_vulnerability,product,phpBB,phpbb,high,
+2026-06-13_phpbb_auth_bypass_vulnerability,attack_method,認証回避,authentication_bypass,high,単一HTTPリクエストで管理者を含む任意ユーザーとしてログイン可能
+2026-06-13_conti_member_guilty_plea,malware,Conti,conti,high,
+2026-06-13_conti_member_guilty_plea,actor,Conti,conti,high,Contiランサムウェアグループ
+2026-06-13_conti_member_guilty_plea,actor_attribution,サイバー犯罪,cybercrime,high,金銭目的の犯罪グループ
+2026-06-13_conti_member_guilty_plea,attack_method,ランサムウェア,ransomware,high,
+2026-06-13_conti_member_guilty_plea,attack_method,データ窃取,data_exfiltration,high,身代金恐喝のためデータ窃取
+2026-06-13_conti_member_guilty_plea,crime_trend,RaaS,ransomware_as_a_service,high,ContiはRaaSモデルで運営
+2026-06-13_arch_linux_aur_supply_chain,product_class,パッケージ基盤,package_ecosystem,high,AUR (Arch User Repository)
+2026-06-13_arch_linux_aur_supply_chain,product,Arch User Repository,arch_user_repository,high,
+2026-06-13_arch_linux_aur_supply_chain,initial_access,サプライチェーン,supply_chain,high,AURパッケージへの悪意あるメンテナー混入
+2026-06-13_arch_linux_aur_supply_chain,attack_method,サプライチェーン侵害,supply_chain_compromise,high,信頼されたパッケージに悪性コード混入
+2026-06-13_arch_linux_aur_supply_chain,attack_method,悪性パッケージ,malicious_package,high,atomic-lockfile npmパッケージ経由で配布
+2026-06-13_arch_linux_aur_supply_chain,attack_method,防御回避,defense_evasion,high,eBPF rootkitでプロセス・ファイル・NIF隠蔽
+2026-06-13_arch_linux_aur_supply_chain,attack_method,認証情報窃取,credential_theft,high,GitHub認証情報・SSH・Vaultトークンなどを窃取
+2026-06-13_novo_nordisk_data_breach,attack_method,データ窃取,data_exfiltration,high,内部ITシステムから外部へデータコピー
+2026-06-13_novo_nordisk_data_breach,actor_attribution,不明,unknown,high,攻撃者の属性情報記載なし
+2026-06-13_ivanti_sentry_active_exploitation,product,Ivanti Sentry,ivanti_sentry,high,旧MobileIron Sentryを含む
+2026-06-13_ivanti_sentry_active_exploitation,product_class,リモートアクセス,remote_access,high,モバイルデバイス管理・ゲートウェイ製品
+2026-06-13_ivanti_sentry_active_exploitation,initial_access,公開アプリ悪用,exploit_public_facing_app,high,公開SentryゲートウェイのCVE-2026-10520悪用
+2026-06-13_ivanti_sentry_active_exploitation,attack_method,コマンドインジェクション,command_injection,high,CVE-2026-10520 OSコマンドインジェクション
+2026-06-13_tchap_french_govt_breach,product,Tchap,tchap,high,フランス政府用暗号化メッセージングサービス
+2026-06-13_tchap_french_govt_breach,product_class,コラボ基盤,collaboration_platform,high,政府向け暗号化メッセージング基盤
+2026-06-13_tchap_french_govt_breach,initial_access,窃取認証情報,stolen_credentials,medium,侵害されたユーザーアカウントを使ってアクセス
+2026-06-13_tchap_french_govt_breach,attack_method,ソーシャルエンジニアリング,social_engineering,medium,ソーシャルエンジニアリングでアクセスと主張
+2026-06-13_tchap_french_govt_breach,attack_method,データ窃取,data_exfiltration,high,65万件のメッセージと13.5GB超のデータを窃取と主張
+2026-06-13_kyushu_electric_drive_loss,actor_attribution,不明,unknown,high,攻撃者の属性情報記載なし
+2026-06-13_miasma_hades_npm_pypi_worms,malware,Miasma,miasma,high,
+2026-06-13_miasma_hades_npm_pypi_worms,malware,Hades,hades,high,npmおよびPyPIワーム
+2026-06-13_miasma_hades_npm_pypi_worms,product_class,パッケージ基盤,package_ecosystem,high,npmおよびPyPIエコシステム
+2026-06-13_miasma_hades_npm_pypi_worms,initial_access,サプライチェーン,supply_chain,high,感染パッケージの再公開による拡散
+2026-06-13_miasma_hades_npm_pypi_worms,attack_method,サプライチェーン侵害,supply_chain_compromise,high,感染端末のトークンで感染版パッケージを再公開
+2026-06-13_miasma_hades_npm_pypi_worms,attack_method,悪性パッケージ,malicious_package,high,悪意あるnpmおよびPyPIパッケージ
+2026-06-13_miasma_hades_npm_pypi_worms,attack_method,認証情報窃取,credential_theft,high,npm/PyPI公開トークンを窃取して再公開
+2026-06-13_handala_cal_water_breach,actor,Handala,handala,high,イラン関連脅威アクター
+2026-06-13_handala_cal_water_breach,actor_attribution,国家支援系,nation_state,medium,イランMOIS関連とされるが確定的ではない
+2026-06-13_handala_cal_water_breach,initial_access,公開アプリ悪用,exploit_public_facing_app,medium,RTKBaseインスタンス侵害の可能性
+2026-06-13_handala_cal_water_breach,attack_method,データ窃取,data_exfiltration,medium,5GBのデータを公開したと主張
+2026-06-13_onyxc2_maas_stealer,attack_method,防御回避,defense_evasion,high,直接システムコール・DLLサイドローディング・大容量DLL・ビルドごとの変異
+2026-06-13_onyxc2_maas_stealer,attack_method,C2通信,c2_communication,high,/backend/api/app.phpへ通信
+2026-06-13_onyxc2_maas_stealer,attack_method,認証情報窃取,credential_theft,high,ブラウザ・2FA・パスワード管理ツール・暗号資産ウォレットなどを標的
+2026-06-13_onyxc2_maas_stealer,crime_trend,MaaS,malware_as_a_service,high,月額250ドルから販売されるMaaS型スティーラー
+2026-06-13_apt28_tradecraft_evolution,actor,APT28,apt28,high,GRU Unit 26165
+2026-06-13_apt28_tradecraft_evolution,actor_attribution,国家支援系,nation_state,high,ロシアGRU Unit 26165に公的帰属
+2026-06-13_kyushu_univ_ransomware_leak,attack_method,ランサムウェア,ransomware,low,ランサム被害との記載のみ
+2026-06-13_biwako_hotel_phishing,initial_access,フィッシング,phishing,low,フィッシングメッセージとの記載のみ
+2026-06-13_microsoft_signed_malware,attack_method,防御回避,defense_evasion,low,Microsoft署名によるコード署名検証回避
