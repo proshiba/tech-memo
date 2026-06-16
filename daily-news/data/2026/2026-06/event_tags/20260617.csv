@@ -1,0 +1,69 @@
+event_key,dimension,raw_value,normalized_value,confidence,note
+2026-06-17_rokarolla_android_banking_malware,malware,Rokarolla,rokarolla,high,
+2026-06-17_rokarolla_android_banking_malware,product_class,mobile app (Android),mobile_app,high,
+2026-06-17_rokarolla_android_banking_malware,initial_access,drive-by download via malicious site,drive_by_download,high,悪性サイトでChrome/TikTok偽装APKを配布
+2026-06-17_rokarolla_android_banking_malware,attack_method,credential theft via overlay,credential_theft,high,偽ログイン画面で認証情報・カード情報窃取
+2026-06-17_rokarolla_android_banking_malware,attack_method,C2 communication,c2_communication,high,複数のフォールバックC2ドメインに通信
+2026-06-17_rokarolla_android_banking_malware,attack_method,defense evasion (Google Play Protect impersonation),defense_evasion,high,Google Play Protectを装いインストール時に権限取得
+2026-06-17_rokarolla_android_banking_malware,crime_trend,crypto theft,crypto_theft,high,暗号資産関連217アプリが標的
+2026-06-17_steam_workshop_wallpaper_engine_malware,product,Wallpaper Engine,wallpaper_engine,high,
+2026-06-17_steam_workshop_wallpaper_engine_malware,product,Steam Workshop,steam_workshop,high,
+2026-06-17_steam_workshop_wallpaper_engine_malware,product_class,cloud service (gaming platform),cloud_service,medium,Steam WorkshopはValveのクラウドコンテンツ配布基盤
+2026-06-17_steam_workshop_wallpaper_engine_malware,malware,DarkKomet,darkkomet,high,
+2026-06-17_steam_workshop_wallpaper_engine_malware,malware,Lumma,lumma,high,
+2026-06-17_steam_workshop_wallpaper_engine_malware,malware,Vidar,vidar,high,
+2026-06-17_steam_workshop_wallpaper_engine_malware,malware,RanEngine,ranengine,high,
+2026-06-17_steam_workshop_wallpaper_engine_malware,initial_access,supply chain (Steam Workshop content),supply_chain,high,信頼されたSteamコンテンツ配布経路を悪用
+2026-06-17_steam_workshop_wallpaper_engine_malware,attack_method,backdoor (DarkKomet),backdoor,high,DarkKometバックドアが導入された
+2026-06-17_steam_workshop_wallpaper_engine_malware,attack_method,C2 communication,c2_communication,high,
+2026-06-17_steam_workshop_wallpaper_engine_malware,attack_method,supply chain compromise via platform content,supply_chain_compromise,high,Steam Workshopコンテンツ経由のマルウェア配布
+2026-06-17_ftc_imposter_scam_35_billion_losses_2025,attack_method,spoofing (impersonation of banks/government/companies),spoofing,high,銀行・政府機関・企業になりすます詐欺
+2026-06-17_ftc_imposter_scam_35_billion_losses_2025,crime_trend,vishing (phone-based imposter scam),vishing,high,電話を使ったなりすまし詐欺が高額被害の主因
+2026-06-17_ftc_imposter_scam_35_billion_losses_2025,crime_trend,smishing (SMS-based contact),smishing,medium,SMS経由での接触も確認
+2026-06-17_cpanel_litespeed_cve_2026_54420_active_exploitation,product,LiteSpeed cPanel user-end plugin,litespeed_cpanel_user_end_plugin,high,
+2026-06-17_cpanel_litespeed_cve_2026_54420_active_exploitation,product_class,web server management plugin,web_server,high,cPanel/LiteSpeedはWebサーバー管理基盤
+2026-06-17_cpanel_litespeed_cve_2026_54420_active_exploitation,initial_access,exploit public-facing app,exploit_public_facing_app,high,インターネット公開サーバーのプラグイン脆弱性悪用
+2026-06-17_cpanel_litespeed_cve_2026_54420_active_exploitation,attack_method,privilege escalation to root via symlink traversal,privilege_escalation,high,UNIXシンボリックリンク追跡の弱点でroot昇格
+2026-06-17_dragonforce_teams_relay_backdoor_turn,actor,DragonForce,dragonforce,high,
+2026-06-17_dragonforce_teams_relay_backdoor_turn,actor_attribution,cybercrime (ransomware group),cybercrime,high,金銭目的のランサムウェア・恐喝グループ
+2026-06-17_dragonforce_teams_relay_backdoor_turn,malware,Backdoor.Turn,backdoor_turn,high,Microsoft TeamsリレーをC2隠蔽に悪用するカスタムバックドア
+2026-06-17_dragonforce_teams_relay_backdoor_turn,product,Microsoft Teams,microsoft_teams,high,TURNリレー基盤がC2隠蔽に悪用された
+2026-06-17_dragonforce_teams_relay_backdoor_turn,product_class,collaboration platform (Microsoft Teams),collaboration_platform,high,
+2026-06-17_dragonforce_teams_relay_backdoor_turn,initial_access,exploit public-facing app (SQL/MSSQL server),exploit_public_facing_app,medium,未知のSQL/MSSQLサーバー脆弱性悪用の可能性
+2026-06-17_dragonforce_teams_relay_backdoor_turn,attack_method,backdoor (Backdoor.Turn),backdoor,high,
+2026-06-17_dragonforce_teams_relay_backdoor_turn,attack_method,C2 communication via Teams TURN relay,c2_communication,high,正規TeamsリレーにC2通信を隠蔽
+2026-06-17_dragonforce_teams_relay_backdoor_turn,attack_method,defense evasion via BYOVD,defense_evasion,high,BYOVDでセキュリティツールを停止
+2026-06-17_dragonforce_teams_relay_backdoor_turn,attack_method,data exfiltration,data_exfiltration,high,
+2026-06-17_dragonforce_teams_relay_backdoor_turn,attack_method,ransomware deployment,ransomware,high,DragonForceランサムウェアで暗号化
+2026-06-17_dragonforce_teams_relay_backdoor_turn,crime_trend,ransomware extortion,ransomware_extortion,high,
+2026-06-17_fortisandbox_critical_vulns_active_exploitation,product,Fortinet FortiSandbox,fortinet_fortisandbox,high,
+2026-06-17_fortisandbox_critical_vulns_active_exploitation,product_class,security tool (sandbox),security_tool,high,
+2026-06-17_fortisandbox_critical_vulns_active_exploitation,initial_access,exploit public-facing app,exploit_public_facing_app,high,
+2026-06-17_fortisandbox_critical_vulns_active_exploitation,attack_method,"command injection (CVE-2026-39813, CVE-2026-39808)",command_injection,high,未認証でのコマンドインジェクション
+2026-06-17_fortisandbox_critical_vulns_active_exploitation,attack_method,privilege escalation,privilege_escalation,high,
+2026-06-17_fortisandbox_critical_vulns_active_exploitation,attack_method,remote code execution,remote_code_execution,high,
+2026-06-17_sprysocks_windows_earth_lusca_govt_attacks,actor,Earth Lusca,earth_lusca,high,中国系脅威アクター、高確度帰属
+2026-06-17_sprysocks_windows_earth_lusca_govt_attacks,actor,FishMonger,fishmonger,high,Earth Luscaの別名
+2026-06-17_sprysocks_windows_earth_lusca_govt_attacks,actor_attribution,nation state (China-nexus),nation_state,high,中国系国家支援活動
+2026-06-17_sprysocks_windows_earth_lusca_govt_attacks,malware,SprySOCKS,sprysocks,high,Windows版バックドア
+2026-06-17_sprysocks_windows_earth_lusca_govt_attacks,attack_method,backdoor,backdoor,high,WIN_DRV/WIN_PLUSによるバックドア
+2026-06-17_sprysocks_windows_earth_lusca_govt_attacks,attack_method,defense evasion via kernel driver (WIN_DRV),defense_evasion,high,カーネルドライバでプロセス・通信・ファイル・レジストリ隠蔽
+2026-06-17_sprysocks_windows_earth_lusca_govt_attacks,attack_method,persistence,persistence,high,
+2026-06-17_irhythm_data_breach_patient_info,attack_method,data exfiltration (patient health info),data_exfiltration,high,
+2026-06-17_irhythm_data_breach_patient_info,crime_trend,data extortion (ransom demand for non-disclosure),data_extortion,high,データ公開を条件とした身代金要求
+2026-06-17_irhythm_data_breach_patient_info,product_class,cloud service (third-party hosted business app),cloud_service,medium,サードパーティホスト型業務アプリが侵害対象
+2026-06-17_doj_takedown_cfake_socfake_deepfake_sites,attack_method,spoofing (AI-generated deepfake images),spoofing,high,非同意のAI生成ヌード画像によるなりすまし
+2026-06-17_atlas_rat_japan_silver_fox_ta4922,actor,Silver Fox,silver_fox,medium,周辺の活動と関連すると分析
+2026-06-17_atlas_rat_japan_silver_fox_ta4922,actor,TA4922,ta4922,medium,Proofpointが中国系犯罪グループと報告
+2026-06-17_atlas_rat_japan_silver_fox_ta4922,actor_attribution,cybercrime (suspected Chinese-nexus crime group),cybercrime,medium,Proofpointは犯罪グループと分類
+2026-06-17_atlas_rat_japan_silver_fox_ta4922,malware,Atlas RAT,atlas_rat,high,
+2026-06-17_atlas_rat_japan_silver_fox_ta4922,initial_access,phishing (Japanese business document lure),phishing,medium,日本語業務文書を装うISO/ZIPファイルで誘導
+2026-06-17_atlas_rat_japan_silver_fox_ta4922,attack_method,backdoor (Atlas RAT),backdoor,high,
+2026-06-17_atlas_rat_japan_silver_fox_ta4922,attack_method,defense evasion (DLL side-loading),defense_evasion,high,正規実行ファイルの悪用とDLLサイドローディング
+2026-06-17_atlas_rat_japan_silver_fox_ta4922,attack_method,persistence (Wtapise64 service),persistence,high,Wtapise64サービスとして永続化
+2026-06-17_atlas_rat_japan_silver_fox_ta4922,attack_method,C2 communication,c2_communication,high,
+2026-06-17_japan_tech_support_scam_13m_emails,initial_access,malspam (13M+ fake warning emails),malspam,high,
+2026-06-17_japan_tech_support_scam_13m_emails,attack_method,spoofing (fake alert sites),spoofing,high,偽警告サイトによるなりすまし
+2026-06-17_japan_tech_support_scam_13m_emails,crime_trend,vishing (tech support scam phone calls),vishing,high,偽警告→電話→遠隔操作→料金請求の詐欺フロー
+2026-06-17_japan_shokuso_ransomware_incident,attack_method,ransomware,ransomware,medium,
+2026-06-17_japan_shokuso_ransomware_incident,crime_trend,ransomware extortion,ransomware_extortion,medium,
