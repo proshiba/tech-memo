@@ -1,0 +1,47 @@
+event_key,dimension,raw_value,normalized_value,confidence,note
+2026-06-24_xsolis_data_breach,initial_access,標的型フィッシング攻撃,phishing,high,
+2026-06-24_xsolis_data_breach,attack_method,顧客情報を含むファイルへのアクセス,data_exfiltration,high,
+2026-06-24_xsolis_data_breach,product,Xsolis,xsolis,high,
+2026-06-24_xsolis_data_breach,product_class,ヘルステックSaaS,cloud_service,medium,
+2026-06-24_macos_clickfix_amos_campaign,malware,AMOS,amos,high,
+2026-06-24_macos_clickfix_amos_campaign,initial_access,偽CAPTCHAページによる誘導,phishing,high,
+2026-06-24_macos_clickfix_amos_campaign,attack_method,偽CAPTCHAでTerminalコマンドをPasteさせる,social_engineering,high,
+2026-06-24_macos_clickfix_amos_campaign,attack_method,ブラウザ認証情報・Keychain窃取,credential_theft,high,
+2026-06-24_macos_clickfix_amos_campaign,attack_method,ZIPで攻撃者サーバーへデータ送信,data_exfiltration,high,
+2026-06-24_macos_clickfix_amos_campaign,attack_method,攻撃者サーバーとのC2通信,c2_communication,high,
+2026-06-24_macos_clickfix_amos_campaign,product_class,macOS,os,high,
+2026-06-24_macos_clickfix_amos_campaign,product,macOS,macos,high,
+2026-06-24_macos_clickfix_amos_campaign,crime_trend,ClickFix（偽CAPTCHAによるコマンド実行誘導）,clickfix,high,
+2026-06-24_scattered_spider_tfl_guilty_plea,actor,Scattered Spider,scattered_spider,high,
+2026-06-24_scattered_spider_tfl_guilty_plea,actor_attribution,サイバー犯罪グループ,cybercrime,high,
+2026-06-24_scattered_spider_tfl_guilty_plea,attack_method,Oysterシステムのデータへのアクセス,data_exfiltration,high,
+2026-06-24_scattered_spider_tfl_guilty_plea,product,Transport for London,transport_for_london,medium,
+2026-06-24_lastpass_klue_supply_chain_breach,actor,Icarus,icarus,medium,Icarus恐喝グループが主張
+2026-06-24_lastpass_klue_supply_chain_breach,actor_attribution,サイバー犯罪（恐喝グループ）,cybercrime,high,
+2026-06-24_lastpass_klue_supply_chain_breach,initial_access,KlueのOAuthトークン窃取,stolen_token,high,
+2026-06-24_lastpass_klue_supply_chain_breach,attack_method,OAuthトークン窃取,token_theft,high,
+2026-06-24_lastpass_klue_supply_chain_breach,attack_method,Klueサプライチェーン侵害,supply_chain_compromise,high,
+2026-06-24_lastpass_klue_supply_chain_breach,attack_method,CRMデータ等の漏洩,data_exfiltration,high,
+2026-06-24_lastpass_klue_supply_chain_breach,crime_trend,データ恐喝,data_extortion,medium,Icarus恐喝グループによる主張
+2026-06-24_lastpass_klue_supply_chain_breach,product,LastPass,lastpass,high,
+2026-06-24_lastpass_klue_supply_chain_breach,product,Salesforce,salesforce,high,
+2026-06-24_lastpass_klue_supply_chain_breach,product,Klue,klue,high,
+2026-06-24_lastpass_klue_supply_chain_breach,product_class,SaaS製品群,cloud_service,high,
+2026-06-24_whatsapp_vbs_malware_campaign,initial_access,WhatsApp経由の悪性ファイル配布,phishing,high,
+2026-06-24_whatsapp_vbs_malware_campaign,attack_method,VBScriptの偽業務文書,malicious_document,high,
+2026-06-24_whatsapp_vbs_malware_campaign,attack_method,攻撃者管理サーバーへのC2接続,c2_communication,high,
+2026-06-24_whatsapp_vbs_malware_campaign,attack_method,正規RMMツール（ManageEngine）による隠蔽,defense_evasion,medium,
+2026-06-24_whatsapp_vbs_malware_campaign,product,ManageEngine Endpoint Central,manageengine_endpoint_central,high,
+2026-06-24_whatsapp_vbs_malware_campaign,product,WhatsApp,whatsapp,high,
+2026-06-24_whatsapp_vbs_malware_campaign,product_class,リモートアクセス（ManageEngine）,remote_access,high,
+2026-06-24_whatsapp_vbs_malware_campaign,malware,ValleyRAT,valley_rat,low,関連IPとの重複あり、低信頼
+2026-06-24_whatsapp_vbs_malware_campaign,malware,Gh0st RAT,gh0st_rat,low,関連IPとの重複あり、低信頼
+2026-06-24_jaredfromsubway_mev_bot_hack,crime_trend,暗号資産窃取（MEVボット）,crypto_theft,high,
+2026-06-24_jaredfromsubway_mev_bot_hack,product_class,DeFiエコシステム（Ethereum）,cryptocurrency_platform,high,
+2026-06-24_jaredfromsubway_mev_bot_hack,product,Ethereum,ethereum,high,
+2026-06-24_ffmpeg_pixelsmash_cve_2026_8461,attack_method,ヒープ範囲外書き込みによるRCE,remote_code_execution,high,条件付き（ASLR無効またはチェーン必要）
+2026-06-24_ffmpeg_pixelsmash_cve_2026_8461,product,FFmpeg,ffmpeg,high,
+2026-06-24_ffmpeg_pixelsmash_cve_2026_8461,product,Jellyfin,jellyfin,high,RCE影響製品として明示
+2026-06-24_face_group_ransomware_incident,attack_method,ランサムウェアによるシステム障害,ransomware,medium,「ランサム被害か」との報告
+2026-06-24_kddi_isp_email_breach,product,KDDI,kddi,high,
+2026-06-24_kddi_isp_email_breach,product_class,ISPメールサービス,cloud_service,medium,
