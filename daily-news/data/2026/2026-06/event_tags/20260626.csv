@@ -1,0 +1,49 @@
+event_key,dimension,raw_value,normalized_value,confidence,note
+2026-06-26_remcos_malspam_japanese,malware,Remcos,remcos,high,
+2026-06-26_remcos_malspam_japanese,initial_access,マルスパム,malspam,high,
+2026-06-26_remcos_malspam_japanese,attack_method,C2通信,c2_communication,high,C2: 173.214.167[.]253:2404
+2026-06-26_remcos_malspam_japanese,attack_method,悪性添付ファイル(.rar/.vbe),malicious_document,high,.rar > .vbe > powershell > .exe
+2026-06-26_shop_callback_phishing_abuse,crime_trend,コールバックフィッシング(ビッシング),vishing,high,電話番号経由のコールバック詐欺
+2026-06-26_shop_callback_phishing_abuse,attack_method,ソーシャルエンジニアリング,social_engineering,high,認証情報・カード情報・OTP開示を電話で誘導
+2026-06-26_shop_callback_phishing_abuse,initial_access,フィッシング(偽レシート経由),phishing,high,偽購入レシートを注文履歴に追加して誘導
+2026-06-26_shop_callback_phishing_abuse,product,Shop (Shopify注文追跡アプリ),shopify_shop_app,medium,攻撃の配信プラットフォームとして悪用
+2026-06-26_macos_gaslight_backdoor,malware,Gaslight,gaslight,high,Rust製macOSバックドア+インフォスティーラー
+2026-06-26_macos_gaslight_backdoor,actor_attribution,北朝鮮関連の脅威アクター,nation_state,high,SentinelOneが高い信頼度で帰属
+2026-06-26_macos_gaslight_backdoor,product_class,macOS,os,high,
+2026-06-26_macos_gaslight_backdoor,product,macOS,macos,high,
+2026-06-26_macos_gaslight_backdoor,attack_method,バックドア,backdoor,high,
+2026-06-26_macos_gaslight_backdoor,attack_method,AI分析ツール回避(偽エラー埋め込み),defense_evasion,high,38個の偽systemメッセージでLLM分析を阻害
+2026-06-26_macos_gaslight_backdoor,attack_method,情報窃取,data_exfiltration,high,インフォスティーラー機能
+2026-06-26_pirlotv_sports_piracy_takedown,actor_attribution,違法配信ネットワーク,cybercrime,medium,金銭目的の違法コンテンツ配信事業
+2026-06-26_bluekit_phishing_bitm,crime_trend,PhaaS(フィッシングキット基盤),phishing_kit_ecosystem,high,Bluekit PhaaS
+2026-06-26_bluekit_phishing_bitm,attack_method,セッショントークン窃取(BitM),session_hijacking,high,Browser-in-the-Middle方式でセッション乗っ取り
+2026-06-26_bluekit_phishing_bitm,attack_method,認証情報窃取,credential_theft,high,ログイン情報の取得
+2026-06-26_bluekit_phishing_bitm,actor_attribution,金銭目的の犯罪グループ,cybercrime,medium,PhaaS利用者による認証情報・セッション窃取
+2026-06-26_draftkings_credential_stuffing_sentencing,crime_trend,クレデンシャルスタッフィング,credential_stuffing,high,流出認証情報を使った大量ログイン試行
+2026-06-26_draftkings_credential_stuffing_sentencing,crime_trend,アカウント乗っ取り,account_takeover,high,侵害アカウントに攻撃者の支払い方法を追加
+2026-06-26_draftkings_credential_stuffing_sentencing,initial_access,窃取認証情報,stolen_credentials,high,他サービスの流出認証情報を流用
+2026-06-26_draftkings_credential_stuffing_sentencing,attack_method,認証情報窃取・悪用,credential_theft,high,クレデンシャルスタッフィングによる大量不正アクセス
+2026-06-26_draftkings_credential_stuffing_sentencing,actor_attribution,金銭目的の犯罪者,cybercrime,high,
+2026-06-26_draftkings_credential_stuffing_sentencing,product,DraftKings,draftkings,high,ファンタジースポーツ・ベッティングプラットフォーム
+2026-06-26_cisco_sdwan_cve_2026_20245_exploitation,product,Cisco Catalyst SD-WAN,cisco_catalyst_sd_wan,high,CVE-2026-20245
+2026-06-26_cisco_sdwan_cve_2026_20245_exploitation,product_class,ネットワーク機器(SD-WAN),network_device,high,
+2026-06-26_cisco_sdwan_cve_2026_20245_exploitation,attack_method,コマンドインジェクション(CVE-2026-20245),command_injection,high,細工ファイルアップロードによるコマンド実行
+2026-06-26_cisco_sdwan_cve_2026_20245_exploitation,attack_method,root権限取得,privilege_escalation,high,悪意あるCSVによるroot権限アカウント作成
+2026-06-26_cisco_sdwan_cve_2026_20245_exploitation,attack_method,アンチフォレンジック,defense_evasion,high,ファイル復元・ペイロード削除・痕跡消去
+2026-06-26_cisco_sdwan_cve_2026_20245_exploitation,initial_access,SD-WAN管理インターフェース悪用,exploit_public_facing_app,medium,認証済みアクセスからの悪用
+2026-06-26_cisco_sdwan_cve_2026_20245_exploitation,actor_attribution,不明,unknown,high,攻撃者属性は不明
+2026-06-26_mawesome_github_action_compromised,product,simonecorsi/mawesome GitHub Action,simonecorsi_mawesome,high,
+2026-06-26_mawesome_github_action_compromised,product_class,GitHub Actions,ci_cd_platform,high,
+2026-06-26_mawesome_github_action_compromised,attack_method,サプライチェーン侵害(force-push+タグ差替え),supply_chain_compromise,high,
+2026-06-26_mawesome_github_action_compromised,initial_access,サプライチェーン(GitHub Action),supply_chain,high,
+2026-06-26_npm_leo_platform_supply_chain_attack,product_class,npmパッケージエコシステム,package_ecosystem,high,Leo Platformエコシステムのnpmパッケージ20件
+2026-06-26_npm_leo_platform_supply_chain_attack,attack_method,サプライチェーン侵害,supply_chain_compromise,high,
+2026-06-26_npm_leo_platform_supply_chain_attack,attack_method,悪性パッケージ公開,malicious_package,high,20パッケージに悪意あるバージョンを同時公開
+2026-06-26_npm_leo_platform_supply_chain_attack,attack_method,認証情報・秘密情報の窃取,data_exfiltration,high,CI/CDランナー・クラウド認証情報・パスワード管理ツールから窃取
+2026-06-26_npm_leo_platform_supply_chain_attack,initial_access,サプライチェーン(npmパッケージ),supply_chain,high,
+2026-06-26_adblock_for_youtube_extension_risk,product,Adblock for YouTube (Chrome拡張),adblock_for_youtube,high,"1,100万超インストール"
+2026-06-26_adblock_for_youtube_extension_risk,product_class,ブラウザ拡張,browser_extension,high,
+2026-06-26_adblock_for_youtube_extension_risk,attack_method,悪性拡張(リモート設定によるJS注入),malicious_extension,medium,実際の悪用は観測されていないが構造上のリスク
+2026-06-26_adblock_for_youtube_extension_risk,attack_method,コードインジェクション(JavaScript注入),code_injection,medium,リモートサーバーから取得したscriptletをMAIN-worldに注入可能
+2026-06-26_daikyo_nishikawa_data_leak,attack_method,データ外部送信,data_exfiltration,medium,詳細不明
+2026-06-26_gendai_butsudan_data_leak,attack_method,個人情報流出,data_exfiltration,medium,詳細不明
