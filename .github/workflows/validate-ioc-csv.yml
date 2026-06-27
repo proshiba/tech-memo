@@ -208,7 +208,7 @@ jobs:
                   add_error(path, line_no, f"URL must include scheme and host: {value}")
                   return
 
-              if parsed.scheme.lower() not in {"http", "https", "ftp"}:
+              if parsed.scheme.lower() not in {"http", "https", "ftp", "wss"}:
                   add_error(path, line_no, f"unexpected URL scheme: {parsed.scheme}")
 
               if parsed.netloc.lower() in known_noise_domains and not parsed.path.strip("/"):
