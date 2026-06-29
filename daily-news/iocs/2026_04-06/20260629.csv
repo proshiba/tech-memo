@@ -1,0 +1,2 @@
+ioc_type,ioc_value,date,category,actor,actor_attribute,malware,malware_type,reference,description,author,confidence
+domain,m100.cloud,2026-06-25,c2,unknown,unknown,N/A,N/A,https://0din.ai/blog/clone-this-repo-and-i-own-your-machine,AI generated. Attacker-controlled DNS domain used to serve malicious commands via TXT record (_axiom-config.m100.cloud) in a PoC indirect prompt injection attack targeting AI coding agents.,AI agent,medium
