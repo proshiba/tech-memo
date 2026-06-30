@@ -1,0 +1,53 @@
+event_key,dimension,raw_value,normalized_value,confidence,note
+2026-07-01_agenttesla_invoice_malspam,initial_access,マルスパム（請求書偽装）,malspam,high,請求書偽装メール添付からの感染
+2026-07-01_agenttesla_invoice_malspam,malware,AgentTesla,agent_tesla,high,
+2026-07-01_agenttesla_invoice_malspam,attack_method,ftp.enogcaen-br[.]comへの通信,c2_communication,high,
+2026-07-01_malicious_pypi_telegram_bot_backdoor,initial_access,悪性PyPIパッケージ,supply_chain,high,
+2026-07-01_malicious_pypi_telegram_bot_backdoor,attack_method,バックドア入りPyPIパッケージ,malicious_package,high,
+2026-07-01_malicious_pypi_telegram_bot_backdoor,attack_method,secret.pyバックドア,backdoor,high,
+2026-07-01_malicious_pypi_telegram_bot_backdoor,product_class,PyPI,package_ecosystem,high,
+2026-07-01_malicious_pypi_telegram_bot_backdoor,product,Pyrogram,pyrogram,medium,模倣対象ライブラリ
+2026-07-01_malicious_pypi_telegram_bot_backdoor,actor,Operation Navy Ghost,operation_navy_ghost,medium,Checkmarxによる作戦名
+2026-07-01_fake_perplexity_chrome_extension,attack_method,偽Perplexity拡張機能,malicious_extension,high,
+2026-07-01_fake_perplexity_chrome_extension,attack_method,Perplexity AIへのなりすまし,spoofing,high,
+2026-07-01_fake_perplexity_chrome_extension,attack_method,検索語の外部送信,data_exfiltration,medium,
+2026-07-01_fake_perplexity_chrome_extension,product_class,Chrome拡張機能,browser_extension,high,
+2026-07-01_fake_perplexity_chrome_extension,product,Perplexity AI,perplexity_ai,medium,なりすまし対象ブランド
+2026-07-01_aflac_japan_subsidiary_breach,initial_access,不正アクセス（手法不明）,unknown,low,侵入手法の記載なし
+2026-07-01_aflac_japan_subsidiary_breach,actor_attribution,攻撃者は不明,unknown,medium,記事内で攻撃者不明と明記
+2026-07-01_teams_external_bot_approval_policy,product_class,Microsoft Teams会議,collaboration_platform,high,
+2026-07-01_teams_external_bot_approval_policy,product,Microsoft Teams,microsoft_teams,high,
+2026-07-01_blackfield_ransomware_nidec,actor,Blackfieldランサムウェアギャング,blackfield,high,
+2026-07-01_blackfield_ransomware_nidec,actor_attribution,金銭目的の恐喝,cybercrime,high,
+2026-07-01_blackfield_ransomware_nidec,attack_method,ランサムウェア,ransomware,high,
+2026-07-01_blackfield_ransomware_nidec,crime_trend,データ公開・販売による恐喝,ransomware_extortion,high,
+2026-07-01_bluehammer_defender_privesc_exploited,attack_method,ローカル権限昇格,privilege_escalation,high,
+2026-07-01_bluehammer_defender_privesc_exploited,product_class,Microsoft Defender,security_tool,high,
+2026-07-01_bluehammer_defender_privesc_exploited,product,Microsoft Defender,microsoft_defender,high,
+2026-07-01_mustang_panda_india_zohomurk_minirecon,actor,Mustang Panda,mustang_panda,high,
+2026-07-01_mustang_panda_india_zohomurk_minirecon,actor_attribution,中国関連スパイ活動,nation_state,high,
+2026-07-01_mustang_panda_india_zohomurk_minirecon,malware,ZOHOMURK,zohomurk,high,
+2026-07-01_mustang_panda_india_zohomurk_minirecon,malware,MINIRECON,minirecon,high,
+2026-07-01_mustang_panda_india_zohomurk_minirecon,malware,SHARDLOADER,shardloader,high,
+2026-07-01_mustang_panda_india_zohomurk_minirecon,attack_method,Zoho WorkDriveをC2に悪用,c2_communication,high,
+2026-07-01_mustang_panda_india_zohomurk_minirecon,product_class,Zoho WorkDrive,cloud_service,high,
+2026-07-01_mustang_panda_india_zohomurk_minirecon,product,Zoho WorkDrive,zoho_workdrive,high,
+2026-07-01_china_cyber_ops_overseas_critics,actor_attribution,中国国家機関・民間請負業者,nation_state,high,
+2026-07-01_operation_dragonreturn_india_tax_dcrat,actor,Operation DragonReturn,operation_dragonreturn,medium,Seqriteによる命名
+2026-07-01_operation_dragonreturn_india_tax_dcrat,actor_attribution,中国関連クラスター,nation_state,medium,中〜高信頼度との評価
+2026-07-01_operation_dragonreturn_india_tax_dcrat,malware,DcRAT,dcrat,high,
+2026-07-01_operation_dragonreturn_india_tax_dcrat,initial_access,所得税申告偽装スピアフィッシング,phishing,high,
+2026-07-01_operation_dragonreturn_india_tax_dcrat,attack_method,AMSI回避,defense_evasion,high,
+2026-07-01_operation_dragonreturn_india_tax_dcrat,attack_method,Windowsサービス永続化,persistence,high,
+2026-07-01_operation_dragonreturn_india_tax_dcrat,attack_method,svchostへのインジェクション,process_injection,high,
+2026-07-01_operation_dragonreturn_india_tax_dcrat,attack_method,認証情報窃取,credential_theft,medium,
+2026-07-01_operation_dragonreturn_india_tax_dcrat,attack_method,データ流出,data_exfiltration,medium,
+2026-07-01_lazarus_npm_rollup_polyfill,actor,Lazarus-linked,lazarus,low,断定ではなくLazarus-linkedと表現
+2026-07-01_lazarus_npm_rollup_polyfill,actor_attribution,北朝鮮関連の可能性,nation_state,low,断定ではない
+2026-07-01_lazarus_npm_rollup_polyfill,initial_access,悪性npmパッケージ,supply_chain,high,
+2026-07-01_lazarus_npm_rollup_polyfill,attack_method,悪性npmパッケージ,malicious_package,high,
+2026-07-01_lazarus_npm_rollup_polyfill,attack_method,evalによるペイロード実行,code_injection,medium,
+2026-07-01_lazarus_npm_rollup_polyfill,attack_method,C2通信,c2_communication,high,
+2026-07-01_lazarus_npm_rollup_polyfill,attack_method,ブラウザ・ウォレット・ファイル情報収集,data_exfiltration,high,
+2026-07-01_lazarus_npm_rollup_polyfill,product_class,npm,package_ecosystem,high,
+2026-07-01_lazarus_npm_rollup_polyfill,crime_trend,暗号資産ウォレット情報収集,crypto_theft,high,
