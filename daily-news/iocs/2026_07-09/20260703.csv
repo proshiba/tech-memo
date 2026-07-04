@@ -1,0 +1,3 @@
+ioc_type,ioc_value,date,category,actor,actor_attribute,malware,malware_type,reference,description,author,confidence
+domain,thesecure.biz,2025-07-22,c2,XSS forum,cybercrime,N/A,N/A,https://ransomnews.com/xss-forum-damagelab-takedown-2025/,"AI generated. Encrypted Jabber server operated by the XSS forum administrator, seized during Operation Ratatouille.",AI agent,medium
+domain,xss.is,2025-07-22,c2,XSS forum,cybercrime,N/A,N/A,https://ransomnews.com/xss-forum-damagelab-takedown-2025/,AI generated. Primary domain of the XSS Russian-language cybercrime forum reported in connection with its 2025 takedown.,AI agent,medium
