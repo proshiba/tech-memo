@@ -1,0 +1,48 @@
+event_key,dimension,raw_value,normalized_value,confidence,note
+2026-07-14_venomrat_rakuraku_meisai_malspam,initial_access,日本語マルスパム,malspam,high,楽楽明細を装うマルスパム
+2026-07-14_venomrat_rakuraku_meisai_malspam,malware,VenomRAT,venomrat,high,
+2026-07-14_venomrat_rakuraku_meisai_malspam,attack_method,nvml.dllサイドローディング,defense_evasion,medium,正規exeへのDLLサイドローディング
+2026-07-14_venomrat_rakuraku_meisai_malspam,attack_method,192.252.180.45:4449への通信,c2_communication,high,
+2026-07-14_smbc_vpass_phishing_malspam,initial_access,日本語マルスパム,malspam,high,SMBC VISAカードを装うマルスパム
+2026-07-14_smbc_vpass_phishing_malspam,malware,マルウェア不明,unknown,medium,Markdownに『マルウェア不明』と明記
+2026-07-14_smbc_vpass_phishing_malspam,attack_method,43.165.179.173:5000等への通信,c2_communication,high,
+2026-07-14_nihon_kotsu_taxi_cyberattack,initial_access,攻撃手法不明,unknown,medium,攻撃手法・攻撃者の詳細は判明していないと明記
+2026-07-14_nihon_kotsu_taxi_cyberattack,actor,犯行声明を出したグループなし,unknown,low,犯行声明を出したランサムウェア・恐喝グループなしと明記
+2026-07-14_crashstealer_macos_infostealer,malware,CrashStealer,crashstealer,high,
+2026-07-14_crashstealer_macos_infostealer,product_class,macOS端末(Apple クラッシュ報告ツール偽装),os,high,
+2026-07-14_crashstealer_macos_infostealer,attack_method,Keychain・認証情報窃取,credential_theft,high,
+2026-07-14_crashstealer_macos_infostealer,attack_method,libcurl経由のC2へのデータ送信,data_exfiltration,high,
+2026-07-14_joomla_icagenda_balbooa_active_exploitation,initial_access,Joomla拡張機能の脆弱性悪用,exploit_public_facing_app,high,
+2026-07-14_joomla_icagenda_balbooa_active_exploitation,product_class,Joomla拡張機能(iCagenda/Balbooa Forms),cms,medium,JoomlaはCMS、脆弱性は拡張機能に存在
+2026-07-14_joomla_icagenda_balbooa_active_exploitation,product,iCagenda,icagenda,high,
+2026-07-14_joomla_icagenda_balbooa_active_exploitation,product,Balbooa Forms,balbooa_forms,high,
+2026-07-14_joomla_icagenda_balbooa_active_exploitation,attack_method,リモートコード実行,remote_code_execution,high,
+2026-07-14_lidl_service_provider_breach,initial_access,サービスプロバイダーへの不正アクセス,supply_chain,high,
+2026-07-14_lidl_service_provider_breach,attack_method,顧客データ窃取,data_exfiltration,high,
+2026-07-14_russian_coms_call_spoofing_takedown,actor,Russian Coms,russian_coms,medium,詐欺電話用プラットフォーム名
+2026-07-14_russian_coms_call_spoofing_takedown,actor_attribution,金銭・個人情報目的の詐欺グループ,cybercrime,high,
+2026-07-14_russian_coms_call_spoofing_takedown,attack_method,発信者番号偽装,spoofing,high,
+2026-07-14_russian_coms_call_spoofing_takedown,crime_trend,詐欺電話プラットフォーム,vishing,high,
+2026-07-14_eu_uk_russia_cyber_sanctions,actor,Turla,turla,high,
+2026-07-14_eu_uk_russia_cyber_sanctions,actor,FSB第16センター,fsb_center_16,high,
+2026-07-14_eu_uk_russia_cyber_sanctions,actor_attribution,ロシアGRU/FSB第16センター,nation_state,high,
+2026-07-14_eu_uk_russia_cyber_sanctions,malware,Lumma Stealer,lumma_stealer,medium,英国発表内でLumma Stealerによる認証情報窃取に言及
+2026-07-14_eu_uk_russia_cyber_sanctions,attack_method,Lumma Stealerによる認証情報窃取,credential_theft,medium,
+2026-07-14_russia_fsb_router_snmp_exploitation,actor,Static Tundra,static_tundra,high,Berserk Bear/Energetic Bearとも呼ばれる
+2026-07-14_russia_fsb_router_snmp_exploitation,actor_attribution,ロシアFSB第16センター,nation_state,high,
+2026-07-14_russia_fsb_router_snmp_exploitation,product_class,ルーター,network_device,high,
+2026-07-14_russia_fsb_router_snmp_exploitation,initial_access,弱いSNMP認証文字列を使うルーター,exposed_remote_service,high,
+2026-07-14_russia_fsb_router_snmp_exploitation,attack_method,Cisco Smart Install(CVE-2018-0171),remote_code_execution,medium,
+2026-07-14_armored_likho_busysnake_campaign,actor,Armored Likho,armored_likho,high,
+2026-07-14_armored_likho_busysnake_campaign,actor,Eagle Werewolf,eagle_werewolf,low,状況証拠から関連付けられるとの記載
+2026-07-14_armored_likho_busysnake_campaign,initial_access,標的型フィッシング,phishing,high,
+2026-07-14_armored_likho_busysnake_campaign,malware,BusySnake,busysnake,high,
+2026-07-14_armored_likho_busysnake_campaign,attack_method,EXE/LNK添付ファイル,malicious_document,high,
+2026-07-14_armored_likho_busysnake_campaign,attack_method,C2通信,c2_communication,high,
+2026-07-14_armored_likho_busysnake_campaign,attack_method,スケジュールタスクによる永続化,persistence,medium,
+2026-07-14_armored_likho_busysnake_campaign,attack_method,難読化PowerShell,defense_evasion,medium,
+2026-07-14_huntress_ai_powershell_ad_enumeration,initial_access,侵害済み認証情報によるRDPアクセス,stolen_credentials,high,
+2026-07-14_huntress_ai_powershell_ad_enumeration,attack_method,AI生成PowerShellによる列挙・検知回避,defense_evasion,medium,
+2026-07-14_huntress_ai_powershell_ad_enumeration,attack_method,データ探索・持ち出し,data_exfiltration,medium,
+2026-07-14_huntress_ai_powershell_ad_enumeration,product,s5cmd,s5cmd,medium,
+2026-07-14_huntress_ai_powershell_ad_enumeration,product,SharpShares,sharpshares,medium,
