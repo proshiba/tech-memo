@@ -29,9 +29,9 @@ on:
       - "daily-news/ui/**"
       - ".github/workflows/deploy-pages.yml"
 
-  # 09:00 / 21:00 JST。ルーチンは 9 時までにはだいたい終わっているので、その直後を拾う。
+  # 08:30 / 20:30 JST（23:30 と 11:30 UTC）。毎時 0 分は混みやすいので 30 分にずらしてある。
   schedule:
-    - cron: "0 0,12 * * *"
+    - cron: "30 11,23 * * *"
 
   workflow_dispatch:
 
