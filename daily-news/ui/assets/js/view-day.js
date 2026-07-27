@@ -1,7 +1,7 @@
 // 1 日分のまとめ。元の Markdown の構造（節と記事内のラベル）をそのまま出す。
 
 import { el, num, jpDate, isoDate, link, renderBlock, renderMarkdown, copy, actorMalware } from "./util.js";
-import { loadIndex, loadDay, loadIocs, neighbours } from "./store.js";
+import { loadIndex, loadDay, loadIocs, loadEvents, neighbours, tagLabel, dimensions } from "./store.js";
 
 const SECTION_TITLES = {
   overview: "概要",
@@ -56,6 +56,7 @@ export async function renderDay(root, route) {
         el("h1", { text: jpDate(date) }),
         el("p", { class: "lede" }, [
           el("span", { text: `記事 ${day.articles.length} 件` }),
+          entry?.ev ? el("span", { text: ` / イベント ${num(entry.ev)} 件` }) : null,
           entry?.ioc ? el("span", { text: ` / IOC ${num(entry.ioc)} 件` }) : null,
           el("span", { text: " — " }),
           link(source, "元の Markdown"),
@@ -81,10 +82,13 @@ export async function renderDay(root, route) {
     if (day.sections[key]) page.append(sectionCard(key, day.sections[key]));
   }
 
-  page.append(iocPanel(date, entry, day));
-  page.append(nav.cloneNode(true));
+  const navBottom = nav.cloneNode(true);
+  page.append(iocPanel(date, entry, day), navBottom);
 
   root.replaceChildren(page);
+
+  // イベントは別ファイルなので後から差し込む。記事側にもタグを添える。
+  if (entry?.ev) attachEvents(page, navBottom, date);
 
   if (focus !== undefined) {
     const target = page.querySelector(`#article-${CSS.escape(String(focus))}`);
@@ -183,6 +187,72 @@ function iocPanel(date, entry, day) {
     table.replaceChildren(el("p", { class: "dim", text: "IOC を読み込めませんでした。" }));
   });
 
+  return wrap;
+}
+
+/** その日のイベントを、記事の下と各記事の中に差し込む。 */
+async function attachEvents(page, before, date) {
+  let events;
+  try {
+    events = (await loadEvents()).filter((e) => e.d === date);
+  } catch {
+    return;
+  }
+  if (!events.length) return;
+
+  const dims = new Map(dimensions().map((d) => [d.key, d]));
+
+  for (const ev of events) {
+    if (!ev.a) continue;
+    const host = page.querySelector(`#article-${CSS.escape(String(ev.a[1]))}`);
+    if (host) host.append(eventTags(ev, dims, true));
+  }
+
+  const loose = events.filter((e) => !e.a);
+  const card = el("section", { class: "card" }, [
+    el("h2", { class: "card-title" }, [
+      el("span", { text: "この日の構造化イベント" }),
+      el("a", { class: "dim small", href: `#/events?month=${date.slice(0, 6)}`, text: `${num(events.length)} 件 — イベント画面で開く` }),
+    ]),
+    el("p", { class: "dim small", text: loose.length
+      ? `うち ${loose.length} 件は記事節に対応が無い（日本のインシデント事例など）。`
+      : "すべて上の記事に紐づいている。記事ごとのタグは各記事の末尾に付けた。" }),
+  ]);
+
+  for (const ev of loose) {
+    card.append(el("div", { class: "loose-event" }, [
+      el("div", { class: "event-head" }, [
+        el("span", { class: `pill pill-${ev.e}`, text: tagLabel("event_type", ev.e) }),
+        ev.u ? link(ev.u, "一次ソース", { class: "dim small" }) : null,
+      ]),
+      el("p", { class: "event-title", text: ev.t }),
+      eventTags(ev, dims, false),
+    ]));
+  }
+
+  before.before(card);
+}
+
+function eventTags(ev, dims, compact) {
+  const grouped = new Map();
+  for (const [dim, normalized, raw, , note] of ev.g || []) {
+    if (!grouped.has(dim)) grouped.set(dim, []);
+    grouped.get(dim).push({ normalized, raw, note });
+  }
+  const wrap = el("div", { class: "tag-groups" + (compact ? " in-article" : "") });
+  if (compact) wrap.append(el("div", { class: "tag-caption", text: "イベントの分類" }));
+  for (const [dim, items] of grouped) {
+    wrap.append(el("div", { class: "tag-group" }, [
+      el("span", { class: "tag-dim", text: dims.get(dim)?.label || dim }),
+      el("div", { class: "chips" }, items.map((it) =>
+        el("a", {
+          class: "chip chip-link",
+          href: `#/events?${dim}=${encodeURIComponent(it.normalized)}`,
+          title: [it.raw, it.note].filter(Boolean).join(" — ") || it.normalized,
+          text: tagLabel(dim, it.normalized),
+        }))),
+    ]));
+  }
   return wrap;
 }
 

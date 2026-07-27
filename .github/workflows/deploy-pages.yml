@@ -10,6 +10,7 @@ on:
       - main
     paths:
       - "daily-news/news/**"
+      - "daily-news/data/**"
       - "daily-news/iocs/**"
       - "daily-news/ui/**"
       - ".github/workflows/deploy-pages.yml"

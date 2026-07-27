@@ -72,6 +72,7 @@ export async function renderIoc(root, route) {
     });
     hits.sort(SORTS[active.sort] || SORTS.date);
 
+    const empty = !hits.length;
     summary.replaceChildren(
       el("p", { class: "result-count", text: hits.length ? `${num(hits.length)} 件` : "一致する IOC はありません" }),
       el("div", { class: "row-actions" }, [
@@ -82,6 +83,7 @@ export async function renderIoc(root, route) {
         }),
       ]),
     );
+    if (empty) summary.append(fallbackHint(active));
 
     let shown = 0;
     const table = buildTable(active, update);
@@ -163,6 +165,17 @@ function rowNode(r, active) {
       r.reference ? link(r.reference, "出典") : null,
       el("a", { class: "src-day", href: `#/day/${r.news_date}`, title: jpDate(r.news_date), text: isoDate(r.news_date) }),
     ]),
+  ]);
+}
+
+/** IOC に無い名前は、イベント側に居ることがある。 */
+function fallbackHint(active) {
+  const name = active.malware || active.actor;
+  if (!name) return el("span");
+  const key = active.malware ? "malware" : "actor";
+  return el("p", { class: "dim small" }, [
+    el("span", { text: `「${name}」の IOC はありません。` }),
+    el("a", { href: `#/events?${key}=${encodeURIComponent(name)}`, text: " イベント側で探す →" }),
   ]);
 }
 

@@ -3,6 +3,7 @@
 // ルートは `#/<view>?<query>`。ポータル（research_bench）からの deep link も同じ形。
 //   #/                     概要
 //   #/news?q=…&year=…      記事一覧・検索
+//   #/events?actor=…       構造化イベント（分類軸で絞り込む）
 //   #/day/20260727[/3]     その日のまとめ（末尾は記事の位置）
 //   #/ioc?q=…&type=…       IOC 一覧
 //
@@ -13,6 +14,7 @@ import { el, num } from "./util.js";
 import { loadIndex, onStatus } from "./store.js";
 import { renderOverview } from "./view-overview.js";
 import { renderNews } from "./view-news.js";
+import { renderEvents } from "./view-events.js";
 import { renderDay } from "./view-day.js";
 import { renderIoc } from "./view-ioc.js";
 
@@ -22,6 +24,7 @@ const statusEl = document.getElementById("status");
 const ROUTES = {
   overview: renderOverview,
   news: renderNews,
+  events: renderEvents,
   day: renderDay,
   ioc: renderIoc,
 };

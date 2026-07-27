@@ -12,6 +12,6 @@ https://blog.tech-oshiba.com
 
 https://proshiba.github.io/tech-memo/daily-news/ui/
 
-日々のニュース要約と、そこから収集した IOC を横断して探せる。
+日々のニュース要約と、そこから起こした構造化イベント・IOC を横断して探せる。
 画面の作りと配信の手順は [`daily-news/ui/README.md`](daily-news/ui/README.md) にある。
 

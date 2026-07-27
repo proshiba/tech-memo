@@ -1,7 +1,7 @@
 # デイリーニュース UI
 
-`daily-news/news`（日々のニュース要約）と `daily-news/iocs`（そこから収集した IOC）を
-1 つの画面で読むための GitHub Pages。単体でも使うが、
+`daily-news` の 3 つの層 — `news`（日々のニュース要約）、`data`（それを構造化したイベント）、
+`iocs`（一次ソースから収集した IOC）— を 1 つの画面で読むための GitHub Pages。単体でも使うが、
 [research_bench](https://github.com/proshiba/research_bench) ポータルへの iframe 埋め込みも前提にしている。
 
     https://proshiba.github.io/tech-memo/daily-news/ui/
@@ -9,17 +9,35 @@
 サーバーは立てない。Markdown と CSS を静的 JSON に落として、依存ゼロのバニラ JS が読む。
 ビルド工程は無い。
 
+## 3 つの層
+
+同じ事象を 3 つの粒度で持っている。UI はこれを 1 本に繋ぐ。
+
+```
+  news/*.md          記事の要約（本文・IOC の列挙・推奨事項）  ← 大元
+    └ data/**        イベントとして構造化（9 次元のタグ付き）
+    └ iocs/*.csv     一次ソースを当たって収集した IOC
+```
+
+イベントの `source_url` を記事の URL と突き合わせて、1,073 件中 890 件（82%）が
+記事に紐づいている。残りは `日本のインシデント事例` など記事節以外から起こしたもので、
+日付までで留めている。
+
 ## 4 つの画面
 
 | ルート | 中身 |
 | --- | --- |
-| `#/` | 概要。収録範囲・月ごとの推移・直近の日・よく出るアクター/マルウェア/CVE |
+| `#/` | 概要。収録範囲・月ごとの推移・直近の日・イベント種別・よく出るアクター/マルウェア/攻撃手法/CVE |
 | `#/news` | 全期間の記事を横断検索。年・月・「IOCあり」「CVE言及」で絞り込む |
-| `#/day/<YYYYMMDD>[/<n>]` | その日のまとめ。元の Markdown の節と記事内ラベルをそのまま出す |
+| `#/events` | 構造化イベント。種別と 8 つの分類軸、要確認・月次フォロー候補で絞り込む |
+| `#/day/<YYYYMMDD>[/<n>]` | その日のまとめ。元の Markdown の節と記事内ラベルをそのまま出し、記事ごとにイベントのタグを添える |
 | `#/ioc` | IOC 一覧。値・アクター・マルウェア・分類で絞り、CSV で書き出せる |
 
 `#/day/20260722/3` のように末尾に記事の位置を付けると、その記事にスクロールする。
 ポータルからの deep link はこの形で入ってくる。
+
+イベントと IOC は名前（アクター・マルウェア）で行き来できる。片方で 0 件だったときは、
+もう片方の同じ名前への導線をその場に出す。
 
 ## データの作り方
 
@@ -28,17 +46,18 @@ python3 daily-news/ui/build_ui_data.py           # data/ と api/ を生成
 python3 daily-news/ui/build_ui_data.py --check   # 生成せず解析結果の統計だけ出す
 ```
 
-標準ライブラリだけで動く。生成物は約 22 MB あり、ニュースが増えるたびに作り直すので
+標準ライブラリだけで動く。生成物は約 23 MB あり、ニュースが増えるたびに作り直すので
 **リポジトリにはコミットしない**（`.gitignore` 済み）。配信時に CI が作る。
 
 | 出力 | 用途 | 目安 |
 | --- | --- | --- |
-| `data/index.json` | 日付一覧・統計・ファセット。起動時に必ず読む | 70 KB |
+| `data/index.json` | 日付一覧・統計・ファセット・分類の定義。起動時に必ず読む | 119 KB |
 | `data/articles.json` | 全期間の記事の軽量索引。一覧と検索の土台 | 2.8 MB |
 | `data/news/<四半期>.json` | 記事の本文。日を開いたときだけ読む | 全 14 本で 12 MB |
 | `data/iocs.json` | IOC 全件（列指向の配列） | 1.9 MB |
+| `data/events.json` | イベントとタグ全件 | 1.3 MB |
 | `api/v1/meta.json` | ポータル連携仕様 v1 の自己紹介 | 1 KB |
-| `api/v1/search.json` | 同上・索引本体（14,360 エンティティ） | 5.0 MB (gzip 0.85) |
+| `api/v1/search.json` | 同上・索引本体（15,249 エンティティ） | 5.5 MB (gzip 0.93) |
 
 `SOURCE_DATE_EPOCH` を渡すと `generated_at` をその時刻に固定できる（CI で使っている）。
 
@@ -55,6 +74,17 @@ python3 daily-news/ui/build_ui_data.py --check   # 生成せず解析結果の�
 942 日 7,077 記事のうち、タイトル・要約が取れなかったものは 0 件、
 URL が無いものが 4 件（元の Markdown 側に記載が無い）。
 
+### イベントの読み方
+
+`daily-news/data` には月まとめの `events.csv` と日ごとの `events/<日付>.csv` が併存する時期があり、
+同じ事象が別の `event_key` で両方に入っている。**日ごとのファイルがある日はそちらを正とし、
+月まとめからはその日を採らない。** これで 1,090 行から 1,073 件に落ちる。
+
+タグの `normalized_value` は `taxonomy_values.csv` の日本語ラベルで表示する。
+actor / malware / product は動的な次元でラベルが無いので、記事に書かれていた元表記から
+名前らしいもの（`xmrig` → `XMRig`、`microsoft_teams` → `Microsoft Teams`）を選んで表示する。
+`teampcp` と `team_pcp` のような表記ゆれは英数字だけに潰して 1 つに畳む。
+
 ## 手元で動かす
 
 ```bash
@@ -66,8 +96,8 @@ python3 -m http.server 8000            # リポジトリのルートで
 ## 配信
 
 `.github/workflows/deploy-pages.yml` が `main` への push で走り、索引を生成して
-`_site/daily-news/ui/` として Pages に上げる。`daily-news/news/**`・`daily-news/iocs/**`・
-`daily-news/ui/**` のいずれかが変わったときだけ動く。
+`_site/daily-news/ui/` として Pages に上げる。`daily-news/news/**`・`daily-news/data/**`・
+`daily-news/iocs/**`・`daily-news/ui/**` のいずれかが変わったときだけ動く。
 
 **初回だけリポジトリの設定が要る。** Settings → Pages → Build and deployment の
 Source を **GitHub Actions** にする。これをしないとワークフローの deploy が失敗する。
@@ -111,15 +141,21 @@ iframe の中も一緒に変わる。別オリジンのときは `prefers-color-
 
 | type | 件数 | 元 | `value`（結合キー） |
 | --- | --- | --- | --- |
-| `report` | 7,077 | 記事 1 件 | 記事の URL |
+| `report` | 7,260 | 記事 1 件 ＋ 記事に対応が無いイベント 183 件 | 記事・一次ソースの URL |
 | `ioc.*` | 5,533 | IOC CSV（同じ値は 1 件に畳む） | refang 済みの値 |
 | `cve` | 1,390 | 記事本文から抽出 | `CVE-YYYY-NNNN` |
-| `malware` | 263 | IOC の `malware` 列を分割 | ファミリ名 |
-| `actor` | 97 | IOC の `actor` 列を分割 | アクター名 |
+| `product` | 429 | イベントの `product` タグ | 製品名 |
+| `malware` | 407 | IOC の `malware` 列 ＋ イベントの `malware` タグ | ファミリ名 |
+| `actor` | 230 | IOC の `actor` 列 ＋ イベントの `actor` タグ | アクター名 |
+
+記事の `report` エンティティには、対応するイベントの種別とタグを `attrs` として添える。
+ポータルの検索結果で「イベント種別: インシデント / アクター: ShinyHunters」まで見える。
 
 `Vidar Stealer, XMRig` や `Macsync / Shub Stealer / AMOS` のような複合値は個別の名前に割り、
 `(high confidence)` のような確度注記は落としてから結合キーにしている。
-表記ゆれ（`Macsync` / `MacSync`）は小文字化して 1 件に畳み、別表記は `aliases` に残す。
+表記ゆれ（`Macsync` / `MacSync`、`lazarus_group` / `Lazarus Group`）は
+ポータルと同じ潰し方（英数字だけ・小文字）で 1 件に畳み、別表記は `aliases` に残す。
+`aliases` も結合キーとして索引されるので、他ソースがどちらの表記でも横串が刺さる。
 
 ## 中身
 
@@ -134,6 +170,7 @@ assets/js/
   util.js             DOM 生成・Markdown 風レンダラ・整形
   view-overview.js    概要
   view-news.js        記事一覧・横断検索
+  view-events.js      構造化イベント
   view-day.js         1 日分のまとめ
   view-ioc.js         IOC 一覧
 ```

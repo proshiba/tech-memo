@@ -1,7 +1,7 @@
 // 概要。収録範囲の全体像と、直近の日への入口。
 
 import { el, num, jpDate, isoDate, monthOf } from "./util.js";
-import { loadIndex } from "./store.js";
+import { loadIndex, tagLabel } from "./store.js";
 
 export async function renderOverview(root) {
   const index = await loadIndex();
@@ -9,11 +9,10 @@ export async function renderOverview(root) {
 
   const tiles = [
     { label: "収録日数", value: num(s.days), note: `${isoDate(s.first_day)} 〜 ${isoDate(s.last_day)}` },
-    { label: "記事", value: num(s.articles), note: "日々のニュース要約" },
-    { label: "IOC", value: num(s.iocs), note: `${num(s.ioc_days)} 日分を収集済み`, href: "#/ioc" },
+    { label: "記事", value: num(s.articles), note: "日々のニュース要約", href: "#/news" },
+    { label: "イベント", value: num(s.events), note: `${num(s.events_linked)} 件が記事に紐づく`, href: "#/events" },
+    { label: "IOC", value: num(s.iocs), note: `${num(s.ioc_days)} 日分 / アクター ${num(s.actors)}・マルウェア ${num(s.malware)}`, href: "#/ioc" },
     { label: "CVE", value: num(s.cves), note: "記事本文から抽出" },
-    { label: "アクター", value: num(s.actors), note: "IOC に紐づく名前" },
-    { label: "マルウェア", value: num(s.malware), note: "IOC に紐づく名前" },
   ];
 
   const recent = index.days.slice(-14).reverse();
@@ -22,7 +21,7 @@ export async function renderOverview(root) {
     el("section", { class: "page" }, [
       el("div", { class: "page-head" }, [
         el("h1", { text: "デイリーニュース" }),
-        el("p", { class: "lede", text: "日々のセキュリティニュース要約と、記事の一次ソースから収集した IOC。日付でたどるか、横断検索で探す。" }),
+        el("p", { class: "lede", text: "日々のセキュリティニュース要約を軸に、そこから起こした構造化イベントと、一次ソースから収集した IOC。日付でたどるか、分類軸や横断検索で探す。" }),
       ]),
 
       el("div", { class: "tiles" }, tiles.map((t) => {
@@ -48,9 +47,8 @@ export async function renderOverview(root) {
               el("span", { class: "day-date", text: jpDate(d.d) }),
               el("span", { class: "day-counts" }, [
                 el("span", { class: "chip", text: `記事 ${d.n}` }),
+                d.ev ? el("span", { class: "chip chip-link", text: `イベント ${d.ev}` }) : null,
                 d.ioc ? el("span", { class: "chip chip-ioc", text: `IOC ${d.ioc}` }) : null,
-                (d.x || []).includes("malware_campaign") ? el("span", { class: "chip chip-soft", text: "campaign" }) : null,
-                (d.x || []).includes("jp_incidents") ? el("span", { class: "chip chip-soft", text: "日本" }) : null,
               ]),
             ]),
           ]))),
@@ -59,26 +57,55 @@ export async function renderOverview(root) {
       ]),
 
       el("div", { class: "cols" }, [
-        facetCard("よく出るアクター", index.facets.actor, (name) => `#/ioc?actor=${encodeURIComponent(name)}`),
-        facetCard("よく出るマルウェア", index.facets.malware, (name) => `#/ioc?malware=${encodeURIComponent(name)}`),
+        el("div", { class: "col" }, [
+          el("h2", { class: "sec-title", text: "イベントの種別" }),
+          typeBars(index),
+        ]),
+        facetCard("よく出るアクター（イベント）", index.event_facets?.actor,
+                  (name) => `#/events?actor=${encodeURIComponent(name)}`, "actor"),
+        facetCard("よく出るマルウェア（イベント）", index.event_facets?.malware,
+                  (name) => `#/events?malware=${encodeURIComponent(name)}`, "malware"),
+      ]),
+
+      el("div", { class: "cols" }, [
+        facetCard("よく出る攻撃手法", index.event_facets?.attack_method,
+                  (name) => `#/events?attack_method=${encodeURIComponent(name)}`, "attack_method"),
+        facetCard("IOC に多いマルウェア", index.facets.malware,
+                  (name) => `#/ioc?malware=${encodeURIComponent(name)}`),
         facetCard("よく言及される CVE", index.top_cves, (name) => `#/news?q=${encodeURIComponent(name)}`),
       ]),
     ]),
   );
 }
 
-function facetCard(title, pairs, href) {
-  const items = (pairs || []).filter(([name]) => name && name !== "unknown" && name !== "N/A").slice(0, 18);
+function facetCard(title, pairs, href, dimension) {
+  const skip = new Set(["unknown", "N/A", "not_applicable", "other"]);
+  const items = (pairs || []).filter(([name]) => name && !skip.has(name)).slice(0, 18);
   return el("div", { class: "col" }, [
     el("h2", { class: "sec-title", text: title }),
     items.length
       ? el("div", { class: "chips" }, items.map(([name, count]) =>
-          el("a", { class: "chip chip-link", href: href(name) }, [
-            el("span", { text: name }),
+          el("a", { class: "chip chip-link", href: href(name), title: name }, [
+            el("span", { text: dimension ? tagLabel(dimension, name) : name }),
             el("b", { text: String(count) }),
           ])))
       : el("p", { class: "dim", text: "データなし" }),
   ]);
+}
+
+/** イベント種別の内訳。件数を横棒で並べる。 */
+function typeBars(index) {
+  const pairs = index.event_facets?.event_type || [];
+  if (!pairs.length) return el("p", { class: "dim", text: "データなし" });
+  const max = Math.max(...pairs.map(([, c]) => c));
+  return el("div", { class: "bars" }, pairs.map(([type, count]) =>
+    el("a", { class: "bar-row", href: `#/events?event_type=${encodeURIComponent(type)}` }, [
+      el("span", { class: "bar-label", text: tagLabel("event_type", type) }),
+      el("span", { class: "bar-track" }, [
+        el("span", { class: `bar-fill pill-${type}`, style: `--w:${Math.round((count / max) * 100)}%` }),
+      ]),
+      el("b", { class: "bar-value", text: String(count) }),
+    ])));
 }
 
 /** 月ごとの記事数を帯で出す。棒の高さで量、色の濃さで IOC の有無を示す。 */

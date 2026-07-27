@@ -299,12 +299,12 @@ a.tile:hover { border-color: var(--focus); }
 
 .cols {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 20px;
   align-items: start;
 }
 
-.col-narrow { max-width: 420px; }
+.col-narrow { max-width: 470px; }
 
 /* ---------------------------------------------------------------- ヒートマップ */
 
@@ -339,6 +339,25 @@ a.tile:hover { border-color: var(--focus); }
 .heat-axis { display: flex; gap: 2px; margin-top: 4px; }
 .heat-tick { flex: 1; min-width: 4px; font: 10px/1.4 var(--font-mono); color: var(--ink-faint); }
 
+/* ---------------------------------------------------------------- 横棒 */
+
+.bars {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+  padding: 10px 12px;
+}
+
+.bar-row { display: flex; align-items: center; gap: 9px; text-decoration: none; padding: 1px 0; }
+.bar-row:hover .bar-label { color: var(--ink); }
+.bar-label { flex: none; width: 116px; font-size: 12px; color: var(--ink-dim); }
+.bar-track { flex: 1; height: 9px; background: var(--surface-3); border-radius: 3px; overflow: hidden; }
+.bar-fill { display: block; width: var(--w); height: 100%; background: currentColor; opacity: .75; border-radius: 3px; }
+.bar-value { flex: none; width: 34px; text-align: right; font: 11px/1.7 var(--font-mono); color: var(--ink-faint); }
+
 /* ---------------------------------------------------------------- 日付リスト */
 
 .day-list { list-style: none; margin: 0; padding: 0; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); overflow: hidden; }
@@ -354,8 +373,8 @@ a.tile:hover { border-color: var(--focus); }
 }
 
 .day-row:hover { background: var(--surface-2); }
-.day-date { font-size: 13px; }
-.day-counts { display: flex; gap: 5px; }
+.day-date { font-size: 13px; white-space: nowrap; }
+.day-counts { display: flex; gap: 5px; flex-wrap: wrap; justify-content: flex-end; }
 
 /* ---------------------------------------------------------------- チップ */
 
@@ -453,6 +472,50 @@ select.input { cursor: pointer; max-width: 230px; text-overflow: ellipsis; }
 .article-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 3px; }
 .article-meta .src { font: 11px/1.6 var(--font-mono); color: var(--ink-faint); }
 .article-lead { margin: 4px 0 0; color: var(--ink-dim); font-size: 13px; }
+
+/* ---------------------------------------------------------------- イベント */
+
+.event-list { display: flex; flex-direction: column; gap: 10px; }
+
+.event-card {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+  padding: 12px 15px;
+}
+
+.event-head { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.event-date { font: 11px/1.7 var(--font-mono); color: var(--ink-faint); text-decoration: none; }
+.event-date:hover { color: var(--focus); }
+.event-title { margin: 5px 0 0; font-size: 14px; line-height: 1.5; }
+.event-summary { margin: 4px 0 0; color: var(--ink-dim); font-size: 13px; }
+
+.tag-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-top: 9px;
+  padding-top: 9px;
+  border-top: 1px solid var(--line-soft);
+}
+
+.tag-group { display: flex; align-items: baseline; gap: 9px; }
+.tag-groups.in-article { margin-top: 12px; padding-top: 9px; }
+.tag-caption { font-size: 11px; color: var(--ink-faint); letter-spacing: .05em; margin-bottom: 2px; }
+.loose-event { padding: 9px 0; border-top: 1px solid var(--line-soft); }
+.loose-event .event-title { font-size: 13px; font-weight: 600; margin: 3px 0 0; }
+.tag-dim { flex: none; width: 78px; font-size: 11px; color: var(--ink-faint); text-align: right; }
+.event-links { display: flex; align-items: center; gap: 8px; margin-top: 9px; }
+.btn.small, .ghost.small { padding: 2px 9px; font-size: 12px; }
+
+.chip-warn { color: var(--warn); border-color: color-mix(in srgb, var(--warn) 45%, var(--line)); }
+button.chip { font: inherit; font-size: 11px; cursor: pointer; }
+
+/* イベント種別の目印。色は使わず、左の細い罫で種別だけ分ける */
+.pill-incident, .pill-active_exploitation { color: var(--crit); border-color: color-mix(in srgb, var(--crit) 40%, var(--line)); }
+.pill-malware_campaign, .pill-supply_chain { color: var(--warn); border-color: color-mix(in srgb, var(--warn) 40%, var(--line)); }
+.pill-takedown, .pill-tool_release { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 40%, var(--line)); }
+.pill-vulnerability_advisory, .pill-security_research, .pill-cybercrime_trend { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 40%, var(--line)); }
 
 /* ---------------------------------------------------------------- 日ごとの画面 */
 
@@ -596,6 +659,8 @@ details.block > summary { cursor: pointer; }
   .header-end .ghost:not(#themeBtn) { display: none; }
   .page { padding: 16px 12px 48px; }
   .field { min-width: 100%; }
+  .tag-group { flex-direction: column; gap: 2px; }
+  .tag-dim { width: auto; text-align: left; }
   select.input { max-width: none; }
 }
 

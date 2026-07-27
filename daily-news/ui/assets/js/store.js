@@ -14,8 +14,18 @@ export const state = {
   index: null,
   articles: null,
   iocs: null,
+  events: null,
   quarters: new Map(),
 };
+
+/** 分類次元の値 → 日本語ラベル。taxonomy に無い動的な値はそのまま返す。 */
+export function tagLabel(dimension, value) {
+  return state.index?.labels?.[dimension]?.[value] || value;
+}
+
+export function dimensions() {
+  return state.index?.dimensions || [];
+}
 
 export function onStatus(fn) {
   listeners.add(fn);
@@ -90,6 +100,23 @@ export async function loadIocs() {
     });
   }
   return state.iocs;
+}
+
+export async function loadEvents() {
+  if (!state.events) {
+    const data = await getJson("events.json", "イベント");
+    state.events = data.events;
+    for (const e of state.events) {
+      const tags = e.g || [];
+      e._h = `${e.t} ${e.s} ${e.e} ${tags.map((t) => `${t[1]} ${t[2]}`).join(" ")}`.toLowerCase();
+      e._dim = new Map();
+      for (const [dim, normalized] of tags) {
+        if (!e._dim.has(dim)) e._dim.set(dim, []);
+        e._dim.get(dim).push(normalized);
+      }
+    }
+  }
+  return state.events;
 }
 
 /** 日付 → その日の記事一覧（index.json の目次だけで足りる用途向け）。 */
