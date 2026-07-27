@@ -1,0 +1,88 @@
+name: Deploy daily-news UI to Pages
+
+# daily-news/ui を GitHub Pages に配信する。
+# 索引 JSON はここで生成する（リポジトリにはコミットしない）ので、
+# ニュースや IOC が追加された時点で自動的に最新になる。
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "daily-news/news/**"
+      - "daily-news/iocs/**"
+      - "daily-news/ui/**"
+      - ".github/workflows/deploy-pages.yml"
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 配信は 1 本ずつ。走行中のデプロイは止めない。
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: build-site
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Generate index JSON
+        env:
+          SOURCE_DATE_EPOCH: ${{ github.event.repository.pushed_at }}
+        run: python3 daily-news/ui/build_ui_data.py
+
+      - name: Validate portal index (research_bench spec v1)
+        run: |
+          set -euo pipefail
+          if curl -fsSL -o /tmp/validate-index.py \
+              https://raw.githubusercontent.com/proshiba/research_bench/main/docs/validate-index.py; then
+            python3 /tmp/validate-index.py \
+              daily-news/ui/api/v1/meta.json \
+              daily-news/ui/api/v1/search.json
+          else
+            echo "::warning::validate-index.py を取得できなかったため検査を飛ばしました"
+          fi
+
+      - name: Assemble _site
+        run: |
+          set -euo pipefail
+          mkdir -p _site/daily-news
+          cp -r daily-news/ui _site/daily-news/ui
+          rm -f _site/daily-news/ui/build_ui_data.py _site/daily-news/ui/redirect.html
+          touch _site/.nojekyll
+          cp daily-news/ui/redirect.html _site/index.html
+          cp daily-news/ui/redirect.html _site/daily-news/index.html
+          du -sh _site
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    name: deploy-pages
+    needs: build
+    runs-on: ubuntu-latest
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

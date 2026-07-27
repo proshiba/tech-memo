@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>デイリーニュース — tech-memo</title>
+<meta name="description" content="日々のセキュリティニュース要約と、そこから収集した IOC の索引" />
+<link rel="stylesheet" href="assets/style.css" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect x='2' y='2.5' width='12' height='11' rx='1.6' fill='none' stroke='%238fa9c9' stroke-width='1.4'/%3E%3Cpath d='M4.6 6h6.8M4.6 8.4h6.8M4.6 10.8h4.2' stroke='%238fa9c9' stroke-width='1.3' stroke-linecap='round'/%3E%3C/svg%3E" />
+</head>
+<body>
+
+<header class="app-header">
+  <a class="brand" href="#/" title="デイリーニュース">
+    <span class="brand-mark" aria-hidden="true">dn</span>
+    <span class="brand-name">デイリーニュース</span>
+  </a>
+
+  <nav class="tabs" aria-label="モード">
+    <a class="tab" href="#/" data-route="overview">概要</a>
+    <a class="tab" href="#/news" data-route="news">ニュース</a>
+    <a class="tab" href="#/ioc" data-route="ioc">IOC</a>
+  </nav>
+
+  <div class="header-end">
+    <a class="ghost" href="https://github.com/proshiba/tech-memo/tree/main/daily-news" target="_blank" rel="noopener noreferrer">リポジトリ</a>
+    <button class="ghost" type="button" id="themeBtn" title="表示テーマを切り替え" aria-label="表示テーマを切り替え">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
+        <circle cx="12" cy="12" r="4.4" />
+        <path d="M12 3.2v2.1M12 18.7v2.1M3.2 12h2.1M18.7 12h2.1M5.9 5.9l1.5 1.5M16.6 16.6l1.5 1.5M18.1 5.9l-1.5 1.5M7.4 16.6l-1.5 1.5" stroke-linecap="round" />
+      </svg>
+    </button>
+  </div>
+</header>
+
+<main class="app-main" id="view" tabindex="-1">
+  <div class="empty"><div class="spinner"></div><p>読み込み中…</p></div>
+</main>
+
+<footer class="app-footer">
+  <span id="status" class="status" role="status" aria-live="polite"></span>
+  <span class="footer-meta" id="footerMeta"></span>
+</footer>
+
+<script type="module" src="assets/js/main.js"></script>
+</body>
+</html>

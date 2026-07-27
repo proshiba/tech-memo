@@ -1,3 +1,7 @@
 __pycache__/
 *.pyc
 *.pyo
+
+# daily-news/ui の索引は配信時に build_ui_data.py が作る（約 22 MB）
+daily-news/ui/data/
+daily-news/ui/api/

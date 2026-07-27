@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex" />
+<title>デイリーニュース — tech-memo</title>
+<!-- JS が無効なときの保険。通常は下のスクリプトが先に置き場所から解決する。 -->
+<meta http-equiv="refresh" content="2; url=/tech-memo/daily-news/ui/" />
+<style>
+  body {
+    margin: 0; min-height: 100vh; display: grid; place-content: center; gap: 12px;
+    background: #101319; color: #e6e9ef; text-align: center;
+    font-family: system-ui, -apple-system, "Hiragino Sans", "Noto Sans JP", sans-serif;
+  }
+  a { color: #8fa9c9; }
+  @media (prefers-color-scheme: light) { body { background: #eceef2; color: #171b23; } a { color: #3f6591; } }
+</style>
+</head>
+<body>
+  <p>デイリーニュースの画面へ移動しています…</p>
+  <p><a id="target" href="/tech-memo/daily-news/ui/">移動しない場合はこちら</a></p>
+<script>
+  // 独自ドメインやユーザーページ直下に置かれた場合はリポジトリ名の接頭辞が要らない。
+  // 実際に置かれている場所から相対で解決し直す。
+  (function () {
+    var here = location.pathname;
+    var target = /\/daily-news\/?$/.test(here) ? "ui/" : "daily-news/ui/";
+    var url = new URL(target, location.href).href;
+    document.getElementById("target").href = url;
+    location.replace(url);
+  })();
+</script>
+</body>
+</html>
