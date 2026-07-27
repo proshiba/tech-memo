@@ -3,6 +3,20 @@ name: Deploy daily-news UI to Pages
 # daily-news/ui を GitHub Pages に配信する。
 # 索引 JSON はここで生成する（リポジトリにはコミットしない）ので、
 # ニュースや IOC が追加された時点で自動的に最新になる。
+#
+# トリガーが 3 つある理由:
+#
+# - push       … ニュース md の直接 push はこれで拾える。
+# - schedule   … IOC / イベントの CSV は Claude ルーチンが PR で入れ、
+#                enable-claude-*-automerge.yml が GITHUB_TOKEN で auto-merge を有効にする。
+#                GitHub は GITHUB_TOKEN 由来のイベントで新しいワークフローを起動しないため、
+#                この経路のマージ push では上の push トリガーが発火しない可能性がある。
+#                また、ニュース push の時点ではその日の CSV はまだ生成されていないので、
+#                いずれにせよ後追いの再生成が要る。定期実行がその取りこぼしを埋める。
+# - workflow_dispatch … 手で今すぐ配信したいとき。
+#
+# 定期実行を無くして即時性を上げたい場合は、automerge 側の GH_TOKEN を
+# PAT（workflow スコープ）に替えると、マージ push が push トリガーを起動するようになる。
 
 on:
   push:
@@ -14,6 +28,10 @@ on:
       - "daily-news/iocs/**"
       - "daily-news/ui/**"
       - ".github/workflows/deploy-pages.yml"
+
+  # 12:00 / 00:00 JST。ルーチンが CSV を入れ終わったあとを拾う保険。
+  schedule:
+    - cron: "0 3,15 * * *"
 
   workflow_dispatch:
 
@@ -42,8 +60,6 @@ jobs:
           python-version: "3.12"
 
       - name: Generate index JSON
-        env:
-          SOURCE_DATE_EPOCH: ${{ github.event.repository.pushed_at }}
         run: python3 daily-news/ui/build_ui_data.py
 
       - name: Validate portal index (research_bench spec v1)

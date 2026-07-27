@@ -59,7 +59,7 @@ python3 daily-news/ui/build_ui_data.py --check   # 生成せず解析結果の�
 | `api/v1/meta.json` | ポータル連携仕様 v1 の自己紹介 | 1 KB |
 | `api/v1/search.json` | 同上・索引本体（15,249 エンティティ） | 5.5 MB (gzip 0.93) |
 
-`SOURCE_DATE_EPOCH` を渡すと `generated_at` をその時刻に固定できる（CI で使っている）。
+`SOURCE_DATE_EPOCH` を渡すと `generated_at` をその時刻に固定できる（手元で差分を見るとき用）。
 
 ### Markdown の解析について
 
@@ -95,9 +95,23 @@ python3 -m http.server 8000            # リポジトリのルートで
 
 ## 配信
 
-`.github/workflows/deploy-pages.yml` が `main` への push で走り、索引を生成して
-`_site/daily-news/ui/` として Pages に上げる。`daily-news/news/**`・`daily-news/data/**`・
-`daily-news/iocs/**`・`daily-news/ui/**` のいずれかが変わったときだけ動く。
+`.github/workflows/deploy-pages.yml` が索引を生成し、`_site/daily-news/ui/` として Pages に上げる。
+トリガーは 3 つある。
+
+| トリガー | 拾うもの |
+| --- | --- |
+| `push`（main、`daily-news/{news,data,iocs,ui}/**`） | ニュース md の直接 push |
+| `schedule`（12:00 / 00:00 JST） | IOC・イベント CSV の取りこぼし（下記） |
+| `workflow_dispatch` | 手動 |
+
+**IOC とイベントの CSV は push だけでは拾えないことがある。** これらは Claude ルーチンが PR で入れ、
+`enable-claude-*-automerge.yml` が `GITHUB_TOKEN` で auto-merge を有効にしている。GitHub は
+`GITHUB_TOKEN` 由来のイベントで新しいワークフローを起動しない仕様なので、この経路のマージ push は
+`push` トリガーを発火させない可能性がある。加えて、ニュースを push した時点ではその日の CSV は
+まだ生成されていないため、どのみち後追いの再生成が要る。定期実行がこの両方を埋めている。
+
+即時性を上げたい場合は、automerge 側の `GH_TOKEN` を PAT（`workflow` スコープ）に替えると、
+マージ push が `push` トリガーを起動するようになり、定期実行は不要になる。
 
 **初回だけリポジトリの設定が要る。** Settings → Pages → Build and deployment の
 Source を **GitHub Actions** にする。これをしないとワークフローの deploy が失敗する。
