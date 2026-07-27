@@ -101,7 +101,7 @@ python3 -m http.server 8000            # リポジトリのルートで
 | トリガー | 拾うもの |
 | --- | --- |
 | `push`（main、`daily-news/{news,data,iocs,ui}/**`） | ニュース md の直接 push |
-| `schedule`（12:00 / 00:00 JST） | IOC・イベント CSV の取りこぼし（下記） |
+| `schedule`（09:00 / 21:00 JST） | IOC・イベント CSV の取りこぼし（下記） |
 | `workflow_dispatch` | 手動 |
 
 **IOC とイベントの CSV は push だけでは拾えないことがある。** これらは Claude ルーチンが PR で入れ、

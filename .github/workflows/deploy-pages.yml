@@ -29,9 +29,9 @@ on:
       - "daily-news/ui/**"
       - ".github/workflows/deploy-pages.yml"
 
-  # 12:00 / 00:00 JST。ルーチンが CSV を入れ終わったあとを拾う保険。
+  # 09:00 / 21:00 JST。ルーチンは 9 時までにはだいたい終わっているので、その直後を拾う。
   schedule:
-    - cron: "0 3,15 * * *"
+    - cron: "0 0,12 * * *"
 
   workflow_dispatch:
 
