@@ -1,0 +1,37 @@
+event_key,dimension,raw_value,normalized_value,confidence,note
+2026-07-28_valleyrat_malspam_campaign,malware,ValleyRAT,valleyrat,high,
+2026-07-28_valleyrat_malspam_campaign,initial_access,日本語のマルスパム,malspam,high,
+2026-07-28_valleyrat_malspam_campaign,attack_method,DLLサイドローディング,defense_evasion,high,正規ファイル偽装によるDLLサイドロード
+2026-07-28_valleyrat_malspam_campaign,attack_method,C2通信 134.122.185.201,c2_communication,high,
+2026-07-28_formbook_rfq_malspam_campaign,malware,Formbook,formbook,high,
+2026-07-28_formbook_rfq_malspam_campaign,initial_access,日本語のマルスパム,malspam,high,
+2026-07-28_apple_fake_sparrow_wallet_lawsuit,product,Sparrow Wallet,sparrow_wallet,high,
+2026-07-28_apple_fake_sparrow_wallet_lawsuit,product_class,暗号資産ウォレットアプリ,cryptocurrency_platform,high,
+2026-07-28_apple_fake_sparrow_wallet_lawsuit,crime_trend,偽ウォレットアプリでのBitcoin窃取,crypto_theft,high,
+2026-07-28_apple_fake_sparrow_wallet_lawsuit,attack_method,偽アプリでシードフレーズ入力を誘導,social_engineering,medium,
+2026-07-28_fairlife_anubis_ransomware_data_theft,actor,Anubisランサムウェア集団,anubis,high,
+2026-07-28_fairlife_anubis_ransomware_data_theft,actor_attribution,Anubisランサムウェア集団,cybercrime,high,
+2026-07-28_fairlife_anubis_ransomware_data_theft,attack_method,ランサムウェアによる暗号化,ransomware,high,
+2026-07-28_fairlife_anubis_ransomware_data_theft,attack_method,約1TBのファイル窃取,data_exfiltration,high,
+2026-07-28_fairlife_anubis_ransomware_data_theft,crime_trend,身代金未払いで盗難データ公開,ransomware_extortion,high,
+2026-07-28_fairlife_anubis_ransomware_data_theft,product,Nutanix,nutanix,medium,
+2026-07-28_shinyhunters_ernst_young_breach_claim,actor,ShinyHunters,shinyhunters,medium,犯行主張は未検証
+2026-07-28_shinyhunters_ernst_young_breach_claim,actor_attribution,ShinyHunters,cybercrime,medium,
+2026-07-28_shinyhunters_ernst_young_breach_claim,initial_access,サードパーティのサポートチケットシステム侵害,supply_chain,medium,ShinyHuntersの主張、EY未確認
+2026-07-28_shinyhunters_ernst_young_breach_claim,attack_method,認証情報を取得しJira/GitHub/Azureへ侵入(主張),credential_theft,medium,
+2026-07-28_shinyhunters_ernst_young_breach_claim,crime_trend,データ公開を材料とした恐喝,data_extortion,high,
+2026-07-28_sparkkitty_mobile_ocr_stealer,malware,SparkKitty,sparkkitty,high,
+2026-07-28_sparkkitty_mobile_ocr_stealer,product_class,モバイルアプリ,mobile_app,high,
+2026-07-28_sparkkitty_mobile_ocr_stealer,attack_method,画像OCR解析によるシードフレーズ窃取,data_exfiltration,high,
+2026-07-28_sparkkitty_mobile_ocr_stealer,crime_trend,暗号資産ウォレットのシードフレーズ窃取,crypto_theft,high,
+2026-07-28_sparkkitty_mobile_ocr_stealer,product,SOEX,soex,medium,悪性機能を埋め込まれた配布アプリ
+2026-07-28_sparkkitty_mobile_ocr_stealer,product,币coin,bicoin,medium,悪性機能を埋め込まれた配布アプリ
+2026-07-28_vbulletin_runmaths_preauth_rce,product,vBulletin,vbulletin,high,
+2026-07-28_vbulletin_runmaths_preauth_rce,product_class,フォーラムCMS,cms,high,
+2026-07-28_vbulletin_runmaths_preauth_rce,attack_method,認証前のeval()を悪用したRCE,remote_code_execution,high,
+2026-07-28_vbulletin_runmaths_preauth_rce,initial_access,公開されたajax/render/pagenavエンドポイントの悪用,exploit_public_facing_app,high,
+2026-07-28_n8n_sandbox_bypass_cve_2026_27577,product,n8n,n8n,high,
+2026-07-28_n8n_sandbox_bypass_cve_2026_27577,attack_method,サンドボックス回避によるコマンド実行,remote_code_execution,high,
+2026-07-28_n8n_sandbox_bypass_cve_2026_27577,attack_method,変数置換対象外のprocess/Reflect悪用,defense_evasion,medium,
+2026-07-28_five_foxes_possible_ransomware_infection,attack_method,ランサム感染の可能性,ransomware,low,見出しのみで詳細不明
+2026-07-28_space_phishing_victim_used_as_stepping_stone,initial_access,フィッシング被害,phishing,low,見出しのみで詳細不明
