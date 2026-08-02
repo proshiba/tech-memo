@@ -2,10 +2,11 @@
 //
 // ポータルからの deep link は #/ioc?q=<値> / ?actor=… / ?malware=… で入ってくる。
 
-import { el, num, isoDate, jpDate, link, copy, defang, terms, matchesTerms,
+import { el, num, isoDate, jpDate, link, defang, terms, matchesTerms,
          debounce, download, norm, cleanName } from "./util.js";
 import { loadIndex, loadIocs } from "./store.js";
 import { setQuery } from "./main.js";
+import { toggle, selectField, copyButton, shortType } from "./controls.js";
 
 const PAGE = 200;
 
@@ -31,10 +32,10 @@ export async function renderIoc(root, route) {
         oninput: debounce((e) => update({ q: e.target.value }), 200),
       }),
     ]),
-    field("種別", "iocType", facetOptions(index.facets.type, (t) => t.replace(/^ioc\./, "")), f.type, (v) => update({ type: v })),
-    field("分類", "iocCat", facetOptions(index.facets.category), f.category, (v) => update({ category: v })),
-    field("アクター", "iocActor", facetOptions(index.facets.actor, null, 120), f.actor, (v) => update({ actor: v })),
-    field("マルウェア", "iocMal", facetOptions(index.facets.malware, null, 120), f.malware, (v) => update({ malware: v })),
+    selectField("iocType", "種別", facetOptions(index.facets.type, shortType), f.type, (v) => update({ type: v })),
+    selectField("iocCat", "分類", facetOptions(index.facets.category), f.category, (v) => update({ category: v })),
+    selectField("iocActor", "アクター", facetOptions(index.facets.actor, null, 120), f.actor, (v) => update({ actor: v })),
+    selectField("iocMal", "マルウェア", facetOptions(index.facets.malware, null, 120), f.malware, (v) => update({ malware: v })),
     el("div", { class: "field field-checks" }, [
       toggle("defang 表示", f.defang, (v) => update({ defang: v ? "1" : "" })),
     ]),
@@ -148,13 +149,10 @@ function buildTable(active, update) {
 function rowNode(r, active) {
   const shown = active.defang ? defang(r.value) : r.value;
   return el("tr", {}, [
-    el("td", { class: "nowrap" }, [el("span", { class: "pill", text: r.type.replace(/^ioc\./, "") })]),
+    el("td", { class: "nowrap" }, [el("span", { class: "pill", text: shortType(r.type) })]),
     el("td", { class: "mono value-cell" }, [
       el("span", { class: "value", text: shown }),
-      el("button", {
-        class: "icon-btn", type: "button", title: "コピー", text: "⧉",
-        onclick: (e) => copyValue(e, shown),
-      }),
+      copyButton(shown),
     ]),
     el("td", { class: "nowrap", text: r.date || "" }),
     el("td", { text: r.category }),
@@ -163,7 +161,13 @@ function rowNode(r, active) {
     el("td", { class: "desc" }, [el("span", { class: "clamp", title: r.description, text: r.description })]),
     el("td", { class: "nowrap" }, [
       r.reference ? link(r.reference, "出典") : null,
-      el("a", { class: "src-day", href: `#/day/${r.news_date}`, title: jpDate(r.news_date), text: isoDate(r.news_date) }),
+      // article があれば、その IOC を載せていた記事そのものへ飛ぶ
+      el("a", {
+        class: "src-day",
+        href: r.article ? `#/day/${r.article[0]}/${r.article[1]}` : `#/day/${r.news_date}`,
+        title: r.article ? `${jpDate(r.news_date)} の該当記事へ` : jpDate(r.news_date),
+        text: isoDate(r.news_date),
+      }),
     ]),
   ]);
 }
@@ -212,31 +216,4 @@ function facetOptions(pairs, transform, limit = 60) {
   const items = (pairs || []).filter(([name]) => name).slice(0, limit);
   return [["", "すべて"], ...items.map(([name, count]) =>
     [name, `${transform ? transform(name) : name} (${count})`])];
-}
-
-function field(label, id, options, value, onchange) {
-  const node = el("select", { id, class: "input", onchange: (e) => onchange(e.target.value) },
-    options.map(([v, t]) => el("option", { value: v, text: t })));
-  node.value = value;
-  if (value && node.value !== value) {
-    // ファセット上位に無い値が deep link で来た場合も選べるようにする
-    node.append(el("option", { value, text: value }));
-    node.value = value;
-  }
-  return el("div", { class: "field" }, [
-    el("label", { class: "field-label", for: id, text: label }),
-    node,
-  ]);
-}
-
-function toggle(label, checked, onchange) {
-  const input = el("input", { type: "checkbox", checked, onchange: (e) => onchange(e.target.checked) });
-  return el("label", { class: "check" }, [input, el("span", { text: label })]);
-}
-
-async function copyValue(event, value) {
-  const ok = await copy(value);
-  const btn = event.currentTarget;
-  btn.textContent = ok ? "✓" : "×";
-  setTimeout(() => { btn.textContent = "⧉"; }, 900);
 }

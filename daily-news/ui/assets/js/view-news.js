@@ -3,6 +3,7 @@
 
 import { el, num, jpDate, isoDate, monthOf, terms, matchesTerms, highlight, debounce } from "./util.js";
 import { loadIndex, loadArticles } from "./store.js";
+import { toggle, selectField } from "./controls.js";
 import { setQuery } from "./main.js";
 
 const PAGE = 60;
@@ -28,15 +29,9 @@ export async function renderNews(root, route) {
         oninput: debounce((e) => update({ q: e.target.value }), 200),
       }),
     ]),
-    el("div", { class: "field" }, [
-      el("label", { class: "field-label", for: "newsYear", text: "年" }),
-      select("newsYear", [["", "すべて"], ...years.map((y) => [y, `${y}年`])], year,
-        (v) => update({ year: v, month: "" })),
-    ]),
-    el("div", { class: "field" }, [
-      el("label", { class: "field-label", for: "newsMonth", text: "月" }),
-      select("newsMonth", monthOptions(index, year), month, (v) => update({ month: v })),
-    ]),
+    selectField("newsYear", "年", [["", "すべて"], ...years.map((y) => [y, `${y}年`])], year,
+      (v) => update({ year: v, month: "" })),
+    selectField("newsMonth", "月", monthOptions(index, year), month, (v) => update({ month: v })),
     el("div", { class: "field field-checks" }, [
       toggle("IOCあり", onlyIoc, (v) => update({ ioc: v ? "1" : "" })),
       toggle("CVE言及", onlyCve, (v) => update({ cve: v ? "1" : "" })),
@@ -160,16 +155,4 @@ function monthOptions(index, year) {
     .filter((d) => !year || d.d.startsWith(year))
     .map((d) => monthOf(d.d)))].sort().reverse();
   return [["", "すべて"], ...months.map((m) => [m, `${m.slice(0, 4)}-${m.slice(4)}`])];
-}
-
-function select(id, options, value, onchange) {
-  const node = el("select", { id, class: "input", onchange: (e) => onchange(e.target.value) },
-    options.map(([v, t]) => el("option", { value: v, text: t })));
-  node.value = value;
-  return node;
-}
-
-function toggle(label, checked, onchange) {
-  const input = el("input", { type: "checkbox", checked, onchange: (e) => onchange(e.target.checked) });
-  return el("label", { class: "check" }, [input, el("span", { text: label })]);
 }

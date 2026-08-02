@@ -6,6 +6,7 @@ import { el, num, jpDate, isoDate, monthOf, link, terms, matchesTerms,
          highlight, debounce } from "./util.js";
 import { loadIndex, loadEvents, tagLabel, dimensions } from "./store.js";
 import { setQuery } from "./main.js";
+import { toggle, selectField } from "./controls.js";
 
 const PAGE = 40;
 
@@ -37,10 +38,7 @@ export async function renderEvents(root, route) {
     ]),
     facetField("種別", "event_type", index, active, update, dims),
     ...TAG_DIMENSIONS.map((d) => facetField(dims.get(d)?.label || d, d, index, active, update, dims)),
-    el("div", { class: "field" }, [
-      el("label", { class: "field-label", for: "evMonth", text: "月" }),
-      monthSelect(index, active.month, (v) => update({ month: v })),
-    ]),
+    selectField("evMonth", "月", monthOptions(index), active.month, (v) => update({ month: v })),
     el("div", { class: "field field-checks" }, [
       toggle("要確認のみ", active.review, (v) => update({ review: v ? "1" : "" })),
       toggle("月次フォロー候補", active.followup, (v) => update({ followup: v ? "1" : "" })),
@@ -211,31 +209,12 @@ function facetField(label, dim, index, active, update, dims) {
   const pairs = index.event_facets?.[dim] || [];
   const options = [["", "すべて"], ...pairs.slice(0, 200).map(([value, count]) =>
     [value, `${tagLabel(dim, value)} (${count})`])];
-  const id = `ev-${dim}`;
-  const node = el("select", { id, class: "input", onchange: (e) => update({ [dim]: e.target.value }) },
-    options.map(([v, t]) => el("option", { value: v, text: t })));
-  node.value = active[dim] || "";
-  if (active[dim] && node.value !== active[dim]) {
-    node.append(el("option", { value: active[dim], text: active[dim] }));
-    node.value = active[dim];
-  }
-  return el("div", { class: "field" }, [
-    el("label", { class: "field-label", for: id, text: label, title: dims.get(dim)?.description || "" }),
-    node,
-  ]);
+  return selectField(`ev-${dim}`, label, options, active[dim], (v) => update({ [dim]: v }),
+    { title: dims.get(dim)?.description || "" });
 }
 
-function monthSelect(index, value, onchange) {
+function monthOptions(index) {
   const months = [...new Set(index.days.filter((d) => d.ev).map((d) => monthOf(d.d)))]
     .sort().reverse();
-  const node = el("select", { id: "evMonth", class: "input", onchange: (e) => onchange(e.target.value) },
-    [["", "すべて"], ...months.map((m) => [m, `${m.slice(0, 4)}-${m.slice(4)}`])]
-      .map(([v, t]) => el("option", { value: v, text: t })));
-  node.value = value;
-  return node;
-}
-
-function toggle(label, checked, onchange) {
-  const input = el("input", { type: "checkbox", checked, onchange: (e) => onchange(e.target.checked) });
-  return el("label", { class: "check" }, [input, el("span", { text: label })]);
+  return [["", "すべて"], ...months.map((m) => [m, `${m.slice(0, 4)}-${m.slice(4)}`])];
 }

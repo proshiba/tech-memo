@@ -44,6 +44,7 @@
 ```bash
 python3 daily-news/ui/build_ui_data.py           # data/ と api/ を生成
 python3 daily-news/ui/build_ui_data.py --check   # 生成せず解析結果の統計だけ出す
+python3 daily-news/ui/check_output.py            # 生成物を元データと突き合わせる
 ```
 
 標準ライブラリだけで動く。生成物は約 23 MB あり、ニュースが増えるたびに作り直すので
@@ -57,7 +58,7 @@ python3 daily-news/ui/build_ui_data.py --check   # 生成せず解析結果の�
 | `data/iocs.json` | IOC 全件（列指向の配列） | 1.9 MB |
 | `data/events.json` | イベントとタグ全件 | 1.3 MB |
 | `api/v1/meta.json` | ポータル連携仕様 v1 の自己紹介 | 1 KB |
-| `api/v1/search.json` | 同上・索引本体（15,249 エンティティ） | 5.5 MB (gzip 0.93) |
+| `api/v1/search.json` | 同上・索引本体（15,273 エンティティ） | 5.5 MB (gzip 0.93) |
 
 `SOURCE_DATE_EPOCH` を渡すと `generated_at` をその時刻に固定できる（手元で差分を見るとき用）。
 
@@ -73,6 +74,27 @@ python3 daily-news/ui/build_ui_data.py --check   # 生成せず解析結果の�
 
 942 日 7,077 記事のうち、タイトル・要約が取れなかったものは 0 件、
 URL が無いものが 4 件（元の Markdown 側に記載が無い）。
+
+### 記事との対応付け
+
+IOC もイベントも「どの記事から起こしたか」を持つ。ここが外れると調査の起点にならないので、
+**当てにいく順番を決め、決められなければ対応を付けない**（誤った対応は無いことより悪い）。
+
+| | IOC（`reference` を使う） | イベント（`source_url` を使う） |
+| --- | --- | --- |
+| 1 | 同じ日の記事の URL に一致 | `source_file` の日の記事の URL に一致 |
+| 2 | 同じ日の記事本文の URL に一致（一次ソース） | — |
+| 3 | 同じ日のイベントのタグに malware / actor 名が一致し、候補が 1 件 | — |
+| 付けない | 上記で決まらないとき | 同じ日に候補が複数 / 見つからない |
+
+**別の日の記事は候補にしない。** IOC もイベントもその日のニュースファイルから起こしたもので、
+別の日に同じ URL の記事があってもそれは同じ話題の再掲であって出所ではない。
+
+現在の内訳は IOC 5,231/5,724 件（91%）、イベント 866/1,073 件（81%）。残りは対応を付けない。
+
+`check_output.py` が、付けた対応が収集日と矛盾していないかを毎回確かめる。
+`build_ui_data.py` 側にも、収集元が 1 つの記事番号に固定されていたら生成を止める検査を入れてある
+（以前ここは「その日の 1 本目の記事」を無条件に指していて、ほとんどの参照が誤っていた）。
 
 ### イベントの読み方
 
@@ -155,7 +177,7 @@ iframe の中も一緒に変わる。別オリジンのときは `prefers-color-
 
 | type | 件数 | 元 | `value`（結合キー） |
 | --- | --- | --- | --- |
-| `report` | 7,260 | 記事 1 件 ＋ 記事に対応が無いイベント 183 件 | 記事・一次ソースの URL |
+| `report` | 7,284 | 記事 1 件 ＋ 記事に対応が無いイベント 207 件 | 記事・一次ソースの URL |
 | `ioc.*` | 5,533 | IOC CSV（同じ値は 1 件に畳む） | refang 済みの値 |
 | `cve` | 1,390 | 記事本文から抽出 | `CVE-YYYY-NNNN` |
 | `product` | 429 | イベントの `product` タグ | 製品名 |
@@ -177,11 +199,13 @@ iframe の中も一緒に変わる。別オリジンのときは `prefers-color-
 index.html            外枠
 redirect.html         Pages のルート → この画面への案内（配信時に配置）
 build_ui_data.py      Markdown / CSV → 静的 JSON
+check_output.py       生成物と元データの突き合わせ
 assets/style.css      配色トークンはポータルと同じ組
 assets/js/
   main.js             起動・ルーティング・テーマ・埋め込み判定
   store.js            静的 JSON の取得とキャッシュ
   util.js             DOM 生成・Markdown 風レンダラ・整形
+  controls.js         一覧画面で共通の部品（絞り込みのセレクトなど）
   view-overview.js    概要
   view-news.js        記事一覧・横断検索
   view-events.js      構造化イベント

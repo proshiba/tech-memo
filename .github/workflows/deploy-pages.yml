@@ -62,6 +62,9 @@ jobs:
       - name: Generate index JSON
         run: python3 daily-news/ui/build_ui_data.py
 
+      - name: Cross-check generated JSON against the source data
+        run: python3 daily-news/ui/check_output.py
+
       - name: Validate portal index (research_bench spec v1)
         run: |
           set -euo pipefail
@@ -79,7 +82,8 @@ jobs:
           set -euo pipefail
           mkdir -p _site/daily-news
           cp -r daily-news/ui _site/daily-news/ui
-          rm -f _site/daily-news/ui/build_ui_data.py _site/daily-news/ui/redirect.html
+          rm -f _site/daily-news/ui/build_ui_data.py _site/daily-news/ui/check_output.py \
+                _site/daily-news/ui/redirect.html
           touch _site/.nojekyll
           cp daily-news/ui/redirect.html _site/index.html
           cp daily-news/ui/redirect.html _site/daily-news/index.html

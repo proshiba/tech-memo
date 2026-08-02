@@ -119,10 +119,6 @@ export async function loadEvents() {
   return state.events;
 }
 
-/** 日付 → その日の記事一覧（index.json の目次だけで足りる用途向け）。 */
-export function dayEntry(date) {
-  return state.index?.days.find((d) => d.d === date) || null;
-}
 
 export function neighbours(date) {
   const days = state.index?.days || [];

@@ -1,6 +1,7 @@
 // 1 日分のまとめ。元の Markdown の構造（節と記事内のラベル）をそのまま出す。
 
-import { el, num, jpDate, isoDate, link, renderBlock, renderMarkdown, copy, actorMalware } from "./util.js";
+import { el, num, jpDate, isoDate, link, renderBlock, renderMarkdown, actorMalware } from "./util.js";
+import { copyButton, shortType } from "./controls.js";
 import { loadIndex, loadDay, loadIocs, loadEvents, neighbours, tagLabel, dimensions } from "./store.js";
 
 const SECTION_TITLES = {
@@ -277,11 +278,15 @@ function compactIocTable(rows) {
       el("td", { class: "nowrap" }, [el("span", { class: `pill pill-${r.type.replace(".", "-")}`, text: shortType(r.type) })]),
       el("td", { class: "mono value-cell" }, [
         el("span", { text: r.value }),
-        el("button", { class: "icon-btn", type: "button", title: "コピー", text: "⧉", onclick: (e) => copyValue(e, r.value) }),
+        copyButton(r.value),
       ]),
       el("td", { text: r.category }),
       el("td", { text: actorMalware(r.actor, r.malware) }),
-      el("td", {}, [r.reference ? link(r.reference, "出典") : null]),
+      el("td", { class: "nowrap" }, [
+        r.reference ? link(r.reference, "出典") : null,
+        r.article ? el("a", { class: "src-day", href: `#/day/${r.article[0]}/${r.article[1]}`,
+                              title: "この IOC を載せていた記事へ", text: "記事" }) : null,
+      ]),
     ]));
   }
   table.append(body);
@@ -290,15 +295,4 @@ function compactIocTable(rows) {
     out.append(el("p", { class: "dim small", text: `先頭 200 件を表示（全 ${num(rows.length)} 件）。残りは IOC 画面で。` }));
   }
   return out;
-}
-
-export function shortType(type) {
-  return String(type).replace(/^ioc\./, "");
-}
-
-async function copyValue(event, value) {
-  const ok = await copy(value);
-  const btn = event.currentTarget;
-  btn.textContent = ok ? "✓" : "×";
-  setTimeout(() => { btn.textContent = "⧉"; }, 900);
 }
