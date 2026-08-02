@@ -18,11 +18,6 @@ export function el(tag, opts = {}, children = []) {
   return node;
 }
 
-export function frag(children) {
-  const f = document.createDocumentFragment();
-  for (const c of [].concat(children)) if (c) f.append(c);
-  return f;
-}
 
 export function safeUrl(raw) {
   const url = String(raw || "").trim();
@@ -53,10 +48,6 @@ export function jpDate(yyyymmdd) {
   return `${y}年${m}月${d}日(${w})`;
 }
 
-export function compactDate(yyyymmdd) {
-  const s = String(yyyymmdd || "");
-  return s.length === 8 ? `${+s.slice(4, 6)}/${+s.slice(6)}` : s;
-}
 
 export function monthOf(yyyymmdd) {
   return String(yyyymmdd || "").slice(0, 6);
@@ -68,13 +59,6 @@ export function num(n) {
 
 // ---------------------------------------------------------------- 文字列
 
-export function refang(value) {
-  return String(value || "")
-    .replace(/\[\.\]|\(\.\)|\[dot\]|\(dot\)/gi, ".")
-    .replace(/^hxxp/i, "http")
-    .replace(/\[:\]/g, ":")
-    .replace(/\[@\]|\[at\]/gi, "@");
-}
 
 export function defang(value) {
   return String(value || "")

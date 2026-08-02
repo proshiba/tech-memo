@@ -101,13 +101,6 @@ function decodeSafe(text) {
   }
 }
 
-export function go(path, { replace = false } = {}) {
-  const target = path.startsWith("#") ? path : `#${path}`;
-  if (location.hash === target) return;
-  if (replace) history.replaceState(null, "", target);
-  else location.hash = target;
-  if (replace) render();
-}
 
 /** 現在のクエリを差分更新して履歴を汚さずに書き戻す。 */
 export function setQuery(patch) {

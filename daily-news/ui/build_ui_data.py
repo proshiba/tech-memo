@@ -428,8 +428,119 @@ def load_events() -> list[dict]:
     for ev in events:
         ev["tags"] = by_key.get(ev["event_key"], [])
         ev["news_date"] = ev["date"].replace("-", "")
+        # どのニュースファイルから起こしたかは source_file が持っている。
+        # 同じ記事 URL が複数の日に出ることがあるので、対応付けはこの日付を優先する。
+        ev["source_day"] = source_file_day(ev.get("source_file", "")) or ev["news_date"]
     events.sort(key=lambda e: (e["date"], e["event_key"]))
     return events
+
+
+SOURCE_FILE_DAY = re.compile(r"(\d{8})\.md$")
+
+
+def source_file_day(path: str) -> str:
+    m = SOURCE_FILE_DAY.search(str(path or ""))
+    return m.group(1) if m else ""
+
+
+# ---------------------------------------------------------------- 記事との対応付け
+#
+# イベントも IOC も「どの記事から起こしたか」を URL で辿る。同じ記事 URL が別の日に
+# 再掲されることがあるので、まず日付を絞ってから引き、それでも複数に当たるときは
+# 決められなかったものとして扱う。誤った対応は、対応が無いことより悪い。
+
+URL_IN_TEXT = re.compile(r"(?:https?|hxxps?)://[^\s<>\"'）」,]+", re.I)
+
+# 記事本文のうち URL が出てくるブロック。「その他」の一次ソースが主だが、
+# 要約や推奨事項に直接書かれていることもある。
+URL_BLOCKS = ("etc", "summary", "advice", "gpt", "note", "ioc")
+
+
+def build_article_urls(articles: list) -> dict:
+    """記事を URL から引くための索引。
+
+    IOC CSV の `reference` は、ニュース記事の URL のこともあれば、その記事が挙げていた
+    一次ソース（ベンダーのブログなど）のこともある。前者は見出しの URL、後者は本文中の
+    URL と突き合わせれば当たる。
+    """
+    head: dict[tuple[str, str], set[int]] = collections.defaultdict(set)
+    body: dict[tuple[str, str], set[int]] = collections.defaultdict(set)
+    anywhere: dict[str, set[tuple[str, int]]] = collections.defaultdict(set)
+
+    for day, art in articles:
+        if art.get("url"):
+            key = url_key(art["url"])
+            head[(day["date"], key)].add(art["i"])
+            anywhere[key].add((day["date"], art["i"]))
+        text = "\n".join(t for block in URL_BLOCKS for _, t in art.get(block, []))
+        for m in URL_IN_TEXT.finditer(text):
+            body[(day["date"], url_key(m.group(0)))].add(art["i"])
+
+    return {"head": head, "body": body, "anywhere": anywhere}
+
+
+def events_by_day(events: list[dict]) -> dict[str, list[dict]]:
+    out: dict[str, list[dict]] = collections.defaultdict(list)
+    for ev in events:
+        if ev.get("article"):
+            out[ev["news_date"]].append(ev)
+    return out
+
+
+def resolve_ioc_article(row: dict, urls: dict, by_day: dict) -> tuple[tuple[str, int] | None, str]:
+    """IOC 1 行がどの記事から起こされたかを決める。
+
+    次の順で当てる。決まらなければ参照を作らない —— 誤った参照は無いことより悪い。
+
+    1. reference が同じ日の記事の URL          （完全一致）
+    2. reference が同じ日の記事本文の URL      （完全一致・一次ソース）
+    3. 同じ日のイベントのタグに malware / actor 名が一致し、候補が 1 件に定まる
+
+    別の日の記事は候補にしない。IOC はその日のニュースファイルから起こしたものなので、
+    別の日の記事が出所ということはあり得ない（同じ話題を再掲しただけの他人の空似になる）。
+    """
+    date = row["news_date"]
+    key = url_key(row["reference"])
+
+    hit = urls["head"].get((date, key), set())
+    if len(hit) == 1:
+        return (date, next(iter(hit))), "記事URL"
+
+    hit = urls["body"].get((date, key), set())
+    if len(hit) == 1:
+        return (date, next(iter(hit))), "本文URL"
+
+    names = {name_key("malware", n) for n in split_names(row["malware"]) + split_names(row["actor"])}
+    names.discard("")
+    if names:
+        candidates = set()
+        for ev in by_day.get(date, []):
+            tags = set()
+            for dim, normalized, raw, *_ in ev["tags"]:
+                if dim not in ("malware", "actor"):
+                    continue
+                tags.add(name_key("malware", normalized))
+                if raw:
+                    tags.add(name_key("malware", raw))
+            if names & (tags - {""}):
+                candidates.add(tuple(ev["article"]))
+        if len(candidates) == 1:
+            date_str, idx = next(iter(candidates))
+            return (date_str, int(idx)), "イベント"
+
+    return None, "決められない"
+
+
+def link_iocs_to_articles(rows: list[dict], articles: list, events: list[dict]) -> collections.Counter:
+    urls = build_article_urls(articles)
+    by_day = events_by_day(events)
+    stats: collections.Counter = collections.Counter()
+    for row in rows:
+        hit, via = resolve_ioc_article(row, urls, by_day)
+        stats[via] += 1
+        if hit:
+            row["article"] = [hit[0], hit[1]]
+    return stats
 
 
 # 記事に書かれていた元表記のうち、名前として読めるもの
@@ -457,22 +568,29 @@ def derive_labels(events: list[dict], tax_labels: dict[str, dict[str, str]]) -> 
     return out
 
 
-def link_events_to_articles(events: list[dict], articles: list) -> None:
+def link_events_to_articles(events: list[dict], articles: list) -> collections.Counter:
     """イベントの `source_url` を記事に突き合わせ、記事の位置を書き込む。
 
     イベントは記事本文から起こしたものなので大半は一致する。日本のインシデント事例や
     その他のメモから起こしたものは記事に対応が無く、その場合は日付までで留める。
+
+    対応付けは、そのイベントを起こしたニュースファイルの日付（`source_file`）の中だけで
+    探す。同じ URL の記事が別の日にあってもそれは同じ話題の再掲であって出所ではない。
+    1 日の中で複数の記事が同じ URL を持つ場合も、どちらとも決められないので付けない。
     """
-    index: dict[str, tuple[str, int]] = {}
-    for day, art in articles:
-        url = art.get("url")
-        if url:
-            index.setdefault(url_key(url), (day["date"], art["i"]))
+    urls = build_article_urls(articles)
+    stats: collections.Counter = collections.Counter()
 
     for ev in events:
-        hit = index.get(url_key(ev["source_url"]))
-        if hit:
-            ev["article"] = list(hit)
+        key = url_key(ev["source_url"])
+        same_day = urls["head"].get((ev["source_day"], key), set())
+        if len(same_day) == 1:
+            ev["article"] = [ev["source_day"], next(iter(same_day))]
+            stats["同じ日の記事"] += 1
+            continue
+        stats["同じ日に候補が複数" if same_day else "対応なし"] += 1
+
+    return stats
 
 
 def url_key(url: str) -> str:
@@ -557,8 +675,9 @@ def build(check_only: bool = False) -> int:
             if pos is not None:
                 article_index[pos]["ev"] = ev["event_type"]
 
-    link_events_to_articles(events, articles)
+    event_link_stats = link_events_to_articles(events, articles)
     event_by_day = collections.Counter(e["news_date"] for e in events)
+    ioc_link_stats = link_iocs_to_articles(ioc_rows, articles, events)
 
     # ---- 日ごとの目次
     day_index = []
@@ -654,7 +773,7 @@ def build(check_only: bool = False) -> int:
     }
 
     if check_only:
-        report(index, articles, ioc_rows, events)
+        report(index, articles, ioc_rows, events, ioc_link_stats, event_link_stats)
         return 0
 
     data_dir = UI_DIR / "data"
@@ -669,11 +788,11 @@ def build(check_only: bool = False) -> int:
         "generated_at": index["generated_at"],
         "columns": ["type", "value", "date", "category", "actor", "actor_attribute",
                     "malware", "malware_type", "reference", "description",
-                    "confidence", "news_date"],
+                    "confidence", "news_date", "article"],
         "rows": [
             [r["spec_type"], r["value"], r["date"], r["category"], r["actor"],
              r["actor_attribute"], r["malware"], r["malware_type"], r["reference"],
-             r["description"], r["confidence"], r["news_date"]]
+             r["description"], r["confidence"], r["news_date"], r.get("article")]
             for r in ioc_rows
         ],
     })
@@ -700,15 +819,22 @@ def build(check_only: bool = False) -> int:
         ],
     })
 
-    meta, search = build_portal_index(index, articles, ioc_rows, cve_counter, events)
+    meta, search = build_portal_index(index, articles, ioc_rows, events)
     api_dir = UI_DIR / "api" / "v1"
     total += write_json(api_dir / "meta.json", meta, compact=False)
     search_bytes = write_json(api_dir / "search.json", search)
     total += search_bytes
 
+    check_source_refs(search["entities"])
+
     st = index["stats"]
     print(f"日数 {st['days']} / 記事 {st['articles']} / IOC {st['iocs']} / "
           f"CVE {st['cves']} / イベント {st['events']}（記事に紐づく {st['events_linked']}）")
+    linked = st["iocs"] - ioc_link_stats["決められない"]
+    print(f"IOC の収集元 {linked}/{st['iocs']} 件を特定 "
+          + " / ".join(f"{k} {v}" for k, v in ioc_link_stats.most_common()))
+    print(f"イベントの記事対応 {st['events_linked']}/{st['events']} 件 "
+          + " / ".join(f"{k} {v}" for k, v in event_link_stats.most_common()))
     print(f"ポータル索引 {len(search['entities'])} エンティティ "
           f"({search_bytes / 1e6:.2f} MB) / 出力合計 {total / 1e6:.2f} MB")
     return 0
@@ -728,44 +854,57 @@ def now_iso() -> str:
 
 # ---------------------------------------------------------------- ポータル索引
 
-def build_portal_index(index: dict, articles: list, ioc_rows: list[dict],
-                       cve_counter: collections.Counter,
-                       events: list[dict]) -> tuple[dict, dict]:
-    entities: list[dict] = []
-    article_id: dict[tuple[str, int], str] = {}
+# エンティティの補足に出すイベントの分類軸（イベント種別は別に出す）
+EVENT_ATTR_DIMS = ("initial_access", "actor", "actor_attribution", "malware",
+                   "product", "product_class", "attack_method", "crime_trend")
 
-    dim_label = {d["key"]: d["label"] for d in index["dimensions"]}
-    labels = index["labels"]
+# ポータルからの deep link。type ごとにこの UI のどの画面へ入るかを決める。
+DEEP_LINKS = {
+    "report": "#/day/{detail}",
+    "cve": "#/news?q={detail}",
+    "malware": "#/events?malware={detail}",
+    "actor": "#/events?actor={detail}",
+    "product": "#/events?product={detail}",
+    **{t: "#/ioc?q={detail}" for t in (
+        "ioc.ipv4", "ioc.ipv6", "ioc.domain", "ioc.url", "ioc.endpoint",
+        "ioc.email", "ioc.md5", "ioc.sha1", "ioc.sha256", "ioc.sha512")},
+}
+
+
+def event_attrs(ev: dict, dim_label: dict, labels: dict) -> dict:
+    """イベントの構造化タグを、そのままエンティティの補足として出す。"""
+    out = {}
+    if ev["event_type"]:
+        out["イベント種別"] = labels.get("event_type", {}).get(ev["event_type"], ev["event_type"])
+    for dim in EVENT_ATTR_DIMS:
+        values = [t[1] for t in ev["tags"] if t[0] == dim]
+        if values:
+            out[dim_label.get(dim, dim)] = join_capped(
+                [labels.get(dim, {}).get(v, v) for v in values], 4)
+    return out
+
+
+def report_entities(articles: list, events: list[dict], dim_label: dict,
+                    labels: dict) -> tuple[dict, list[dict]]:
+    """記事 1 件 = report。対応するイベントがあれば構造化タグを添える。
+
+    記事に対応が付かなかったイベント（日本のインシデント事例など、元が記事節でないもの）も
+    report として出す。そうしないとイベントのタグから辿る先が無くなる。
+    """
     event_of_article = {tuple(e["article"]): e for e in events if e.get("article")}
+    article_id: dict[tuple[str, int], str] = {}
+    out: list[dict] = []
 
-    def tag_values(ev: dict, dim: str) -> list[str]:
-        return [t[1] for t in ev["tags"] if t[0] == dim]
-
-    def event_attrs(ev: dict) -> dict:
-        """イベントの構造化タグを、そのままエンティティの補足として出す。"""
-        out = {}
-        etype = ev["event_type"]
-        if etype:
-            out["イベント種別"] = labels.get("event_type", {}).get(etype, etype)
-        for dim in ("initial_access", "actor", "actor_attribution", "malware",
-                    "product", "product_class", "attack_method", "crime_trend"):
-            vals = tag_values(ev, dim)
-            if vals:
-                out[dim_label.get(dim, dim)] = ", ".join(
-                    labels.get(dim, {}).get(v, v) for v in vals[:4])
-        return out
-
-    # report — 記事 1 件。対応するイベントがあれば構造化タグを添える。
     for day, art in articles:
         eid = f"article:{day['date']}#{art['i']}"
         article_id[(day["date"], art["i"])] = eid
         attrs = {"日付": iso_date(day["date"])}
         if art.get("cve"):
-            attrs["CVE"] = ", ".join(art["cve"][:6])
+            attrs["CVE"] = join_capped(art["cve"], 6)
         ev = event_of_article.get((day["date"], art["i"]))
         if ev:
-            attrs.update(event_attrs(ev))
-        entities.append({
+            attrs.update(event_attrs(ev, dim_label, labels))
+        out.append({
             "type": "report",
             "id": eid,
             "label": art["title"] or art.get("url", "")[:80],
@@ -774,86 +913,103 @@ def build_portal_index(index: dict, articles: list, ioc_rows: list[dict],
             "attrs": attrs,
         })
 
-    # report — 記事に対応が付かなかったイベント（日本のインシデント事例など元が記事節でないもの）
     for ev in events:
         if ev.get("article"):
             continue
-        attrs = {"日付": ev["date"], **event_attrs(ev)}
-        entities.append({
+        out.append({
             "type": "report",
             "id": f"event:{ev['event_key']}",
             "label": ev["title"],
             "value": refang(ev["source_url"]) or ev["event_key"],
             "detail": ev["news_date"],
-            "attrs": attrs,
+            "attrs": {"日付": ev["date"], **event_attrs(ev, dim_label, labels)},
         })
 
-    # cve — 記事本文から拾った脆弱性識別子
-    cve_refs: dict[str, list[str]] = collections.defaultdict(list)
+    return article_id, out
+
+
+def cve_entities(articles: list, article_id: dict) -> list[dict]:
+    """記事本文から拾った脆弱性識別子。"""
+    refs_of: dict[str, list[str]] = collections.defaultdict(list)
     for day, art in articles:
         for cve in art.get("cve", []):
-            cve_refs[cve].append(article_id[(day["date"], art["i"])])
-    for cve, refs in sorted(cve_refs.items()):
-        entities.append({
+            refs_of[cve].append(article_id[(day["date"], art["i"])])
+    return [
+        {
             "type": "cve",
             "id": cve,
             "label": cve,
-            "attrs": {"言及記事数": str(len(refs))},
+            "attrs": {"言及記事数": str(len(refs))},   # refs は 12 件で打ち切るので実数はここ
             "refs": [{"rel": "言及記事", "target": t} for t in refs[:12]],
-        })
+        }
+        for cve, refs in sorted(refs_of.items())
+    ]
 
-    # ioc.* — 同じ値は 1 件に畳み、観測日と出典をまとめる
+
+def group_iocs(ioc_rows: list[dict]) -> dict[tuple[str, str], dict]:
+    """同じ値の IOC を 1 件に畳む。属性は行をまたいで集める。"""
     by_value: dict[tuple[str, str], dict] = {}
     for r in ioc_rows:
-        key = (r["spec_type"], r["value"])
-        slot = by_value.setdefault(key, {
+        slot = by_value.setdefault((r["spec_type"], r["value"]), {
             "type": r["spec_type"], "value": r["value"],
-            "categories": set(), "actors": set(), "malware": set(),
-            "dates": set(), "news_dates": set(), "refs": set(), "desc": r["description"],
+            "categories": set(), "actors": set(), "malware": set(), "articles": set(),
+            "dates": set(), "news_dates": set(), "desc": "",
         })
+        if len(r["description"]) > len(slot["desc"]):
+            slot["desc"] = r["description"]   # いちばん情報量のある説明を採る
         if r["category"]:
             slot["categories"].add(r["category"])
         slot["actors"].update(split_names(r["actor"]))
         slot["malware"].update(split_names(r["malware"]))
+        if r.get("article"):
+            slot["articles"].add(tuple(r["article"]))
         if r["date"]:
             slot["dates"].add(r["date"])
         slot["news_dates"].add(r["news_date"])
+    return by_value
 
-    day_of_articles: dict[str, list[str]] = collections.defaultdict(list)
-    for day, art in articles:
-        day_of_articles[day["date"]].append(article_id[(day["date"], art["i"])])
 
-    ioc_entity_id: dict[tuple[str, str], str] = {}
+def ioc_entities(by_value: dict, article_id: dict) -> list[dict]:
+    out = []
     for (stype, value), slot in by_value.items():
-        eid = value
-        ioc_entity_id[(stype, value)] = eid
         attrs = {}
         if slot["categories"]:
             attrs["分類"] = ", ".join(sorted(slot["categories"]))
         if slot["actors"]:
-            attrs["アクター"] = ", ".join(sorted(slot["actors"])[:5])
+            attrs["アクター"] = join_capped(sorted(slot["actors"]), 5)
         if slot["malware"]:
-            attrs["マルウェア"] = ", ".join(sorted(slot["malware"])[:5])
+            attrs["マルウェア"] = join_capped(sorted(slot["malware"]), 5)
         if slot["dates"]:
             attrs["観測日"] = min(slot["dates"])
-        attrs["収集日"] = ", ".join(sorted(iso_date(d) for d in slot["news_dates"])[:2])
+        attrs["収集日"] = join_capped(sorted(iso_date(d) for d in slot["news_dates"]), 2)
         if slot["desc"]:
             attrs["説明"] = slot["desc"][:110]
 
-        refs = []
-        for nd in sorted(slot["news_dates"])[:4]:
-            for target in day_of_articles.get(nd, [])[:1]:
-                refs.append({"rel": "収集元", "target": target})
-        entities.append({
+        # 収集元は「その IOC を実際に載せていた記事」だけを指す。
+        # どの記事か決められなかった行は参照を作らない（誤った参照は無いことより悪い）。
+        refs = [
+            {"rel": "収集元", "target": article_id[key]}
+            for key in sorted(slot["articles"])
+            if key in article_id
+        ]
+        if len(refs) > 6:
+            attrs["収集元の記事数"] = str(len(refs))
+
+        out.append({
             "type": stype,
-            "id": eid,
+            "id": value,
             "label": value,
             "attrs": attrs,
-            **({"refs": refs[:4]} if refs else {}),
+            **({"refs": refs[:6]} if refs else {}),
         })
+    return out
 
-    # malware / actor / product — IOC の属性とイベントのタグの両方から起こす。
-    # 同じ名前は 1 エンティティに畳み、別表記は aliases に載せて結合キーを増やす。
+
+def name_entities(by_value: dict, events: list[dict], article_id: dict) -> tuple[dict, list[dict]]:
+    """malware / actor / product を、IOC の属性とイベントのタグの両方から起こす。
+
+    同じ名前は 1 エンティティに畳み、別表記は aliases に載せて結合キーを増やす。
+    """
     registry: dict[tuple[str, str], dict] = {}
 
     def touch(kind: str, name: str, ref: dict | None, origin: str, alias: str = "") -> None:
@@ -871,7 +1027,7 @@ def build_portal_index(index: dict, articles: list, ioc_rows: list[dict],
             slot["refs"].append(ref)
 
     for (stype, value), slot in by_value.items():
-        ref = {"rel": "関連IOC", "target": ioc_entity_id[(stype, value)]}
+        ref = {"rel": "関連IOC", "target": value}
         for name in slot["malware"]:
             touch("malware", name, ref, "ioc")
         for name in slot["actors"]:
@@ -883,9 +1039,11 @@ def build_portal_index(index: dict, articles: list, ioc_rows: list[dict],
                   else f"event:{ev['event_key']}")
         ref = {"rel": "関連イベント", "target": target}
         for dim in ("malware", "actor", "product"):
-            for _, normalized, raw, *_ in [t for t in ev["tags"] if t[0] == dim]:
-                touch(dim, normalized, ref, "event", alias=raw)
+            for tag in ev["tags"]:
+                if tag[0] == dim:
+                    touch(dim, tag[1], ref, "event", alias=tag[2])
 
+    out = []
     for (kind, key), slot in sorted(registry.items()):
         label, aliases = pick_label(slot["names"], slot["aliases"], key)
         attrs = {}
@@ -893,7 +1051,7 @@ def build_portal_index(index: dict, articles: list, ioc_rows: list[dict],
             attrs["IOC件数"] = str(slot["ioc"])
         if slot["event"]:
             attrs["イベント件数"] = str(slot["event"])
-        entities.append({
+        out.append({
             "type": kind,
             "id": f"{kind}:{key}",
             "label": label,
@@ -903,6 +1061,23 @@ def build_portal_index(index: dict, articles: list, ioc_rows: list[dict],
             "attrs": attrs,
             **({"refs": slot["refs"]} if slot["refs"] else {}),
         })
+    return registry, out
+
+
+def build_portal_index(index: dict, articles: list, ioc_rows: list[dict],
+                       events: list[dict]) -> tuple[dict, dict]:
+    """ポータル連携仕様 v1 の meta.json / search.json を組み立てる。"""
+    dim_label = {d["key"]: d["label"] for d in index["dimensions"]}
+    labels = index["labels"]
+
+    article_id, entities = report_entities(articles, events, dim_label, labels)
+    entities += cve_entities(articles, article_id)
+
+    by_value = group_iocs(ioc_rows)
+    entities += ioc_entities(by_value, article_id)
+
+    registry, name_ents = name_entities(by_value, events, article_id)
+    entities += name_ents
 
     stats = index["stats"]
     meta = {
@@ -914,16 +1089,7 @@ def build_portal_index(index: dict, articles: list, ioc_rows: list[dict],
         "repository": REPOSITORY,
         "site_url": SITE_URL,
         "endpoints": {"search": "api/v1/search.json"},
-        "deep_links": {
-            "report": "#/day/{detail}",
-            "cve": "#/news?q={detail}",
-            "malware": "#/events?malware={detail}",
-            "actor": "#/events?actor={detail}",
-            "product": "#/events?product={detail}",
-            **{t: "#/ioc?q={detail}" for t in (
-                "ioc.ipv4", "ioc.ipv6", "ioc.domain", "ioc.url", "ioc.endpoint",
-                "ioc.email", "ioc.md5", "ioc.sha1", "ioc.sha256", "ioc.sha512")},
-        },
+        "deep_links": dict(DEEP_LINKS),
         # embed_css は置かない。?embed=1 と iframe 判定を自前で解釈して
         # クロームを畳むため（仕様 §4 でいう embed-mode）。
         "capabilities": ["iframe", "deep-link", "embed-mode"],
@@ -980,13 +1146,54 @@ def pick_label(names: collections.Counter, aliases: set, fallback: str) -> tuple
     return label, alias_list[:8]
 
 
+def join_capped(values, limit: int, sep: str = ", ") -> str:
+    """並べて表示する。入り切らない分は件数で示す（黙って切らない）。"""
+    items = list(values)
+    head = sep.join(items[:limit])
+    rest = len(items) - limit
+    return f"{head} ほか{rest}件" if rest > 0 else head
+
+
 def iso_date(yyyymmdd: str) -> str:
     if len(yyyymmdd) == 8 and yyyymmdd.isdigit():
         return f"{yyyymmdd[:4]}-{yyyymmdd[4:6]}-{yyyymmdd[6:]}"
     return yyyymmdd
 
 
-def report(index: dict, articles: list, ioc_rows: list[dict], events: list[dict]) -> None:
+def check_source_refs(entities: list[dict]) -> None:
+    """`収集元` が記事番号の既定値に張り付いていないか確かめる。
+
+    以前ここは「その日の 1 本目の記事」を無条件に指していて、ほとんどの参照が誤っていた。
+    同じ不具合が黙って戻らないよう、生成の時点で落とす。
+    """
+    by_family: dict[str, set[str]] = collections.defaultdict(set)
+    for ent in entities:
+        eid = str(ent.get("id", ""))
+        if "#" in eid:
+            family, _, idx = eid.rpartition("#")
+            by_family[family].add(idx)
+
+    targets: collections.Counter = collections.Counter()
+    total = 0
+    for ent in entities:
+        for ref in ent.get("refs", []):
+            if ref.get("rel") != "収集元":
+                continue
+            family, _, idx = str(ref.get("target", "")).rpartition("#")
+            if not idx or len(by_family.get(family, ())) < 2:
+                continue  # 兄弟が居ない日は選びようがないので数えない
+            targets[idx] += 1
+            total += 1
+
+    if total >= 50 and len(targets) == 1:
+        raise SystemExit(
+            f"収集元の参照 {total} 件が全て `#{next(iter(targets))}` を指しています。"
+            " 記事が選ばれていません（既定値のまま出ている疑い）。",
+        )
+
+
+def report(index: dict, articles: list, ioc_rows: list[dict], events: list[dict],
+           ioc_link_stats: collections.Counter, event_link_stats: collections.Counter) -> None:
     s = index["stats"]
     print(f"日数        {s['days']}  ({s['first_day']} 〜 {s['last_day']})")
     print(f"記事        {s['articles']}")
@@ -994,6 +1201,12 @@ def report(index: dict, articles: list, ioc_rows: list[dict], events: list[dict]
     print(f"CVE         {s['cves']}")
     print(f"イベント     {s['events']}  ({s['first_event']} 〜 {s['last_event']}, "
           f"{s['event_days']} 日分 / 記事に紐づく {s['events_linked']})")
+    print("IOC の収集元の特定:")
+    for via, n in ioc_link_stats.most_common():
+        print(f"  {via:<14} {n:>5}  ({n * 100 // max(1, len(ioc_rows))}%)")
+    print("イベントの記事対応:")
+    for via, n in event_link_stats.most_common():
+        print(f"  {via:<14} {n:>5}")
     no_tag = [e for e in events if not e["tags"]]
     print(f"タグ無しイベント {len(no_tag)}")
     for e in no_tag[:3]:
