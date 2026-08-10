@@ -1,5 +1,9 @@
 # Daily Security Info
 
+UI(github-pages)でも公開していますので、こちらもご参照ください。  
+- 統合ポータル: https://proshiba.github.io/research_bench/
+- ニュース系: https://proshiba.github.io/tech-memo/
+
 ### Tools
 N/A
 
