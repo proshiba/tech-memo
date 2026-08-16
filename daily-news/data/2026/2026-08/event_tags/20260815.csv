@@ -1,0 +1,101 @@
+event_key,dimension,raw_value,normalized_value,confidence,note
+2026-08-15_japanese_malspam_snake_keylogger,initial_access,日本語のマルスパム（請求書偽装メール）,malspam,high,件名Re: 請求書の添付rar
+2026-08-15_japanese_malspam_snake_keylogger,malware,SnakeKeyLogger,snake_keylogger,high,
+2026-08-15_japanese_malspam_snake_keylogger,malware,DonutLoader,donutloader,high,
+2026-08-15_japanese_malspam_snake_keylogger,attack_method,キーロガーによる情報窃取,credential_theft,high,SnakeKeyloggerによる窃取
+2026-08-15_japanese_malspam_snake_keylogger,attack_method,Telegram Bot APIおよびmail.elpasohonroso[.]comへの送信,c2_communication,high,
+2026-08-15_japanese_malspam_snake_keylogger,attack_method,rar内のJSファイル実行,malicious_document,medium,添付アーカイブ内スクリプト実行
+2026-08-15_commerzbank_bank_fraud_arrests,actor_attribution,ブラジルを中心とする組織犯罪グループ,cybercrime,high,資金窃取と資金洗浄が目的
+2026-08-15_commerzbank_bank_fraud_arrests,initial_access,サービス事業者の誤った更新により生じた脆弱性の悪用,exploit_public_facing_app,medium,委託先システムの脆弱性悪用
+2026-08-15_commerzbank_bank_fraud_arrests,attack_method,誤ったソフトウェア更新で生じた脆弱性の悪用,supply_chain_compromise,medium,決済サービス事業者経由の侵害
+2026-08-15_macos_screen_sharing_active_exploitation,product,macOS（Screen Sharing）,macos,high,
+2026-08-15_macos_screen_sharing_active_exploitation,product_class,macOS本体の機能,os,high,
+2026-08-15_macos_screen_sharing_active_exploitation,initial_access,インターネット公開されたTCP/5900番ポート,exposed_remote_service,high,公開Screen Sharing
+2026-08-15_macos_screen_sharing_active_exploitation,attack_method,認証時のstate management不備による認証回避,authentication_bypass,high,CVE-2026-65400
+2026-08-15_macos_screen_sharing_active_exploitation,attack_method,被害システムでのroot権限取得,privilege_escalation,high,
+2026-08-15_sap_commerce_cloud_active_exploitation,product,SAP Commerce Cloud,sap_commerce_cloud,high,
+2026-08-15_sap_commerce_cloud_active_exploitation,product_class,クラウド型ECプラットフォーム,cloud_service,medium,近似分類
+2026-08-15_sap_commerce_cloud_active_exploitation,initial_access,インターネット公開されたSAP Commerce Cloud,exploit_public_facing_app,high,
+2026-08-15_sap_commerce_cloud_active_exploitation,attack_method,未認証での任意コード実行,remote_code_execution,high,CVE-2026-58231
+2026-08-15_shell_clop_data_theft_claim,actor,Clopランサムウェアグループ,clop,high,
+2026-08-15_shell_clop_data_theft_claim,actor_attribution,金銭目的のデータ恐喝グループ,cybercrime,high,
+2026-08-15_shell_clop_data_theft_claim,product,PTC Windchill,ptc_windchill,high,
+2026-08-15_shell_clop_data_theft_claim,product,PTC FlexPLM,ptc_flexplm,high,
+2026-08-15_shell_clop_data_theft_claim,initial_access,CVE-2026-12569を悪用した外部公開PLMサーバーへの侵入,exploit_public_facing_app,high,
+2026-08-15_shell_clop_data_theft_claim,attack_method,JSP Webシェルの展開,backdoor,high,
+2026-08-15_shell_clop_data_theft_claim,attack_method,PLM環境からの機密データ窃取,data_exfiltration,high,
+2026-08-15_shell_clop_data_theft_claim,crime_trend,データ窃取と公開脅迫による恐喝,data_extortion,high,
+2026-08-15_ringcentral_data_breach,actor,ShinyHunters,shinyhunters,medium,RingCentral自身は正式帰属していない
+2026-08-15_ringcentral_data_breach,actor_attribution,金銭目的の恐喝グループ,cybercrime,high,
+2026-08-15_ringcentral_data_breach,product,RingCentral,ringcentral,high,
+2026-08-15_ringcentral_data_breach,product_class,クラウド通信サービス,cloud_service,medium,近似分類
+2026-08-15_ringcentral_data_breach,attack_method,高度なソーシャルエンジニアリング攻撃,social_engineering,high,
+2026-08-15_ringcentral_data_breach,attack_method,623GBの顧客データ窃取と公開,data_exfiltration,high,
+2026-08-15_ringcentral_data_breach,crime_trend,身代金拒否後のデータ公開による恐喝,data_extortion,high,
+2026-08-15_data_analyst_extortion_sentencing,actor,Cameron Curry（別名Loot）,cameron_curry,high,
+2026-08-15_data_analyst_extortion_sentencing,actor_attribution,元契約社員による内部犯行,insider,high,
+2026-08-15_data_analyst_extortion_sentencing,initial_access,在職中の正規アクセス権の悪用,insider_abuse,high,
+2026-08-15_data_analyst_extortion_sentencing,attack_method,給与・人事・企業情報の持ち出し,data_exfiltration,high,
+2026-08-15_data_analyst_extortion_sentencing,crime_trend,暗号資産による身代金要求を伴うデータ恐喝,data_extortion,high,
+2026-08-15_apple_mercenary_spyware_threat_notification,actor_attribution,傭兵型（商用）スパイウェアによる標的型攻撃,hack_for_hire,high,
+2026-08-15_apple_mercenary_spyware_threat_notification,product,iPhone,iphone,high,
+2026-08-15_apple_mercenary_spyware_threat_notification,product_class,スマートフォン本体,os,medium,近似分類
+2026-08-15_dcrat_phishing_campaign,malware,DCRat,dcrat,high,
+2026-08-15_dcrat_phishing_campaign,initial_access,コロンビア司法機関を装うフィッシングメール,phishing,high,
+2026-08-15_dcrat_phishing_campaign,attack_method,悪意あるSVGとHTML Smugglingによる7z生成,malicious_document,high,
+2026-08-15_dcrat_phishing_campaign,attack_method,AddInProcess32.exeへのProcess Hollowing,process_injection,high,
+2026-08-15_dcrat_phishing_campaign,attack_method,Runレジストリによる永続化,persistence,high,
+2026-08-15_dcrat_phishing_campaign,attack_method,AMSI回避と解析妨害,defense_evasion,high,
+2026-08-15_dcrat_phishing_campaign,attack_method,TLS暗号化C2通信,c2_communication,high,
+2026-08-15_dcrat_phishing_campaign,attack_method,DCRatによる完全な遠隔操作,backdoor,high,
+2026-08-15_agentic_ai_intrusion_analysis,product_class,AIエージェント,ai_tool,high,
+2026-08-15_agentic_ai_intrusion_analysis,product,Hugging Face,hugging_face,medium,侵害事例として言及
+2026-08-15_apt_c_06_darkhotel_campaign,actor,APT-C-06（Darkhotel）,darkhotel,high,
+2026-08-15_apt_c_06_darkhotel_campaign,initial_access,圧縮ファイルを添付したフィッシングメール,phishing,high,
+2026-08-15_apt_c_06_darkhotel_campaign,attack_method,囮の解説文書とMSIによる誘導実行,malicious_document,high,
+2026-08-15_apt_c_06_darkhotel_campaign,attack_method,スケジュールタスクとtp.ps1による永続化,persistence,high,
+2026-08-15_apt_c_06_darkhotel_campaign,attack_method,自身の削除処理とChaCha20による復号実行,defense_evasion,medium,
+2026-08-15_honeymyte_coolclient_rootkit,actor,HoneyMyte（Mustang Panda）,honeymyte,high,
+2026-08-15_honeymyte_coolclient_rootkit,actor_attribution,諜報目的の標的型攻撃を行うAPTグループ,nation_state,medium,記事では諜報目的と記載
+2026-08-15_honeymyte_coolclient_rootkit,malware,CoolClient,coolclient,high,
+2026-08-15_honeymyte_coolclient_rootkit,malware,PlugX,plugx,high,初期侵害後の足掛かり
+2026-08-15_honeymyte_coolclient_rootkit,attack_method,カーネルモードドライバーによる隠蔽とUAC回避,defense_evasion,high,msagent.sys
+2026-08-15_honeymyte_coolclient_rootkit,attack_method,SYSTEM権限のタスク・サービスによる永続化,persistence,high,
+2026-08-15_honeymyte_coolclient_rootkit,attack_method,UAC回避とSYSTEM権限での実行,privilege_escalation,high,
+2026-08-15_honeymyte_coolclient_rootkit,attack_method,synchost.exeへの注入,process_injection,high,
+2026-08-15_honeymyte_coolclient_rootkit,attack_method,cert.iniによるC2通信とバックドア機能,backdoor,high,
+2026-08-15_patchcord_south_asia_campaign,actor,APT36（Transparent Tribe）,apt36,medium,中程度の確度での評価
+2026-08-15_patchcord_south_asia_campaign,actor_attribution,パキスタン関連の諜報主体,nation_state,medium,中程度の確度
+2026-08-15_patchcord_south_asia_campaign,malware,PATCHCORD,patchcord,high,
+2026-08-15_patchcord_south_asia_campaign,malware,SHEETCORD,sheetcord,high,
+2026-08-15_patchcord_south_asia_campaign,malware,HACKERAI C2 Agent,hackerai_c2_agent,high,
+2026-08-15_patchcord_south_asia_campaign,initial_access,偽Afghan Telecom VPNや通信管理ツールを装う標的型フィッシング,phishing,medium,
+2026-08-15_patchcord_south_asia_campaign,attack_method,Afghan Telecomやインド政府機関を偽装したドメイン・インストーラー,spoofing,high,
+2026-08-15_patchcord_south_asia_campaign,attack_method,ブラウザーショートカットの乗っ取りとRunキー,persistence,high,
+2026-08-15_patchcord_south_asia_campaign,attack_method,Google SheetsやGitHub Gistsを悪用したC2通信,c2_communication,high,
+2026-08-15_patchcord_south_asia_campaign,attack_method,ステージングサーバーで確認された認証情報窃取ツール,credential_theft,medium,
+2026-08-15_patchcord_south_asia_campaign,product,Google Sheets,google_sheets,medium,C2として悪用
+2026-08-15_patchcord_south_asia_campaign,product,GitHub Gists,github_gists,medium,C2として悪用
+2026-08-15_evooo1bot_linux_botnet,malware,Evooo1Bot,evooo1bot,high,
+2026-08-15_evooo1bot_linux_botnet,malware,Mirai,mirai,medium,Mirai由来のDDoS機能
+2026-08-15_evooo1bot_linux_botnet,product_class,ルーター・IoT・エッジ機器,network_device,high,Alcatel/NETGEAR/Tenda/D-Link等
+2026-08-15_evooo1bot_linux_botnet,initial_access,インターネット公開機器の既知CVE悪用,exploit_public_facing_app,high,
+2026-08-15_evooo1bot_linux_botnet,attack_method,Mirai由来のDDoS機能,ddos,high,
+2026-08-15_evooo1bot_linux_botnet,attack_method,SSHブルートフォースと認証情報窃取,credential_theft,high,
+2026-08-15_evooo1bot_linux_botnet,attack_method,暗号化C2通信,c2_communication,high,
+2026-08-15_evooo1bot_linux_botnet,attack_method,Bash historyの削除,defense_evasion,medium,
+2026-08-15_amnesiastealer_macos_infostealer,malware,AmnesiaStealer,amnesiastealer,high,
+2026-08-15_amnesiastealer_macos_infostealer,product,macOS,macos,high,
+2026-08-15_amnesiastealer_macos_infostealer,product_class,macOS本体,os,high,
+2026-08-15_amnesiastealer_macos_infostealer,product_class,Chromiumブラウザー,browser,medium,ブラウザープロファイル複製と遠隔操作
+2026-08-15_amnesiastealer_macos_infostealer,initial_access,偽GitHubページからTerminalコマンド実行を誘導,phishing,medium,ClickFix型の偽サイト誘導
+2026-08-15_amnesiastealer_macos_infostealer,attack_method,偽GitHubページとClickFixによる実行誘導,social_engineering,high,
+2026-08-15_amnesiastealer_macos_infostealer,attack_method,GitHubを偽装した配布ページ,spoofing,medium,
+2026-08-15_amnesiastealer_macos_infostealer,attack_method,ログインパスワード・Keychain・ブラウザーデータの窃取,credential_theft,high,
+2026-08-15_amnesiastealer_macos_infostealer,attack_method,Cookie平文取得とヘッドレスブラウザーの遠隔操作,session_hijacking,medium,Chrome DevTools Protocol悪用
+2026-08-15_amnesiastealer_macos_infostealer,attack_method,APFSスナップショットやTCC.db改変による保護回避,defense_evasion,high,
+2026-08-15_amnesiastealer_macos_infostealer,attack_method,root LaunchDaemonによる永続化,persistence,high,
+2026-08-15_amnesiastealer_macos_infostealer,attack_method,収集データのC2送信,data_exfiltration,high,
+2026-08-15_amnesiastealer_macos_infostealer,crime_trend,偽GitHubページのClickFix手口,clickfix,high,
+2026-08-15_decryptads_ad_tracking_service,product,DecryptAds,decryptads,high,
+2026-08-15_decryptads_ad_tracking_service,product_class,広告・追跡事業者の可視化サービス,security_tool,medium,近似分類
