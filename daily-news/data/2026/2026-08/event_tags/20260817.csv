@@ -1,0 +1,7 @@
+event_key,dimension,raw_value,normalized_value,confidence,note
+2026-08-17_threema_large_scale_ddos_outage,attack_method,大規模DDoS攻撃,ddos,high,DDoS攻撃によるサービス障害と明記
+2026-08-17_threema_large_scale_ddos_outage,product,Threema,threema,high,被害を受けたメッセージングサービスとして明記
+2026-08-17_threema_large_scale_ddos_outage,product_class,セキュアメッセージングサービス,collaboration_platform,medium,メッセージング基盤として分類。該当分類が曖昧なためmedium
+2026-08-17_threema_large_scale_ddos_outage,initial_access,DDoSのみでシステム侵入なし,not_applicable,high,システム侵入やデータアクセスは発生していないと明記
+2026-08-17_threema_large_scale_ddos_outage,actor,攻撃者不明,unknown,high,攻撃者のグループ名・国籍・動機は不明と明記
+2026-08-17_threema_large_scale_ddos_outage,actor_attribution,帰属不明,unknown,high,帰属に関する記載なし、動機も不明と明記
