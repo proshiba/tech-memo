@@ -1,0 +1,77 @@
+event_key,dimension,raw_value,normalized_value,confidence,note
+2026-08-19_hypeagent_loader_stealer,malware,HypeAgent,hypeagent,high,ローダー兼スティーラーとして明示
+2026-08-19_hypeagent_loader_stealer,attack_method,認証情報窃取（スティーラー）,credential_theft,medium,スティーラー機能の記載
+2026-08-19_hypeagent_loader_stealer,attack_method,C2サーバー,c2_communication,high,C2の探索条件が記載
+2026-08-19_wordpress_clickfix_japan,product,WordPress,wordpress,high,改ざん対象として明示
+2026-08-19_wordpress_clickfix_japan,product_class,改ざんされたWordPressサイト,cms,high,
+2026-08-19_wordpress_clickfix_japan,attack_method,ClickFixによる実行誘導,social_engineering,high,
+2026-08-19_wordpress_clickfix_japan,crime_trend,ClickFix,clickfix,high,見出しに明示
+2026-08-19_wordpress_clickfix_japan,initial_access,改ざんサイト閲覧からの誘導,drive_by_download,medium,改ざんWordPress経由の誘導
+2026-08-19_jp_malspam_manageengine_rmm_abuse,initial_access,日本語マルスパム,malspam,high,
+2026-08-19_jp_malspam_manageengine_rmm_abuse,attack_method,PDF.htaの実行,malicious_document,high,zip内のHTAファイル
+2026-08-19_jp_malspam_manageengine_rmm_abuse,attack_method,RMM経由の遠隔操作C2,c2_communication,high,jpword[.]cc:8383等
+2026-08-19_jp_malspam_manageengine_rmm_abuse,attack_method,正規RMMによる遠隔アクセスの維持,persistence,medium,UEMS Agentのインストール
+2026-08-19_jp_malspam_manageengine_rmm_abuse,product,ManageEngine UEMS Agent,manageengine_uems_agent,high,RMMとして悪用
+2026-08-19_jp_malspam_manageengine_rmm_abuse,product_class,RMM（遠隔管理）エージェント,remote_access,high,
+2026-08-19_jp_malspam_valleyrat,initial_access,日本語マルスパム,malspam,high,
+2026-08-19_jp_malspam_valleyrat,malware,ValleyRAT,valleyrat,high,
+2026-08-19_jp_malspam_valleyrat,attack_method,imgマウントによる実行ファイル配布,malicious_document,high,zip/imgを用いた配布
+2026-08-19_jp_malspam_valleyrat,attack_method,Defender除外設定の追加,defense_evasion,high,Add-MpPreference -ExclusionPath
+2026-08-19_jp_malspam_valleyrat,attack_method,C2通信,c2_communication,high,207.56.119[.]83:6666
+2026-08-19_jp_malspam_valleyrat,attack_method,explorer.exeへの注入,process_injection,medium,process_treeからの推測
+2026-08-19_clop_windchill_custom_webshell,actor,Clop,clop,high,高い可能性で関連付けと記載
+2026-08-19_clop_windchill_custom_webshell,actor_attribution,金銭目的のデータ窃取・恐喝グループ,cybercrime,high,
+2026-08-19_clop_windchill_custom_webshell,initial_access,CVE-2026-12569の悪用,exploit_public_facing_app,high,
+2026-08-19_clop_windchill_custom_webshell,product,PTC Windchill / FlexPLM,ptc_windchill,high,
+2026-08-19_clop_windchill_custom_webshell,attack_method,JSP Webシェルの設置,backdoor,high,
+2026-08-19_clop_windchill_custom_webshell,attack_method,認証情報の復号・取得,credential_theft,high,LDAP管理者パスワード等
+2026-08-19_clop_windchill_custom_webshell,attack_method,ファイル列挙とデータ窃取,data_exfiltration,high,
+2026-08-19_clop_windchill_custom_webshell,attack_method,正規処理に紛れた検知回避,defense_evasion,medium,独自ヘッダーと正規DB接続の利用
+2026-08-19_clop_windchill_custom_webshell,crime_trend,大量侵害型のデータ恐喝,data_extortion,high,
+2026-08-19_cisa_windows_task_host_ransomware_exploitation,product,Windows 11 / Windows Server 2025,microsoft_windows,high,
+2026-08-19_cisa_windows_task_host_ransomware_exploitation,product_class,Windows OS,os,high,
+2026-08-19_cisa_windows_task_host_ransomware_exploitation,attack_method,SYSTEM権限への昇格,privilege_escalation,high,
+2026-08-19_cisa_windows_task_host_ransomware_exploitation,attack_method,ランサムウェア攻撃での悪用,ransomware,high,CISAが明示
+2026-08-19_cisa_windows_task_host_ransomware_exploitation,actor_attribution,ランサムウェアグループ,cybercrime,medium,具体的な属性は記事内で不明
+2026-08-19_cisa_windows_task_host_ransomware_exploitation,crime_trend,ランサムウェアによる恐喝,ransomware_extortion,medium,ランサムウェア悪用の記載に基づく
+2026-08-19_microsoft_wmic_removal,product,Windows 11 (WMIC),microsoft_windows,high,
+2026-08-19_microsoft_wmic_removal,product_class,Windows OS,os,high,
+2026-08-19_microsoft_wmic_removal,attack_method,LOLBIN悪用による防御無効化,defense_evasion,high,セキュリティ製品の列挙・除外設定追加
+2026-08-19_twinloot_m365_azure_c2_implant,malware,TWINLOOT,twinloot,high,
+2026-08-19_twinloot_m365_azure_c2_implant,initial_access,Teams上でのITサポートなりすまし,phishing,high,
+2026-08-19_twinloot_m365_azure_c2_implant,actor_attribution,既知グループへ未帰属,unknown,high,記事で帰属なしと明記
+2026-08-19_twinloot_m365_azure_c2_implant,product,Microsoft 365,microsoft_365,high,
+2026-08-19_twinloot_m365_azure_c2_implant,product,Microsoft Azure,microsoft_azure,high,Azure BlobをC2設定配信に利用
+2026-08-19_twinloot_m365_azure_c2_implant,product,Microsoft Teams,microsoft_teams,high,初期侵入とWebRTC中継
+2026-08-19_twinloot_m365_azure_c2_implant,product,SharePoint Online,sharepoint_online,high,C2デッドドロップ
+2026-08-19_twinloot_m365_azure_c2_implant,product_class,SaaSクラウドサービス,cloud_service,high,
+2026-08-19_twinloot_m365_azure_c2_implant,product_class,Teams/SharePointの悪用,collaboration_platform,high,
+2026-08-19_twinloot_m365_azure_c2_implant,attack_method,ITサポートなりすましによる実行誘導,social_engineering,high,
+2026-08-19_twinloot_m365_azure_c2_implant,attack_method,偽Windowsロック画面による認証情報窃取,credential_theft,high,
+2026-08-19_twinloot_m365_azure_c2_implant,attack_method,正規クラウドサービスを使ったC2,c2_communication,high,
+2026-08-19_twinloot_m365_azure_c2_implant,attack_method,NTUSER.MANによる永続化,persistence,high,
+2026-08-19_twinloot_m365_azure_c2_implant,attack_method,正規サービスに紛れた検知回避,defense_evasion,medium,M365/Azureトラフィックへの偽装
+2026-08-19_north_korean_it_worker_infiltration,actor,NKITW（北朝鮮ITワーカー）,nkitw,high,レポート内の呼称
+2026-08-19_north_korean_it_worker_infiltration,actor_attribution,北朝鮮政府・党・フロント企業,nation_state,high,
+2026-08-19_north_korean_it_worker_infiltration,initial_access,偽身元での就業による内部権限取得,insider_abuse,medium,採用を通じた内部潜入
+2026-08-19_north_korean_it_worker_infiltration,attack_method,企業情報の窃取,data_exfiltration,medium,一部ITワーカーが関与
+2026-08-19_north_korean_it_worker_infiltration,crime_trend,暗号資産窃取,crypto_theft,medium,一部が関与と記載
+2026-08-19_ai_mind_virus_prompt_file_propagation,actor_attribution,AnthropicとEPFLの研究者,security_researcher,high,
+2026-08-19_ai_mind_virus_prompt_file_propagation,product_class,AIエージェント,ai_tool,high,
+2026-08-19_ai_mind_virus_prompt_file_propagation,attack_method,永続プロンプトファイル経由の指示注入,prompt_injection,high,
+2026-08-19_ai_mind_virus_prompt_file_propagation,attack_method,SOUL.md等への書き込みによる継続,persistence,medium,セッションをまたぐ永続ファイル
+2026-08-19_mlflow_ssrf_active_exploitation,initial_access,インターネット公開MLflowサーバーの脆弱性悪用,exploit_public_facing_app,high,
+2026-08-19_mlflow_ssrf_active_exploitation,product,MLflow,mlflow,high,
+2026-08-19_mlflow_ssrf_active_exploitation,product_class,ML基盤（AI関連ツール）,ai_tool,medium,MLライフサイクル基盤として分類
+2026-08-19_openai_defenders_window_report,product_class,AIエージェント,ai_tool,medium,AI活用の攻防に関する分析
+2026-08-19_openai_defenders_window_report,attack_method,漏えい認証情報の連鎖利用,credential_theft,medium,OpenAI-Hugging Faceインシデントの記載
+2026-08-19_jst_email_account_unauthorized_access,crime_trend,メールアカウント乗っ取り,account_takeover,medium,
+2026-08-19_naha_city_teacher_support_scam,attack_method,サポート詐欺による誘導,social_engineering,high,
+2026-08-19_naha_city_teacher_support_scam,crime_trend,偽サポートによる詐欺,vishing,medium,サポート詐欺として報道
+2026-08-19_nice_email_account_unauthorized_access,crime_trend,メールアカウント乗っ取り,account_takeover,medium,
+2026-08-19_sakura_internet_rental_server_unauthorized_access,product,さくらのレンタルサーバ,sakura_rental_server,high,
+2026-08-19_sakura_internet_rental_server_unauthorized_access,product_class,レンタルサーバー（ホスティング）,cloud_service,medium,
+2026-08-19_postgresql_rce_poc_cve_2026_14669,product,PostgreSQL,postgresql,high,
+2026-08-19_postgresql_rce_poc_cve_2026_14669,product_class,データベース,database,high,
+2026-08-19_postgresql_rce_poc_cve_2026_14669,attack_method,リモートコード実行,remote_code_execution,high,CVE-2026-14669のRCE
+2026-08-19_postgresql_rce_poc_cve_2026_14669,actor_attribution,PoC公開,security_researcher,medium,
