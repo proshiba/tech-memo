@@ -1,0 +1,12 @@
+event_key,dimension,raw_value,normalized_value,confidence,note
+2026-10-05_shinyhunters_rey_detained_jordan,actor,ShinyHunters,shinyhunters,high,記事本文で集団名を明示
+2026-10-05_shinyhunters_rey_detained_jordan,actor,Rey (Saif al-Din Khader),rey,high,拘束された関係者として明示
+2026-10-05_shinyhunters_rey_detained_jordan,actor,HellCat,hellcat,low,Reyの過去の関連先として言及のみ
+2026-10-05_shinyhunters_rey_detained_jordan,actor_attribution,データ窃取と恐喝を行う集団,cybercrime,high,金銭目的の犯罪集団として記述
+2026-10-05_shinyhunters_rey_detained_jordan,attack_method,データ窃取,data_exfiltration,high,FBIシステムから2〜3TB窃取を主張との記述
+2026-10-05_shinyhunters_rey_detained_jordan,crime_trend,データ窃取と恐喝,data_extortion,high,その他欄にデータ窃取と恐喝を行う集団と明記
+2026-10-05_dtu_identity_system_data_breach,actor_attribution,攻撃者の属性は不明,unknown,high,記事で属性不明と明記
+2026-10-05_dtu_identity_system_data_breach,initial_access,侵害したアカウントでシステムに侵入,stolen_credentials,medium,侵害アカウント利用は明示、アカウント侵害手法は不明
+2026-10-05_dtu_identity_system_data_breach,product,DTUBasen,dtubasen,high,侵害対象システム名を明示
+2026-10-05_dtu_identity_system_data_breach,product_class,ID・アクセス管理システム,identity_service,high,DTUBasenをID・アクセス管理システムと記述
+2026-10-05_dtu_identity_system_data_breach,attack_method,大量のデータをダウンロード,data_exfiltration,high,大量データのダウンロードを公表
