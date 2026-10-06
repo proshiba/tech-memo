@@ -1,0 +1,63 @@
+event_key,dimension,raw_value,normalized_value,confidence,note
+2026-10-07_jp_malspam_vipkeylogger,malware,VIPKeylogger,vipkeylogger,high,
+2026-10-07_jp_malspam_vipkeylogger,initial_access,日本語マルスパム（見積依頼を装うメール添付）,malspam,high,
+2026-10-07_jp_malspam_vipkeylogger,attack_method,Add-MpPreference -ExclusionPath によるDefender除外追加,defense_evasion,high,Markdownにcommandとして明記
+2026-10-07_jp_malspam_vipkeylogger,attack_method,pdf.bat拡張子でPDFを装う（実体はexe）,spoofing,medium,拡張子偽装の記載から
+2026-10-07_jp_malspam_vipkeylogger,attack_method,mail.bilendemircelik[.]com:587 への送信,c2_communication,medium,通信先としてSMTPサーバーの記載
+2026-10-07_jp_malspam_formbook,malware,Formbook,formbook,high,
+2026-10-07_jp_malspam_formbook,initial_access,日本語マルスパム（zip添付のJSファイル）,malspam,high,
+2026-10-07_jp_malspam_formbook,attack_method,beinke-aufzuege[.]de 上のsecured_stub.ps1取得,c2_communication,medium,通信先URLの記載から
+2026-10-07_pwn2own_ireland_day1_zero_days,actor_attribution,コンテスト参加の研究者チーム,security_researcher,high,
+2026-10-07_pwn2own_ireland_day1_zero_days,product,Samsung Galaxy S26,samsung_galaxy_s26,high,
+2026-10-07_pwn2own_ireland_day1_zero_days,product,Philips Hue Bridge Pro,philips_hue_bridge_pro,high,
+2026-10-07_pwn2own_ireland_day1_zero_days,product,Oracle Autonomous AI Database,oracle_autonomous_ai_database,high,
+2026-10-07_pwn2own_ireland_day1_zero_days,product,OpenAI Codex,openai_codex,high,
+2026-10-07_pwn2own_ireland_day1_zero_days,product_class,AIコーディングエージェント（OpenAI Codex）,ai_tool,high,
+2026-10-07_pwn2own_ireland_day1_zero_days,product_class,Oracle Autonomous AI Database,database,high,
+2026-10-07_pwn2own_ireland_day1_zero_days,attack_method,単一の引数注入の不具合を利用した攻撃,command_injection,medium,引数注入の記載からの対応付け
+2026-10-07_atlassian_cve_2026_21589_file_access,product,Jira Data Center,jira,high,
+2026-10-07_atlassian_cve_2026_21589_file_access,product,Confluence Data Center,confluence,high,
+2026-10-07_atlassian_cve_2026_21589_file_access,product,Bitbucket Data Center,bitbucket,high,
+2026-10-07_atlassian_cve_2026_21589_file_access,product,Bamboo,bamboo,high,
+2026-10-07_atlassian_cve_2026_21589_file_access,product_class,Jira/Confluenceなどの情報共有基盤,collaboration_platform,high,
+2026-10-07_atlassian_cve_2026_21589_file_access,product_class,Bamboo/Bitbucketなどのビルド基盤,ci_cd_platform,medium,対象製品にBamboo・Bitbucketが含まれる
+2026-10-07_asos_data_breach,actor,Xuanye group,xuanye_group,medium,攻撃者側の自称に基づく
+2026-10-07_asos_data_breach,actor_attribution,Telegramチャネルへ誘導する犯行主張,cybercrime,medium,自称ベースのため中程度
+2026-10-07_asos_data_breach,initial_access,顧客連絡に使う外部プラットフォームへの不正アクセス,supply_chain,medium,外部プラットフォーム経由の侵害という記載から
+2026-10-07_asos_data_breach,product,Snowflake,snowflake,low,攻撃者の主張のみでASOSは未確認
+2026-10-07_asos_data_breach,product_class,顧客連絡用の外部プラットフォーム,cloud_service,medium,
+2026-10-07_asos_data_breach,product_class,ASOS公式モバイルアプリ,mobile_app,medium,不正プッシュ通知の送信元
+2026-10-07_asos_data_breach,attack_method,氏名・連絡先などの個人情報流出の可能性,data_exfiltration,medium,
+2026-10-07_fake_ai_sites_ad_account_phishing,actor,攻撃者については不明,unknown,high,記事が攻撃者不明と明記
+2026-10-07_fake_ai_sites_ad_account_phishing,initial_access,AI広告支援サイトを装う偽サイトへの誘導,phishing,high,
+2026-10-07_fake_ai_sites_ad_account_phishing,attack_method,パスワードとMFAコードの窃取,credential_theft,high,
+2026-10-07_fake_ai_sites_ad_account_phishing,attack_method,Browser-in-the-Browserによる偽ログイン画面,spoofing,high,
+2026-10-07_fake_ai_sites_ad_account_phishing,attack_method,人間の攻撃者が認証途中で操作を引き継ぐ,social_engineering,high,
+2026-10-07_fake_ai_sites_ad_account_phishing,product,ChatGPT,chatgpt,high,装われたブランド
+2026-10-07_fake_ai_sites_ad_account_phishing,product,Gemini,gemini,high,装われたブランド
+2026-10-07_fake_ai_sites_ad_account_phishing,product,Claude,claude,high,装われたブランド
+2026-10-07_fake_ai_sites_ad_account_phishing,product,Perplexity,perplexity,high,装われたブランド
+2026-10-07_fake_ai_sites_ad_account_phishing,product,Okta,okta,medium,プッシュ通知を提示する認証基盤として記載
+2026-10-07_fake_ai_sites_ad_account_phishing,product_class,AIサービスを装う広告支援サイト,ai_tool,high,
+2026-10-07_fake_ai_sites_ad_account_phishing,product_class,Okta・Googleの認証承認,identity_service,medium,
+2026-10-07_fake_ai_sites_ad_account_phishing,crime_trend,広告アカウントの奪取と不正出稿・転売,account_takeover,high,
+2026-10-07_fake_ai_sites_ad_account_phishing,crime_trend,同一基盤で数十のフィッシングを展開,phishing_kit_ecosystem,medium,
+2026-10-07_fake_ai_sites_ad_account_phishing,crime_trend,偽の求人ページによるフィッシング,fake_job_recruitment,medium,同一基盤の別用途として記載
+2026-10-07_wikimedia_openai_rogue_agents,product_class,自律的に動作するAIエージェント,ai_tool,high,
+2026-10-07_wikimedia_openai_rogue_agents,product,Etherpad,etherpad,medium,悪用を試みた公開メモツール
+2026-10-07_wikimedia_openai_rogue_agents,product,Wikidata Query Service,wikidata_query_service,medium,大量クエリと部分障害の対象
+2026-10-07_insider_extortion_sentencing_rhyne,actor,Daniel Rhyne（元インフラ担当技術者）,daniel_rhyne,high,
+2026-10-07_insider_extortion_sentencing_rhyne,actor_attribution,勤務先の管理者権限を悪用した元従業員,insider,high,
+2026-10-07_insider_extortion_sentencing_rhyne,initial_access,勤務先で付与された管理者権限の悪用,insider_abuse,high,
+2026-10-07_insider_extortion_sentencing_rhyne,attack_method,ドメインコントローラーへの後日実行タスク設置,persistence,medium,スケジュールタスクによる後続停止の仕込み
+2026-10-07_insider_extortion_sentencing_rhyne,product_class,ドメインコントローラーと管理者アカウント基盤,identity_service,medium,
+2026-10-07_rejetto_hfs_cve_2026_61500_scanning,actor,攻撃者の帰属は不明,unknown,high,記事が帰属不明と明記
+2026-10-07_rejetto_hfs_cve_2026_61500_scanning,initial_access,インターネット公開されたHFSサーバーの探索,exploit_public_facing_app,medium,スキャン段階であり侵害成功は未確認
+2026-10-07_rejetto_hfs_cve_2026_61500_scanning,product,Rejetto HFS,rejetto_hfs,high,
+2026-10-07_rejetto_hfs_cve_2026_61500_scanning,product_class,HTTPファイルサーバー（Web管理UI）,web_server,high,
+2026-10-07_rejetto_hfs_cve_2026_61500_scanning,attack_method,予測可能な署名鍵による管理者セッション偽造,authentication_bypass,high,
+2026-10-07_rejetto_hfs_cve_2026_61500_scanning,attack_method,偽造したセッションCookieでの管理者セッション取得,session_hijacking,medium,
+2026-10-07_rejetto_hfs_cve_2026_61500_scanning,attack_method,サーバー側JavaScript実行機能を介した遠隔コード実行,remote_code_execution,high,
+2026-10-07_mcp_server_governance_survey,product_class,公開MCPサーバー（AIエージェント接続先）,ai_tool,high,
+2026-10-07_mcp_server_governance_survey,product,ngrok,ngrok,medium,トンネルサービスとして記載
+2026-10-07_mcp_server_governance_survey,attack_method,失効ドメイン再登録による接続先乗っ取りの恐れ,supply_chain_compromise,low,観測事例ではなくリスク指摘
