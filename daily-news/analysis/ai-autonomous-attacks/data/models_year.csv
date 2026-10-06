@@ -1,0 +1,13 @@
+model_family,2023,2024,2025,2026
+Claude / Claude Code (Anthropic),0,0,3,4
+GPT / ChatGPT / Codex (OpenAI),0,2,4,10
+Gemini / Gemini CLI (Google),0,0,2,4
+DeepSeek,0,0,0,5
+Qwen,0,0,1,2
+Hermes,0,0,0,4
+OpenClaw,0,0,0,1
+Ollama / ローカルLLM,0,0,1,0
+Grok / Mistral / Meta AI / その他商用,0,0,0,2
+専用攻撃AIツール(HexStrike/Villager/XBOW/CyberStrikeAI/RedAmon/T3MP3ST/Shannon),0,0,1,2
+AI音声エージェント,0,0,0,2
+モデル非特定(汎用AI/LLM表記のみ),0,0,1,15
