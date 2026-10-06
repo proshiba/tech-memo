@@ -1,0 +1,14 @@
+model_family,core_2023,core_2024,core_2025,core_2026,core_total,all_2023,all_2024,all_2025,all_2026,all_total
+Claude / Claude Code (Anthropic),0,0,3,3,6,0,0,3,7,10
+Gemini / Gemini CLI (Google),0,0,2,2,4,0,0,3,4,7
+DeepSeek,0,0,0,4,4,0,0,0,4,4
+Hermes,0,0,0,4,4,0,0,0,4,4
+専用攻撃AIツール (HexStrike/CyberStrikeAI/SecFlow),0,0,1,2,3,0,0,1,2,3
+GPT / ChatGPT / Codex (OpenAI),0,0,1,1,2,0,3,5,3,11
+AI音声・画像・動画生成,0,0,0,2,2,0,1,0,4,5
+Qwen,0,0,1,1,2,0,0,1,1,2
+OpenClaw,0,0,0,1,1,0,0,0,1,1
+Grok / Meta AI / その他商用,0,0,0,0,0,0,0,1,4,5
+Cursor,0,0,0,0,0,0,0,0,2,2
+Ollama / ローカルLLM,0,0,0,0,0,0,0,0,1,1
+モデル非特定 (汎用AI/LLM表記のみ),0,0,1,11,12,0,5,6,21,32
