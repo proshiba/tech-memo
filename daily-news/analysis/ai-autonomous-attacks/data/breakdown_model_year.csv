@@ -1,5 +1,5 @@
 model_family,core_2023,core_2024,core_2025,core_2026,core_total,all_2023,all_2024,all_2025,all_2026,all_total
-Claude / Claude Code (Anthropic),0,0,3,3,6,0,0,3,6,9
+Claude / Claude Code (Anthropic),0,0,2,3,5,0,0,3,6,9
 Gemini / Gemini CLI (Google),0,0,2,2,4,0,0,3,4,7
 DeepSeek,0,0,0,4,4,0,0,0,4,4
 Hermes,0,0,0,4,4,0,0,0,4,4
