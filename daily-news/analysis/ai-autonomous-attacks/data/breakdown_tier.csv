@@ -1,5 +1,5 @@
 tier,tier_ja,single_incident,aggregate_report,total
-A1,A1 自律実行型,23,1,24
-A2,A2 実行時LLM組込型,8,0,8
-B,B AI支援型(人間主導),33,8,41
-,合計,64,9,73
+A1,A1 自律実行型,20,1,21
+A2,A2 実行時LLM組込型,7,0,7
+B,B AI支援型(人間主導),25,8,33
+,合計,52,9,61
