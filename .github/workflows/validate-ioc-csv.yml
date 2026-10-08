@@ -110,6 +110,7 @@ jobs:
           allowed_categories = {
               "c2",
               "srcip",
+              "payload-hosting",
               "phishing-site",
               "malware",
               "tool",
