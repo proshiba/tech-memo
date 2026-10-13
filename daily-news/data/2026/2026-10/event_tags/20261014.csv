@@ -1,0 +1,41 @@
+event_key,dimension,raw_value,normalized_value,confidence,note
+2026-10-14_jp_malspam_lxbaserat,malware,LxBaseRAT,lxbaserat,high,
+2026-10-14_jp_malspam_lxbaserat,initial_access,日本語マルスパム,malspam,high,
+2026-10-14_jp_malspam_lxbaserat,attack_method,RAR添付内のJSファイル実行,malicious_document,medium,添付ファイル経由の実行
+2026-10-14_jp_malspam_lxbaserat,attack_method,t0rm3ntor.kozow[.]com:4521への通信,c2_communication,high,
+2026-10-14_jp_malspam_valleyrat,malware,ValleyRAT,valleyrat,high,
+2026-10-14_jp_malspam_valleyrat,initial_access,日本語マルスパム,malspam,high,
+2026-10-14_jp_malspam_valleyrat,attack_method,IMG添付内の実行ファイル,malicious_document,medium,添付ファイル経由の実行
+2026-10-14_jp_malspam_valleyrat,attack_method,14.128.53[.]155への通信,c2_communication,high,
+2026-10-14_microsoft_october_2026_patch_tuesday,product,Windows,windows,high,
+2026-10-14_microsoft_october_2026_patch_tuesday,product_class,Windows,os,high,
+2026-10-14_microsoft_october_2026_patch_tuesday,product,.NET Framework,net_framework,medium,CVE-2026-108398の対象
+2026-10-14_microsoft_october_2026_patch_tuesday,attack_method,リモートコード実行57件,remote_code_execution,high,
+2026-10-14_microsoft_october_2026_patch_tuesday,attack_method,権限昇格11件,privilege_escalation,high,
+2026-10-14_microsoft_october_2026_patch_tuesday,attack_method,なりすまし2件,spoofing,medium,
+2026-10-14_microsoft_october_2026_patch_tuesday,attack_method,Mark of the Web回避・WDAC制限回避,defense_evasion,high,
+2026-10-14_uk_housing_ombudsman_supplier_incident,initial_access,外部IT事業者で発生した事案,supply_chain,medium,委託先事案による影響
+2026-10-14_tfg_london_cyberattack,initial_access,侵入経路は不明,unknown,medium,記事に侵入経路の記載なし
+2026-10-14_ivanti_connect_secure_zero_day_exploitation,actor,UTA0576,uta0576,high,Volexityの観測
+2026-10-14_ivanti_connect_secure_zero_day_exploitation,actor_attribution,身元や所属国は不明,unknown,medium,
+2026-10-14_ivanti_connect_secure_zero_day_exploitation,product,Ivanti Connect Secure,ivanti_connect_secure,high,
+2026-10-14_ivanti_connect_secure_zero_day_exploitation,product_class,Ivanti Connect Secure,vpn,high,
+2026-10-14_ivanti_connect_secure_zero_day_exploitation,initial_access,公開されたICS機器の脆弱性悪用,exploit_public_facing_app,high,
+2026-10-14_ivanti_connect_secure_zero_day_exploitation,attack_method,認証回避脆弱性CVE-2026-104935,authentication_bypass,high,
+2026-10-14_ivanti_connect_secure_zero_day_exploitation,attack_method,認証なしのroot権限コード実行,remote_code_execution,high,
+2026-10-14_ivanti_connect_secure_zero_day_exploitation,attack_method,連鎖に使われた権限昇格脆弱性,privilege_escalation,medium,
+2026-10-14_ivanti_connect_secure_zero_day_exploitation,attack_method,ログ改変・マルウェア未設置,defense_evasion,high,
+2026-10-14_docker_hub_user_impersonation_flaw,product,Docker Hub,docker_hub,high,
+2026-10-14_docker_hub_user_impersonation_flaw,product_class,コンテナイメージレジストリ,package_ecosystem,medium,コンテナレジストリの近似分類
+2026-10-14_docker_hub_user_impersonation_flaw,attack_method,標的ユーザーへのなりすまし,spoofing,high,
+2026-10-14_docker_hub_user_impersonation_flaw,attack_method,正規名での改変イメージ公開,supply_chain_compromise,medium,記事はサプライチェーンリスクと評価
+2026-10-14_sap_cloud_sdk_python_oauth2_ssrf,product,SAP Cloud SDK for Python,sap_cloud_sdk_for_python,high,
+2026-10-14_sap_cloud_sdk_python_oauth2_ssrf,product_class,BTPアプリケーション向けクラウドSDK,cloud_service,medium,SDK分類の近似
+2026-10-14_sap_cloud_sdk_python_oauth2_ssrf,attack_method,クライアント認証情報の窃取,credential_theft,high,
+2026-10-14_dip_baitoru_unauthorized_access,attack_method,メールアドレス漏えい,data_exfiltration,medium,
+2026-10-14_arcadia_speecan_raiden_supply_chain_incident,initial_access,情報配信システム運営事業者経由,supply_chain,high,メモ上もサプライチェーン攻撃として整理
+2026-10-14_arcadia_speecan_raiden_supply_chain_incident,product,SpeeCAN RAIDEN,speecan_raiden,high,
+2026-10-14_idc_frontier_supply_chain_incident,initial_access,委託先IDCフロンティア経由,supply_chain,high,メモ上もサプライチェーン攻撃として整理
+2026-10-14_idare_unauthorized_access,attack_method,個人情報漏えい,data_exfiltration,medium,
+2026-10-14_toypo_supply_chain_incident,initial_access,利用サービス事業者トイポ経由,supply_chain,high,メモ上もサプライチェーン攻撃として整理
+2026-10-14_toypo_supply_chain_incident,product,トイポアプリ,toypo,medium,
