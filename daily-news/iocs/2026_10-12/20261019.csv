@@ -1,0 +1,2 @@
+ioc_type,ioc_value,date,category,actor,actor_attribute,malware,malware_type,reference,description,author,confidence
+ip,144.172.64.128,2026-10-13,srcip,unknown,unknown,N/A,N/A,https://www.huntress.com/blog/vendor-credential-enables-unauthorized-access,AI generated. Source IP listed in the vendor IOC table for the password spray and the abusive service principal sign-ins against Microsoft 365 tenants.,AI agent,medium
