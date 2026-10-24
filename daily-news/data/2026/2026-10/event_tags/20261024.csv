@@ -1,0 +1,69 @@
+event_key,dimension,raw_value,normalized_value,confidence,note
+2026-10-24_time4popcorn_update_mechanism_rce,product,Time4Popcorn,time4popcorn,high,脆弱な更新機構を持つ放棄アプリ
+2026-10-24_time4popcorn_update_mechanism_rce,attack_method,リモートコード実行(SYSTEM/root),remote_code_execution,high,更新機構悪用でコード実行可能
+2026-10-24_time4popcorn_update_mechanism_rce,initial_access,署名検証のない更新機構経由の配布,malicious_update,medium,悪用経路として記載。実悪用の報告はなし
+2026-10-24_time4popcorn_update_mechanism_rce,actor_attribution,Eye Securityの研究者,security_researcher,medium,研究者による発見と予防的対処
+2026-10-24_microsoft_teams_ai_phishing_detection,product,Microsoft Teams,microsoft_teams,high,検知機能の導入対象
+2026-10-24_microsoft_teams_ai_phishing_detection,product_class,Teams(コラボ・会議基盤),collaboration_platform,high,
+2026-10-24_quest_diagnostics_data_breach,product,Quanum Lab Services Manager,quanum_lsm,high,不正アクセスを受けたオンライン基盤
+2026-10-24_quest_diagnostics_data_breach,product_class,検査サービス管理のオンライン基盤,cloud_service,medium,医療向けSaaSとして近似
+2026-10-24_quest_diagnostics_data_breach,initial_access,侵入経路は記載なし,unknown,high,記事時点で侵入経路は不明と明記
+2026-10-24_php_unpatched_rce_mitigation,product,PHP,php,high,脆弱性の対象
+2026-10-24_php_unpatched_rce_mitigation,product_class,PHPランタイム/エコシステム,package_ecosystem,medium,言語ランタイム向けの分類がなく近似
+2026-10-24_php_unpatched_rce_mitigation,attack_method,リモートコード実行,remote_code_execution,high,
+2026-10-24_hpe_arubaos_critical_patches,product,ArubaOS (AOS-8/AOS-10),arubaos,high,修正対象のネットワークOS
+2026-10-24_hpe_arubaos_critical_patches,product_class,無線コントローラー・AP・ゲートウェイ,network_device,high,
+2026-10-24_hpe_arubaos_critical_patches,attack_method,リモートコード実行,remote_code_execution,high,
+2026-10-24_hpe_arubaos_critical_patches,attack_method,PAPIプロトコルの認証回避,authentication_bypass,high,
+2026-10-24_hpe_arubaos_critical_patches,attack_method,認証不要のコマンドインジェクション,command_injection,high,
+2026-10-24_hpe_arubaos_critical_patches,attack_method,SQLインジェクション,sql_injection,high,
+2026-10-24_railway_secrets_exposure,product,Railway,railway,high,環境変数を保存するホスティング基盤
+2026-10-24_railway_secrets_exposure,product_class,クラウドホスティングサービス,cloud_service,high,
+2026-10-24_railway_secrets_exposure,attack_method,暗号化環境変数の復号によるAPIキー・認証情報窃取,credential_theft,high,
+2026-10-24_railway_secrets_exposure,initial_access,侵入経路は記載なし,unknown,high,記事時点で不明と明記
+2026-10-24_railway_secrets_exposure,actor_attribution,攻撃者の属性は不明,unknown,medium,AI推論サービス事業者を狙う一連の攻撃の一部とのみ記載
+2026-10-24_ruby_onigmo_regex_fixes,product,Ruby (Onigmo),ruby,high,正規表現エンジンの不具合を修正
+2026-10-24_ruby_onigmo_regex_fixes,product,GitLab,gitlab,high,4件のCVEが割り当てられた影響製品
+2026-10-24_ruby_onigmo_regex_fixes,product_class,Ruby処理系/エコシステム,package_ecosystem,medium,言語ランタイム向けの分類がなく近似
+2026-10-24_ruby_onigmo_regex_fixes,product_class,自己管理GitLab,ci_cd_platform,medium,DevOps/CI基盤として分類
+2026-10-24_ruby_onigmo_regex_fixes,attack_method,メモリ破壊によるコード実行,remote_code_execution,high,
+2026-10-24_pillow_critical_vulnerabilities,product,Pillow,pillow,high,脆弱性の対象ライブラリ
+2026-10-24_pillow_critical_vulnerabilities,product,Ghostscript,ghostscript,medium,EPS処理でコマンド実行に関与
+2026-10-24_pillow_critical_vulnerabilities,product_class,Pythonライブラリ/エコシステム,package_ecosystem,medium,ライブラリ向けの分類がなく近似
+2026-10-24_pillow_critical_vulnerabilities,attack_method,EPSファイル名経由のOSコマンド実行,command_injection,high,
+2026-10-24_pillow_critical_vulnerabilities,attack_method,細工した画像によるコード実行,remote_code_execution,high,
+2026-10-24_inc_gentlemen_ai_infrastructure_exposure,actor,INC,inc,high,INC関連の暗号化プログラムとリークサイトを確認
+2026-10-24_inc_gentlemen_ai_infrastructure_exposure,actor,The Gentlemen,the_gentlemen,medium,関連証拠はあるが正式提携の確度は低いと評価
+2026-10-24_inc_gentlemen_ai_infrastructure_exposure,actor_attribution,ロシア語を使う金銭目的の操作者,cybercrime,high,
+2026-10-24_inc_gentlemen_ai_infrastructure_exposure,initial_access,FortiClient EMS・SimpleHelp・cPanelの脆弱性を大規模に悪用,exploit_public_facing_app,high,
+2026-10-24_inc_gentlemen_ai_infrastructure_exposure,initial_access,認証情報の再利用,stolen_credentials,high,
+2026-10-24_inc_gentlemen_ai_infrastructure_exposure,product,FortiClient EMS,forticlient_ems,high,悪用対象として記録
+2026-10-24_inc_gentlemen_ai_infrastructure_exposure,product,SimpleHelp,simplehelp,high,悪用対象として記録
+2026-10-24_inc_gentlemen_ai_infrastructure_exposure,product,cPanel,cpanel,high,悪用対象として記録
+2026-10-24_inc_gentlemen_ai_infrastructure_exposure,product,OpenCode,opencode,high,攻撃者が利用したAIコーディング基盤
+2026-10-24_inc_gentlemen_ai_infrastructure_exposure,product,OpenRouter,openrouter,high,商用モデル利用の経路
+2026-10-24_inc_gentlemen_ai_infrastructure_exposure,product_class,SimpleHelp・RMMなどのリモート支援基盤,remote_access,high,
+2026-10-24_inc_gentlemen_ai_infrastructure_exposure,product_class,cPanelのWeb管理UI,web_server,medium,
+2026-10-24_inc_gentlemen_ai_infrastructure_exposure,product_class,FortiClient EMS(エンドポイント管理),security_tool,medium,
+2026-10-24_inc_gentlemen_ai_infrastructure_exposure,product_class,OpenCode・OpenRouter経由の商用LLM利用,ai_tool,high,
+2026-10-24_inc_gentlemen_ai_infrastructure_exposure,malware,Phantom,phantom,high,攻撃者独自のフレームワーク
+2026-10-24_inc_gentlemen_ai_infrastructure_exposure,malware,Ghost C2,ghost,high,C2・認証情報収集ツール
+2026-10-24_inc_gentlemen_ai_infrastructure_exposure,malware,Athena,athena,medium,PhantomとともにC2ドメインを共有
+2026-10-24_inc_gentlemen_ai_infrastructure_exposure,attack_method,INC暗号化プログラムによる暗号化,ransomware,high,被害端末で暗号化動作を確認
+2026-10-24_inc_gentlemen_ai_infrastructure_exposure,attack_method,窃取データの分析,data_exfiltration,high,
+2026-10-24_inc_gentlemen_ai_infrastructure_exposure,attack_method,Ghost・PhantomのC2通信,c2_communication,high,
+2026-10-24_inc_gentlemen_ai_infrastructure_exposure,attack_method,認証情報収集ツールの配置,credential_theft,medium,
+2026-10-24_inc_gentlemen_ai_infrastructure_exposure,crime_trend,AIによる恐喝文面作成とリークサイト運用,ransomware_extortion,high,
+2026-10-24_stealc_stadia_rat,malware,Stadia,stadia,high,新たに販売開始されたRAT
+2026-10-24_stealc_stadia_rat,malware,StealC,stealc,high,Stadiaの前身とされる情報窃取マルウェア
+2026-10-24_stealc_stadia_rat,actor,plymouth(販売者の別名),plymouth,medium,販売者の別名として記載
+2026-10-24_stealc_stadia_rat,actor_attribution,有償販売を行う金銭目的の販売者,cybercrime,high,
+2026-10-24_stealc_stadia_rat,initial_access,具体的な初期感染経路は不明,unknown,high,記事に初期感染経路の記載なし
+2026-10-24_stealc_stadia_rat,product,Chromium,chromium,medium,App-Bound Encryption関連ヘルパーの対象
+2026-10-24_stealc_stadia_rat,product_class,ブラウザ(Chromium),browser,medium,ブラウザ資格情報の窃取対象
+2026-10-24_stealc_stadia_rat,attack_method,ブラウザ資格情報などの情報窃取,credential_theft,high,
+2026-10-24_stealc_stadia_rat,attack_method,15分間隔の隠しタスクによる永続化,persistence,high,
+2026-10-24_stealc_stadia_rat,attack_method,Defender除外追加,defense_evasion,high,
+2026-10-24_stealc_stadia_rat,attack_method,ブラウザへのコード注入,code_injection,high,
+2026-10-24_stealc_stadia_rat,attack_method,IPアドレス宛てHTTP POSTのC2通信,c2_communication,high,
+2026-10-24_stealc_stadia_rat,crime_trend,RATの販売(別名での再構築),malware_as_a_service,high,
