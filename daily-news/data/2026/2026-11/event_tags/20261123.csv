@@ -1,0 +1,53 @@
+event_key,dimension,raw_value,normalized_value,confidence,note
+2026-11-23_glinet_cloud_flaw_device_infection,initial_access,クラウド遠隔管理サービスの脆弱性が悪用,exploit_public_facing_app,high,クラウド側の脆弱性悪用で機器にマルウェア導入
+2026-11-23_glinet_cloud_flaw_device_infection,actor,攻撃者の帰属は不明,unknown,high,スクリプトに中国語コメントがあるが帰属不明と明記
+2026-11-23_glinet_cloud_flaw_device_infection,actor_attribution,帰属不明,unknown,high,
+2026-11-23_glinet_cloud_flaw_device_infection,product,GL.iNet ルーター・KVM機器,gl_inet,high,
+2026-11-23_glinet_cloud_flaw_device_infection,product,GoodCloudクライアント,goodcloud,medium,コマンドインジェクションの可能性を指摘された管理クライアント
+2026-11-23_glinet_cloud_flaw_device_infection,product_class,ルーター・KVM機器,network_device,high,
+2026-11-23_glinet_cloud_flaw_device_infection,product_class,クラウド遠隔管理サービス,cloud_service,high,
+2026-11-23_glinet_cloud_flaw_device_infection,malware,ni.sh などの不正プログラム,unknown,medium,ファミリー名は未特定
+2026-11-23_glinet_cloud_flaw_device_infection,attack_method,起動スクリプトやスケジュールタスクで永続化,persistence,high,
+2026-11-23_glinet_cloud_flaw_device_infection,attack_method,netstatを置き換えて接続先を隠蔽,defense_evasion,high,
+2026-11-23_glinet_cloud_flaw_device_infection,attack_method,root権限のリバースシェル・SSH公開鍵登録,backdoor,high,
+2026-11-23_cleverbridge_card_data_breach,initial_access,不正アクセスを検知（経路は未公表）,unknown,high,侵入経路の記載なし
+2026-11-23_cleverbridge_card_data_breach,actor,攻撃者情報なし,unknown,high,
+2026-11-23_cleverbridge_card_data_breach,actor_attribution,帰属情報なし,unknown,medium,
+2026-11-23_cleverbridge_card_data_breach,attack_method,決済カード情報が第三者にコピーされた,data_exfiltration,high,
+2026-11-23_signal_blocks_ai_screen_capture,actor,防御機能の公開,not_applicable,high,
+2026-11-23_signal_blocks_ai_screen_capture,actor_attribution,防御機能の公開,not_applicable,high,
+2026-11-23_signal_blocks_ai_screen_capture,product,Signal,signal,high,
+2026-11-23_signal_blocks_ai_screen_capture,product,Siri,siri,high,画面取得を制限する対象
+2026-11-23_signal_blocks_ai_screen_capture,product,Gemini,gemini,high,画面取得を制限する対象
+2026-11-23_signal_blocks_ai_screen_capture,product_class,メッセージングアプリ,mobile_app,high,
+2026-11-23_signal_blocks_ai_screen_capture,product_class,OS組み込みAIアシスタント,ai_tool,high,
+2026-11-23_rackspace_spot_kubernetes_secrets_breach,initial_access,漏えいした認証情報を使用,stolen_credentials,high,
+2026-11-23_rackspace_spot_kubernetes_secrets_breach,actor,攻撃者は不明,unknown,high,
+2026-11-23_rackspace_spot_kubernetes_secrets_breach,actor_attribution,帰属情報なし,unknown,medium,
+2026-11-23_rackspace_spot_kubernetes_secrets_breach,product,Rackspace Spot,rackspace_spot,high,
+2026-11-23_rackspace_spot_kubernetes_secrets_breach,product_class,マネージドKubernetesクラウドサービス,cloud_service,high,
+2026-11-23_rackspace_spot_kubernetes_secrets_breach,product_class,Kubernetesクラスター・Pod,cloud_workload,high,不正なPod作成とクラスター操作
+2026-11-23_rackspace_spot_kubernetes_secrets_breach,attack_method,Kubernetes Secretsの読み取り,credential_theft,high,
+2026-11-23_rackspace_spot_kubernetes_secrets_breach,attack_method,Spot APIトークン・リフレッシュトークンが読み取られた可能性,token_theft,high,
+2026-11-23_microsoft_entra_connect_health_exploited,initial_access,Entra Connect Health APIの脆弱性悪用,exploit_public_facing_app,high,クラウドAPIの脆弱性を悪用
+2026-11-23_microsoft_entra_connect_health_exploited,actor,攻撃者は未公表,unknown,high,
+2026-11-23_microsoft_entra_connect_health_exploited,actor_attribution,帰属情報なし,unknown,medium,
+2026-11-23_microsoft_entra_connect_health_exploited,product,Microsoft Entra Connect Health,microsoft_entra_connect_health,high,
+2026-11-23_microsoft_entra_connect_health_exploited,product_class,Microsoft Entra（認証・ID基盤）,identity_service,high,
+2026-11-23_microsoft_entra_connect_health_exploited,product_class,クラウドサービス側のAPI,cloud_service,medium,サービス側で修正済み
+2026-11-23_microsoft_entra_connect_health_exploited,attack_method,テナントのメタデータが不正に読み取られた,data_exfiltration,high,
+2026-11-23_badbox_3_0_botnet_resurgence,initial_access,低価格Android端末の配布基盤経由,supply_chain,medium,配布基盤を電子機器メーカーに関連付けと記載
+2026-11-23_badbox_3_0_botnet_resurgence,actor,TXCZ（中国の電子機器メーカー）,txcz,medium,HUMANが配布基盤を関連付け
+2026-11-23_badbox_3_0_botnet_resurgence,actor,PXYEDGE（旧IpMoYuの後継とされるプロキシ網）,pxyedge,medium,感染端末を組み込むプロキシ網運用者
+2026-11-23_badbox_3_0_botnet_resurgence,actor_attribution,広告不正による収益化を目的とする活動,cybercrime,medium,金銭目的の広告不正・プロキシ販売
+2026-11-23_badbox_3_0_botnet_resurgence,malware,BADBOX 3.0,badbox,high,
+2026-11-23_badbox_3_0_botnet_resurgence,product_class,AOSP搭載のTVボックス・スマートフォン,os,medium,AOSPベース端末に感染
+2026-11-23_badbox_3_0_botnet_resurgence,attack_method,モジュールC2・タスク配信との通信,c2_communication,high,
+2026-11-23_badbox_3_0_botnet_resurgence,attack_method,配布基盤を通じた低価格端末への混入,supply_chain_compromise,medium,
+2026-11-23_fbi_ncic_alleged_intrusion,initial_access,侵入経路は不明,unknown,high,
+2026-11-23_fbi_ncic_alleged_intrusion,actor,攻撃者不明（ShinyHuntersとの関連は報じられていない）,unknown,high,過去事案との結び付けは否定的に記載
+2026-11-23_fbi_ncic_alleged_intrusion,actor_attribution,帰属情報なし,unknown,medium,
+2026-11-23_fbi_ncic_alleged_intrusion,product_class,法執行機関の情報共有データベース（NCIC）,database,medium,
+2026-11-23_tower_records_online_unauthorized_access,initial_access,侵入経路の記載なし,unknown,medium,リンクのみの記載
+2026-11-23_tower_records_online_unauthorized_access,actor,攻撃者情報なし,unknown,medium,
+2026-11-23_tower_records_online_unauthorized_access,attack_method,個人情報流出,data_exfiltration,medium,告知タイトルに流出と記載
