@@ -1,0 +1,41 @@
+event_key,dimension,raw_value,normalized_value,confidence,note
+2026-11-28_japanese_malspam_guloader_remcos,initial_access,日本語マルスパム（給与明細を装うメール）,malspam,high,
+2026-11-28_japanese_malspam_guloader_remcos,malware,GuLoader,guloader,high,
+2026-11-28_japanese_malspam_guloader_remcos,malware,Remcos,remcos,high,
+2026-11-28_japanese_malspam_guloader_remcos,attack_method,RAR添付内のVBSスクリプト実行,malicious_document,medium,添付ファイル実行による感染
+2026-11-28_japanese_malspam_guloader_remcos,attack_method,通信先 102.220.161[.]229:2404,c2_communication,high,
+2026-11-28_pcloud_pass_attack,product,pCloud Pass,pcloud_pass,high,
+2026-11-28_pcloud_pass_attack,product_class,クラウド型パスワード管理サービス,cloud_service,high,
+2026-11-28_pcloud_pass_attack,initial_access,侵入経路は不明,unknown,medium,記事中で侵入経路不明と明記
+2026-11-28_pcloud_pass_attack,attack_method,少数の利用者のメールアドレスが流出,data_exfiltration,medium,
+2026-11-28_boston_scientific_vishing_cloud_breach,initial_access,電話を使ったフィッシング（ビッシング）,phishing,high,
+2026-11-28_boston_scientific_vishing_cloud_breach,crime_trend,ビッシング,vishing,high,
+2026-11-28_boston_scientific_vishing_cloud_breach,product_class,侵害されたクラウド環境,cloud_service,medium,
+2026-11-28_boston_scientific_vishing_cloud_breach,attack_method,"117,789人分の個人情報・医療情報が流出",data_exfiltration,high,
+2026-11-28_cacti_unauthenticated_rce_zero_day,product,Cacti,cacti,high,
+2026-11-28_cacti_unauthenticated_rce_zero_day,product_class,ネットワーク監視ツール,security_tool,medium,監視ツールとして分類
+2026-11-28_cacti_unauthenticated_rce_zero_day,attack_method,入力検証不備による格納型SQLインジェクション,sql_injection,high,
+2026-11-28_cacti_unauthenticated_rce_zero_day,attack_method,認証情報なしでのサーバー上コマンド実行,remote_code_execution,high,
+2026-11-28_cacti_unauthenticated_rce_zero_day,initial_access,ゲストアカウントが有効な公開Webインターフェース,exploit_public_facing_app,medium,
+2026-11-28_cacti_unauthenticated_rce_zero_day,actor_attribution,研究者によるPoC「4HTTP2SHELL」公開,security_researcher,medium,
+2026-11-28_drupal_access_bypass_active_exploitation,product,Drupal,drupal,high,
+2026-11-28_drupal_access_bypass_active_exploitation,product_class,CMS（Drupal）,cms,high,
+2026-11-28_drupal_access_bypass_active_exploitation,attack_method,アクセス制御回避（CVE-2026-136716）,authentication_bypass,high,
+2026-11-28_drupal_access_bypass_active_exploitation,attack_method,インストーラー起因のリモートコード実行（CVE-2026-132165）,remote_code_execution,medium,前週修正の関連脆弱性
+2026-11-28_drupal_access_bypass_active_exploitation,initial_access,外部からアクセス可能な/core/install.php,exploit_public_facing_app,high,
+2026-11-28_sap_github_environment_incident,product,GitHub（SAPのGitHub環境）,github,high,
+2026-11-28_sap_github_environment_incident,product_class,SAPのGitHub環境,cloud_service,medium,ソースコード管理基盤に対応するclosed valueがないため代替
+2026-11-28_sap_github_environment_incident,initial_access,窃取された従業員の認証トークン,stolen_token,medium,Der Spiegel報道ベース、SAP未確認
+2026-11-28_sap_github_environment_incident,attack_method,従業員の認証トークンの窃取,token_theft,medium,報道ベース、SAP未確認
+2026-11-28_sap_github_environment_incident,attack_method,GitHub環境でのソースコード複製・改変,supply_chain_compromise,low,SAP未確認の報道内容
+2026-11-28_linux_nfsd_nfs2root_vulnerability,product,Linuxカーネル（nfsd）,linux_kernel,high,
+2026-11-28_linux_nfsd_nfs2root_vulnerability,product_class,Linuxカーネル,os,high,
+2026-11-28_linux_nfsd_nfs2root_vulnerability,attack_method,カーネル内ヒープバッファーオーバーフローによる認証不要の遠隔コード実行,remote_code_execution,high,
+2026-11-28_linux_nfsd_nfs2root_vulnerability,attack_method,リモートからのroot権限取得,privilege_escalation,medium,
+2026-11-28_linux_nfsd_nfs2root_vulnerability,initial_access,TCP 2049番ポートで到達可能なNFSv4.1/4.2サーバー,exposed_remote_service,high,
+2026-11-28_linux_nfsd_nfs2root_vulnerability,actor_attribution,OpenSecが発見し実証コードをメンテナーに共有,security_researcher,medium,
+2026-11-28_us_air_force_cloud_one_breach,product,Cloud One,cloud_one,high,
+2026-11-28_us_air_force_cloud_one_breach,product_class,米空軍のクラウド基盤,cloud_service,high,
+2026-11-28_us_air_force_cloud_one_breach,initial_access,初期侵入経路は不明,unknown,medium,記事中で侵入経路不明と明記
+2026-11-28_fifa_unauthorized_access,actor,Handsome Boy Hacking Club,handsome_boy_hacking_club,medium,犯行関与を示唆する投稿のみで確認されていない
+2026-11-28_fifa_unauthorized_access,attack_method,内部文書12GB超の流出主張,data_exfiltration,low,流出規模・事実は未確認
